@@ -1,0 +1,328 @@
+{
+    "project": {
+        "name": "Child Process",
+        "description": "This is a convenience wrapper around child processes in Node.js."
+    },
+    "files": {
+        "js/child-process.js": {
+            "name": "js/child-process.js",
+            "modules": {
+                "gallery-child-process": 1
+            },
+            "classes": {
+                "ChildProcess": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "gallery-child-process": {
+            "name": "gallery-child-process",
+            "submodules": {},
+            "classes": {
+                "ChildProcess": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "js/child-process.js",
+            "line": 1,
+            "description": "This is a convenience wrapper around child processes in Node.js."
+        }
+    },
+    "classes": {
+        "ChildProcess": {
+            "name": "ChildProcess",
+            "shortname": "ChildProcess",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "gallery-child-process",
+            "namespace": "",
+            "file": "js/child-process.js",
+            "line": 14,
+            "is_constructor": 1,
+            "extends": "Base",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "Configuration object.",
+                    "type": "Object"
+                }
+            ]
+        }
+    },
+    "classitems": [
+        {
+            "file": "js/child-process.js",
+            "line": 25,
+            "description": "Array of command line arguments.  Refer to Node.js child_process.spawn documentation.",
+            "itemtype": "attribute",
+            "name": "args",
+            "default": "[]",
+            "initonly": "",
+            "type": "Array",
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 36,
+            "description": "The command to execute.  Refer to Node.js child_process.spawn documentation.",
+            "itemtype": "attribute",
+            "name": "command",
+            "initonly": "",
+            "type": "String",
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 45,
+            "description": "Additional options.  Refer to Node.js child_process.spawn documentation.",
+            "itemtype": "attribute",
+            "name": "options",
+            "default": "{}",
+            "initonly": "",
+            "type": "Object",
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 56,
+            "description": "The PID of the child process.",
+            "itemtype": "attribute",
+            "name": "pid",
+            "readonly": "",
+            "type": "Number",
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 65,
+            "description": "This will be true when the stdin of the child process is writable and its kernel buffer is not full.",
+            "itemtype": "attribute",
+            "name": "ready",
+            "default": "false",
+            "readonly": "",
+            "type": "Boolean",
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 76,
+            "description": "Encoding may be one of 'ascii', 'base64', or 'utf8'.  If left undefined, the stderr event will emit a Buffer instead of a string.",
+            "itemtype": "attribute",
+            "name": "stderrEncoding",
+            "initonly": "",
+            "type": "String",
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 85,
+            "description": "Encoding may be one of 'ascii', 'base64', or 'utf8'.  If left undefined, the stdout event will emit a Buffer instead of a string.",
+            "itemtype": "attribute",
+            "name": "stdoutEncoding",
+            "initonly": "",
+            "type": "String",
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 100,
+            "description": "Fires when the stdin of the child process is writable again after having reported its kernel buffer was full.",
+            "itemtype": "event",
+            "name": "drain",
+            "preventable": "",
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 111,
+            "description": "Fires when there is an error in any stream of the child process.",
+            "itemtype": "event",
+            "name": "error",
+            "params": [
+                {
+                    "name": "stderr",
+                    "description": "Error reported from stderr."
+                },
+                {
+                    "name": "stdin",
+                    "description": "Error reported from stdin."
+                },
+                {
+                    "name": "stdout",
+                    "description": "Error reported from stdout."
+                }
+            ],
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 120,
+            "description": "Fires when the child process exits.",
+            "itemtype": "event",
+            "name": "exit",
+            "params": [
+                {
+                    "name": "code",
+                    "description": "If the process terminated normally, code is the final exit code of the process, otherwise null.",
+                    "type": "Number|null"
+                },
+                {
+                    "name": "signal",
+                    "description": "If the process terminated due to receipt of a signal, signal is the string name of the signal, otherwise null.",
+                    "type": "String|null"
+                }
+            ],
+            "preventable": "destroy",
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 134,
+            "description": "Fired when stderr receives data.",
+            "itemtype": "event",
+            "name": "stderr",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Buffer|String"
+                }
+            ],
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 141,
+            "description": "Fired when stdout receives data.",
+            "itemtype": "event",
+            "name": "stdout",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Buffer|String"
+                }
+            ],
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 205,
+            "itemtype": "property",
+            "name": "_childProcess",
+            "access": "protected",
+            "tagname": "",
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 211,
+            "itemtype": "property",
+            "name": "_stderr",
+            "access": "protected",
+            "tagname": "",
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 217,
+            "itemtype": "property",
+            "name": "_stdin",
+            "access": "protected",
+            "tagname": "",
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 223,
+            "itemtype": "property",
+            "name": "_stdout",
+            "access": "protected",
+            "tagname": "",
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 232,
+            "description": "Sends a signal to the child process.  Refer to Node.js child.kill documentation.  Note that while the method is called kill, the signal delivered to the child process may not actually kill it.  kill really just sends a signal to a process.",
+            "itemtype": "method",
+            "name": "kill",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "signal",
+                    "description": "(optional) Defaults to 'SIGTERM'.",
+                    "type": "String"
+                }
+            ],
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 247,
+            "description": "Writes data to the stdin of the child process.  If the stdin of the child process has reported its kernel buffer is full, the write will be queued until the drain event.",
+            "itemtype": "method",
+            "name": "write",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": "The data to write.",
+                    "type": "Buffer|String"
+                },
+                {
+                    "name": "encoding",
+                    "description": "(optional) The encoding to use when data is a String value.  May be one of 'ascii', 'base64', or 'utf8'.  If undefined, 'utf8' is assumed.",
+                    "type": "String"
+                }
+            ],
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        },
+        {
+            "file": "js/child-process.js",
+            "line": 270,
+            "itemtype": "method",
+            "name": "_write",
+            "params": [
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Buffer|String"
+                },
+                {
+                    "name": "encoding",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "ChildProcess",
+            "module": "gallery-child-process"
+        }
+    ]
+}
