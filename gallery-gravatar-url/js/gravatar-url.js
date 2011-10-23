@@ -99,7 +99,7 @@
             queryString = '?' + _stringify(queryString);
         }
         
-        if (force) {
+        if (force && (defaultImage === '404' || defaultImage === 'mm')) {
             complete();
         } else {
             _md5(_trim(options.email || '').toLowerCase(), function (md5) {
