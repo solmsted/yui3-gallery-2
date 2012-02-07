@@ -6,6 +6,7 @@
         _Lang = Y.Lang,
         
         _attached = _Env._attached,
+        _config = Y.config,
         _loader = _Env._loader,
         
         _each = Y.each,
@@ -18,6 +19,7 @@
             alreadyAttached = {},
             callbackFunction = args[args.length - 1],
             errors = [],
+            loadErrorFn = _config.loadErrorFn,
             onFailure = _loader.onFailure,
             onTimeout = _loader.onTimeout;
  
@@ -41,6 +43,8 @@
             }
         });
         
+        delete _config.loadErrorFn;
+        
         _loader.onFailure = function (error) {
             errors.push(error);
         };
@@ -50,6 +54,7 @@
         };
         
         args.push(function () {
+            _config.loadErrorFn = loadErrorFn;
             _loader.onFailure = onFailure;
             _loader.onTimeout = onTimeout;
             
