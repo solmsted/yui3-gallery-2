@@ -82,7 +82,7 @@
         /**
          * Generates a sha1 hash-based message authentication code.
          * The result is expressed as a base 64 encoded value.
-         * @method hmacSha1
+         * @method hmacSha1_b64
          * @param {String} string The message to hash.
          * @param {String} secret The secret key.
          * @param {Function} callbackFunction  The result value is the only parameter.
@@ -104,7 +104,7 @@
         /**
          * Generates a sha256 hash-based message authentication code.
          * The result is expressed as a base 64 encoded value.
-         * @method hmacSha256
+         * @method hmacSha256_b64
          * @param {String} string The message to hash.
          * @param {String} secret The secret key.
          * @param {Function} callbackFunction  The result value is the only parameter.
@@ -125,7 +125,7 @@
         /**
          * Generates an md5 hash.
          * The result is expressed as a base 64 encoded value.
-         * @method md5
+         * @method md5_b64
          * @param {String} string The message to hash.
          * @param {Function} callbackFunction  The result value is the only parameter.
          * @param {Object} params (optional) Passes through to Y.YQL.
@@ -145,7 +145,7 @@
         /**
          * Generates a sha1 hash.
          * The result is expressed as a base 64 encoded value.
-         * @method sha1
+         * @method sha1_b64
          * @param {String} string The message to hash.
          * @param {Function} callbackFunction  The result value is the only parameter.
          * @param {Object} params (optional) Passes through to Y.YQL.

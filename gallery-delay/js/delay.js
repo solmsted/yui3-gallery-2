@@ -1,4 +1,5 @@
 /**
+ * Create a function that doesn't execute immediately when it is called.
  * @module gallery-delay
  */
 (function (Y) {
@@ -12,11 +13,11 @@
      * be passed to the callback function.  This function returns an object with a cancel method which will prevent
      * the execution of the callback function once the delay timer has begun.  If the amount of time to delay is not
      * greater than 0, the original callback function is returned.
-     * @method dalay
+     * @for YUI
+     * @method delay
      * @param {Function} callbackFunction The function to delay.
      * @param {Number} delayAmount The approximate amount of time to delay in milliseconds.
      * @return {Function}
-     * @static
      */
     Y.delay = function (callbackFunction, delayAmount) {
         if (delayAmount > 0) {

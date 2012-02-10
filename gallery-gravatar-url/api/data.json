@@ -9,10 +9,10 @@
             "modules": {
                 "gallery-gravatar-url": 1
             },
-            "classes": {
-                "gravatarUrl": 1
+            "classes": {},
+            "fors": {
+                "YUI": 1
             },
-            "fors": {},
             "namespaces": {}
         }
     },
@@ -21,9 +21,11 @@
             "name": "gallery-gravatar-url",
             "submodules": {},
             "classes": {
-                "gravatarUrl": 1
+                "YUI": 1
             },
-            "fors": {},
+            "fors": {
+                "YUI": 1
+            },
             "namespaces": {},
             "tag": "module",
             "file": "js/gravatar-url.js",
@@ -32,24 +34,23 @@
         }
     },
     "classes": {
-        "gravatarUrl": {
-            "name": "gravatarUrl",
-            "shortname": "gravatarUrl",
+        "YUI": {
+            "name": "YUI",
+            "shortname": "YUI",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
             "module": "gallery-gravatar-url",
-            "namespace": "",
-            "file": "js/gravatar-url.js",
-            "line": 12
+            "namespace": ""
         }
     },
     "classitems": [
         {
             "file": "js/gravatar-url.js",
-            "line": 16,
+            "line": 12,
+            "description": "Create a gravatar image url.",
             "itemtype": "method",
             "name": "gravatarUrl",
             "params": [
@@ -69,8 +70,7 @@
                     "type": "Object"
                 }
             ],
-            "static": 1,
-            "class": "gravatarUrl",
+            "class": "YUI",
             "module": "gallery-gravatar-url"
         }
     ]

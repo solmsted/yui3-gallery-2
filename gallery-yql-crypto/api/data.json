@@ -120,7 +120,7 @@
             "line": 82,
             "description": "Generates a sha1 hash-based message authentication code.\nThe result is expressed as a base 64 encoded value.",
             "itemtype": "method",
-            "name": "hmacSha1",
+            "name": "hmacSha1_b64",
             "params": [
                 {
                     "name": "string",
@@ -192,7 +192,7 @@
             "line": 104,
             "description": "Generates a sha256 hash-based message authentication code.\nThe result is expressed as a base 64 encoded value.",
             "itemtype": "method",
-            "name": "hmacSha256",
+            "name": "hmacSha256_b64",
             "params": [
                 {
                     "name": "string",
@@ -259,7 +259,7 @@
             "line": 125,
             "description": "Generates an md5 hash.\nThe result is expressed as a base 64 encoded value.",
             "itemtype": "method",
-            "name": "md5",
+            "name": "md5_b64",
             "params": [
                 {
                     "name": "string",
@@ -321,7 +321,7 @@
             "line": 145,
             "description": "Generates a sha1 hash.\nThe result is expressed as a base 64 encoded value.",
             "itemtype": "method",
-            "name": "sha1",
+            "name": "sha1_b64",
             "params": [
                 {
                     "name": "string",

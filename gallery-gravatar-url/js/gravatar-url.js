@@ -10,11 +10,9 @@
         _trim = Y.Lang.trim;
     
     /**
-     * @class gravatarUrl
-     */
-    
-    /**
+     * Create a gravatar image url.
      * @method gravatarUrl
+     * @for YUI
      * @param {Object} options An object with the following optional properties:
      * <dl>
      *     <dt>
@@ -61,7 +59,6 @@
      * </dl>
      * @param {Function} callbackFunction This function receives the gravatar url as its only parameter.
      * @param {Object} contextObject (optional) An object to provide as the execution context for the callback function.
-     * @static
      */
     Y.gravatarUrl = function (options, callbackFunction, contextObject) {
         var defaultImage = options.defaultImage,

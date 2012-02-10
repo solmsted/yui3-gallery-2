@@ -217,6 +217,13 @@
         }
     };
     
+    /**
+     * Escapes " characters.
+     * @method _quotedString
+     * @param {String} string
+     * @private
+     * @returns {String}
+     */
     _quotedString = function (string) {
         return String(string || '').replace(/"/g, '\\"');
     };
