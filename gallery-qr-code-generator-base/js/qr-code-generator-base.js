@@ -2918,6 +2918,7 @@
         _min = Math.min,
         _mix = Y.mix,
         _numberToBinaryString,
+        _parseInt = parseInt,
         _reduce = _YArray.reduce,
         _soon = Y.soon,
         
@@ -2990,7 +2991,7 @@
                                 value = dataMatrix[index];
                                 
                                 if (!_isUndefined(value)) {
-                                    matrix[index] = maskFunction(x, y) ? !value : value;
+                                    matrix[index] = maskFunction(x - quietZoneSize, y - quietZoneSize) ? !value : value;
                                 }
                                 
                                 x -= 1;
@@ -3020,8 +3021,8 @@
                     x,
                     y;
                     
-                for (x = startX; x < endX; x += 1) {
-                    for (y = startY; y < endY; y += 1) {
+                for (x = startX; x <= endX; x += 1) {
+                    for (y = startY; y <= endY; y += 1) {
                         index = x + y * size;
                         if (overwrite || _isUndefined(matrix[index])) {
                             matrix[index] = x === startX || x === endX || y === startY || y === endY || x === centerX && y === centerY;
@@ -3038,11 +3039,11 @@
                     x,
                     y;
                     
-                for (x = startX - 1; x <= endX; x += 1) {
-                    for (y = startY - 1; y <= endY; y += 1) {
+                for (x = startX - 1; x <= endX + 1; x += 1) {
+                    for (y = startY - 1; y <= endY + 1; y += 1) {
                         index = x + y * size;
                         if (overwrite || _isUndefined(matrix[index])) {
-                            matrix[index] = x === startX || x === endX || y === startY || y === endY || x >= centerX - 1 && x <= centerX + 1 && y >= centerY - 1 && y <= centerY + 1;
+                            matrix[index] = x >= startX && x <= endX && y >= startY && y <= endY && (x === startX || x === endX || y === startY || y === endY) || x >= centerX - 1 && x <= centerX + 1 && y >= centerY - 1 && y <= centerY + 1;
                         }
                     }
                 }
@@ -3061,7 +3062,7 @@
                 }
                 
                 for (i = 0; i < 15; i += 1) {
-                    value = binaryString.charAt(i) === '1';
+                    value = binaryString.charAt(14 - i) === '1';
                     
                     index = x0 + y0 * size;
                     if (overwrite || _isUndefined(matrix[index])) {
@@ -3083,14 +3084,14 @@
                         } else {
                             x0 -= 1;
 
-                            if (x0 === quietZoneSize + 7) {
+                            if (i === 8) {
                                 x0 -= 1;
                             }
                         }
 
-                        if (i < 8) {
+                        if (i < 7) {
                             x1 -= 1;
-                        } else if (x1 === 8) {
+                        } else if (i === 7) {
                             x1 = quietZoneSize + 8;
                             y1 = size - quietZoneSize - 8;
 
@@ -3099,9 +3100,9 @@
                                 matrix[index] = true;
                             }
 
-                            y1 -= 1;
+                            y1 += 1;
                         } else {
-                            y1 -= 1;
+                            y1 += 1;
                         }
                     } else if (i < 7) {
                         y0 -= 1;
@@ -3117,12 +3118,12 @@
                 for (i = 0; i < size; i += 1) {
                     index = coordinate + i * size;
                     if (overwrite || _isUndefined(matrix[index])) {
-                        matrix[index] = !!(i % 2);
+                        matrix[index] = !(i % 2);
                     }
                     
                     index = i + coordinate * size;
                     if (overwrite || _isUndefined(matrix[index])) {
-                        matrix[index] = !!(i % 2);
+                        matrix[index] = !(i % 2);
                     }
                 }
             },
@@ -3148,12 +3149,12 @@
                         matrix[index] = value;
                     }
                     
-                    if (i % 3) {
+                    if ((i + 1) % 3) {
                         x0 += 1;
                         y1 += 1;
                     } else {
                         x0 -= 2;
-                        x1 += 1
+                        x1 += 1;
                         y0 += 1;
                         y1 -= 2;
                     }
@@ -3365,7 +3366,7 @@
                     _soon(function () {
                         // Interleave codewords.
                         _YAsync.runAll(blockRun).on('complete', function (eventFacade) {
-                            binaryString = eventFacade.value.join();
+                            binaryString = eventFacade.value.join('');
                             success();
                         });
                     });
@@ -3421,7 +3422,7 @@
                     });
                 });
             },
-            generateDataMatrix: function (matrix, binaryString, quietZoneSize, size, callbackFunction) {
+            generateDataMatrix: function (matrix, binaryString, coordinate, quietZoneSize, size, callbackFunction) {
                 var codewords = binaryString.match(/.{1,8}/g),
                     dataMatrix = _Array(matrix.length),
                     direction = 1,
@@ -3430,16 +3431,16 @@
                     x = size - quietZoneSize - 1,
                     
                     codeword = codewords.shift(),
-                    codewordIndex = 7,
+                    codewordIndex = 0,
                     
                     drawCodewordBit = function (index) {
-                        if (codewordIndex < 0) {
+                        if (codewordIndex > 7) {
                             codeword = codewords.shift();
-                            codewordIndex = 7;
+                            codewordIndex = 0;
                         }
                         
                         dataMatrix[index] = codeword && codeword.charAt(codewordIndex) === '1' || false;
-                        codewordIndex -= 1;
+                        codewordIndex += 1;
                     },
                     
                     drawColumnFunction = function (success) {
@@ -3461,13 +3462,18 @@
                             
                             direction = !direction;
                             x -= 2;
+                            
+                            if (x === coordinate) {
+                                x -= 1;
+                            }
+                            
                             success();
                         });
                     };
                     
                 binaryString = '';
                 
-                for (i = quietZoneSize + 1; i <= x; i += 2) {
+                for (i = quietZoneSize; i <= x; i += 2) {
                     drawColumnRun.push(drawColumnFunction);
                 }
                 
@@ -3499,7 +3505,7 @@
                 _YAsync.runQueue(function (success) {
                     _soon(function () {
                         polynomialAlphaIndicies = _map(dataBlock, function (binaryCodeword) {
-                            var alphaIndex = _cachedIndexOf(_alpha, parseInt(binaryCodeword, 2));
+                            var alphaIndex = _cachedIndexOf(_alpha, _parseInt(binaryCodeword, 2));
                             return alphaIndex === -1 ? null : alphaIndex;
                         }).concat(_Array(errorCorrectionBlockLength));
                         
@@ -3582,7 +3588,7 @@
                     _soon(function () {
                         var alignmentPatternRun = [];
                         
-                        _each(me.getAlignmentPatternCoordinates, function (alignmentPatternCoordinates) {
+                        _each(me.getAlignmentPatternCoordinates(quietZoneSize), function (alignmentPatternCoordinates) {
                             alignmentPatternRun.push(function (success) {
                                 _soon(function () {
                                     me.drawAlignmentPattern(matrix, alignmentPatternCoordinates[0], alignmentPatternCoordinates[1], size);
@@ -3609,7 +3615,7 @@
                     });
                 }, function (success) {
                     _soon(function () {
-                        me.generateDataMatrix(matrix, binaryString, quietZoneSize, size, function (dataMatrix) {
+                        me.generateDataMatrix(matrix, binaryString, micro ? 2 : 10, quietZoneSize, size, function (dataMatrix) {
                             initialDataMatrix = dataMatrix;
                             success();
                         });
@@ -3625,7 +3631,7 @@
                         })).on('complete', function (eventFacade) {
                             var matrices = eventFacade.value;
                             
-                            _YAsync.runAll(_map(matrices, function (matrix, index) {
+                            _YAsync.runAll(_map(matrices, function (matrix) {
                                 return function (success) {
                                     _soon(function () {
                                         if (micro) {
@@ -3639,7 +3645,7 @@
                                 var bestIndex,
                                     errorCorrection = me.get('errorCorrection'),
                                     values = eventFacade.value;
-                                    
+                                 
                                 if (micro) {
                                     bestIndex = _indexOf(values, _max.apply(Math, values));
                                     
@@ -3664,7 +3670,7 @@
                                         formatInformation += 2;
                                     }
                                     
-                                    formatInformation = _numberToBinaryString(formatInformation, 3) + _numberToBinaryString(bestIndex, 2);
+                                    formatInformation = _numberToBinaryString(_microFormatInformation[_parseInt(_numberToBinaryString(formatInformation, 3) + _numberToBinaryString(bestIndex, 2), 2)], 15);
                                 } else {
                                     bestIndex = _indexOf(values, _min.apply(Math, values));
                                     
@@ -3683,7 +3689,7 @@
                                             break;
                                     }
                                     
-                                    formatInformation += _numberToBinaryString(bestIndex, '3');
+                                    formatInformation = numberToBinaryString(formatInformation[_parseInt(formatInformation + _numberToBinaryString(bestIndex, '3'), 2)], 15);
                                 }
                                 
                                 matrix = matrices[bestIndex];
@@ -3702,7 +3708,7 @@
                     });
                 });
             },
-            getAlignmentPatternCoordinates: function () {
+            getAlignmentPatternCoordinates: function (quietZoneSize) {
                 var version = String(this.get('version'));
                 if (version.charAt(0) === 'M' || version === '1') {
                     return [];
@@ -3718,8 +3724,8 @@
                     _each(alignmentPatternLocation, function(y, yIndex) {
                         if ((xIndex || yIndex) && (xIndex || yIndex !== alignmentPatternLocationLengthMinusOne) && (xIndex !== alignmentPatternLocationLengthMinusOne || yIndex)) {
                             alignmentPatternCoordinates.push([
-                                x,
-                                y
+                                quietZoneSize + x,
+                                quietZoneSize + y
                             ]);
                         }
                     });
@@ -3728,15 +3734,18 @@
                 return alignmentPatternCoordinates;
             },
             getBinaryString: function (callbackFunction) {
-                _YAsync.runAll(_map(this.get('data'), function (data) {
+                var me = this,
+                    version = me.get('version');
+                
+                _YAsync.runAll(_map(me.get('data'), function (data) {
                     return function (success) {
                         _soon(function () {
-                            success(data.toBinaryString());
+                            success(data.toBinaryString(version));
                         });
                     };
                 })).on('complete', function (eventFacade) {
                     _soon(function () {
-                        callbackFunction(eventFacade.value.join());
+                        callbackFunction(eventFacade.value.join(''));
                     });
                 });
             },
@@ -3840,7 +3849,7 @@
             return null;
         }
         
-        return _Array(length - numberLength).join(0) + number;
+        return _Array(length - numberLength + 1).join(0) + number;
     };
     
     _mix(_YQrCode, {
