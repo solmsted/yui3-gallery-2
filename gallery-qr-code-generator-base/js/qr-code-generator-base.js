@@ -3689,7 +3689,7 @@
                                             break;
                                     }
                                     
-                                    formatInformation = numberToBinaryString(formatInformation[_parseInt(formatInformation + _numberToBinaryString(bestIndex, '3'), 2)], 15);
+                                    formatInformation = _numberToBinaryString(formatInformation[_parseInt(formatInformation + _numberToBinaryString(bestIndex, '3'), 2)], 15);
                                 }
                                 
                                 matrix = matrices[bestIndex];
