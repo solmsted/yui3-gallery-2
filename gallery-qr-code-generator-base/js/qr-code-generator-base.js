@@ -2906,6 +2906,7 @@
         _YLang = Y.Lang,
         _YQrCode = Y.namespace('QrCode'),
         
+        _abs = Math.abs,
         _ceil = Math.ceil,
         _each = Y.each,
         _floor = Math.floor,
@@ -3136,7 +3137,7 @@
                     y0 = quietZoneSize,
                     y1 = size - quietZoneSize - 11;
                     
-                for (i = 0; i < 18; i += 1) {
+                for (i = 17; i >= 0; i -= 1) {
                     value = binaryString.charAt(i) === '1';
                     
                     index = x0 + y0 * size;
@@ -3149,7 +3150,7 @@
                         matrix[index] = value;
                     }
                     
-                    if ((i + 1) % 3) {
+                    if (i % 3) {
                         x0 += 1;
                         y1 += 1;
                     } else {
@@ -3192,11 +3193,146 @@
                 }
             },
             evaluateMatrix: function (matrix, quietZoneSize, size, callbackFunction) {
-                // TODO
-                callbackFunction(0);
+                var coordinate = size - quietZoneSize - 1,
+                    evaluationRun = [],
+                    score = 0,
+                    total = 0,
+                
+                    evaluationFunction = function (success) {
+                        _soon(function () {
+                            var consecutiveHorizontalCount = 0,
+                                consecutiveVerticalCount = 0,
+                                index,
+                                horizontalPatternIndex = 0,
+                                maximumConsecutiveHorizontalCount = 0,
+                                maximumConsecutiveVerticalCount = 0,
+                                otherCoordinate,
+                                pattern = [
+                                    true,
+                                    false,
+                                    true,
+                                    true,
+                                    true,
+                                    false,
+                                    true
+                                ],
+                                previousHorizontalValue,
+                                previousVerticalValue,
+                                value,
+                                verticalPatternIndex = 0;
+
+                            for (otherCoordinate = size - quietZoneSize - 1; otherCoordinate >= quietZoneSize; otherCoordinate -= 1) {
+                                index = otherCoordinate + coordinate * size;
+                                value = matrix[index];
+                                
+                                if (value === previousHorizontalValue) {
+                                    consecutiveHorizontalCount += 1;
+                                } else {
+                                    maximumConsecutiveHorizontalCount = _max(consecutiveHorizontalCount, maximumConsecutiveHorizontalCount);
+                                    consecutiveHorizontalCount = 0;
+                                    previousHorizontalValue = value;
+                                }
+                                
+                                if (value === pattern[horizontalPatternIndex]) {
+                                    horizontalPatternIndex += 1;
+                                    
+                                    if (horizontalPatternIndex === 7 && (otherCoordinate >= quietZoneSize + 4 && !(matrix[index - 1] || matrix[index - 2] || matrix[index - 3] || matrix[index - 4])) || (otherCoordinate < size - quietZoneSize - 10 && !(matrix[index + 7] || matrix[index + 8] || matrix[index + 9] || matrix[index + 10]))) {
+                                        score += 40;
+                                    }
+                                } else {
+                                    horizontalPatternIndex = 0;
+                                }
+                                
+                                if (coordinate > quietZoneSize && otherCoordinate > quietZoneSize && matrix[index - 1] === value && matrix[index - size] === value && matrix[index - size - 1] === value) {
+                                    score += 3;
+                                }
+                                
+                                if (value) {
+                                    total += 1;
+                                }
+                                
+                                index = coordinate + otherCoordinate * size;
+                                value = matrix[index];
+                                
+                                if (value === previousVerticalValue) {
+                                    consecutiveVerticalCount += 1;
+                                } else {
+                                    maximumConsecutiveVerticalCount = _max(consecutiveVerticalCount, maximumConsecutiveVerticalCount);
+                                    consecutiveVerticalCount = 0;
+                                    previousVerticalValue = value;
+                                }
+                                
+                                if (value === pattern[verticalPatternIndex]) {
+                                    verticalPatternIndex += 1;
+                                    
+                                    if (verticalPatternIndex === 7 && (otherCoordinate >= quietZoneSize + 4 && !(matrix[index - size] || matrix[index - 2 * size] || matrix[index - 3 * size] || matrix[index - 4 * size])) || (otherCoordinate < size - quietZoneSize - 10 && !(matrix[index + 7 * size] || matrix[index + 8 * size] || matrix[index + 9 * size] || matrix[index + 10 * size]))) {
+                                        score += 40;
+                                    }
+                                } else {
+                                    verticalPatternIndex = 0;
+                                }
+                            }
+                            
+                            maximumConsecutiveHorizontalCount = _max(consecutiveHorizontalCount, maximumConsecutiveHorizontalCount);
+                            
+                            if (maximumConsecutiveHorizontalCount >= 5) {
+                                score += 3 + maximumConsecutiveHorizontalCount - 5;
+                            }
+                            
+                            maximumConsecutiveVerticalCount = _max(consecutiveVerticalCount, maximumConsecutiveVerticalCount);
+                            
+                            if (maximumConsecutiveVerticalCount >= 5) {
+                                score += 3 + maximumConsecutiveVerticalCount - 5;
+                            }
+                            
+                            coordinate -= 1;
+                            success();
+                        });
+                    };
+                
+                _YAsync.runQueue(function (success) {
+                    _soon(function () {
+                        var i;
+                        
+                        for (i = coordinate; i >= quietZoneSize; i -= 1) {
+                            evaluationRun.push(evaluationFunction);
+                        }
+                        
+                        success();
+                    });
+                }, function (success) {
+                    _soon(function () {
+                        _YAsync.runQueue(evaluationRun).on('complete', success);
+                    });
+                }).on('complete', function () {
+                    _soon(function () {
+                        callbackFunction(score + 2 * _abs(_floor(100 * total / ((size - quietZoneSize) * (size - quietZoneSize)) - 50)));
+                    });
+                });
             },
             evaluateMicroMatrix: function (matrix, quietZoneSize, size, callbackFunction) {
-                // TODO
+                _soon(function () {
+                    var bottomScore,
+                        coordinate = size - quietZoneSize - 1,
+                        otherCoordinate,
+                        rightScore;
+                        
+                    for (otherCoordinate = quietZoneSize + 1; otherCoordinate <= coordinate; otherCoordinate += 1) {
+                        if (matrix[coordinate + otherCoordinate * size]) {
+                            rightScore += 1;
+                        }
+                        
+                        if (matrix[otherCoordinate + coordinate * size]) {
+                            bottomScore += 1;
+                        }
+                    }
+                    
+                    if (bottomScore < rightScore) {
+                        callbackFunction(bottomScore * 16 + rightScore);
+                    } else {
+                        callbackFunction(rightScore * 16 + bottomScore);
+                    }
+                });
                 callbackFunction(0);
             },
             formatBinaryString: function (binaryString, callbackFunction) {
@@ -3689,7 +3825,7 @@
                                             break;
                                     }
                                     
-                                    formatInformation = _numberToBinaryString(formatInformation[_parseInt(formatInformation + _numberToBinaryString(bestIndex, '3'), 2)], 15);
+                                    formatInformation = _numberToBinaryString(_formatInformation[_parseInt(_formatInformation + _numberToBinaryString(bestIndex, '3'), 2)], 15);
                                 }
                                 
                                 matrix = matrices[bestIndex];
