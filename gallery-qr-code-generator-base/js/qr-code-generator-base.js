@@ -692,9 +692,9 @@
                 ],
                 L: [
                     194,
-                        2,
-                        97,
-                        24
+                    2,
+                    97,
+                    24
                 ],
                 M: [
                     154,
@@ -770,9 +770,9 @@
                 ],
                 L: [
                     324,
-                        4,
-                        81,
-                        20
+                    4,
+                    81,
+                    20
                 ],
                 M: [
                     254,
@@ -868,9 +868,9 @@
             15: {
                 H: [
                     223,
-                   11,
-                   12,
-                   24
+                    11,
+                    12,
+                    24
                 ],
                 L: [
                     523,
@@ -3004,7 +3004,7 @@
                     };
                     
                 for (i = size - quietZoneSize - 1; i >= y; i -= 1) {
-                    maskRowRun.push(maskRowFunction)
+                    maskRowRun.push(maskRowFunction);
                 }
                 
                 _YAsync.runQueue(maskRowRun).on('complete', function () {
@@ -3485,7 +3485,7 @@
                             interleaveCodewordsFunction(0, i);
                         }
                         
-                        success()
+                        success();
                     });
                 }, function (success) {
                     _soon(function () {
@@ -3614,7 +3614,7 @@
                 }
                 
                 _YAsync.runQueue(drawColumnRun).on('complete', function () {
-                    _soon(function() {
+                    _soon(function () {
                         callbackFunction(dataMatrix);
                     });
                 });
@@ -3825,7 +3825,7 @@
                                             break;
                                     }
                                     
-                                    formatInformation = _numberToBinaryString(_formatInformation[_parseInt(_formatInformation + _numberToBinaryString(bestIndex, '3'), 2)], 15);
+                                    formatInformation = _numberToBinaryString(_formatInformation[_parseInt(formatInformation + _numberToBinaryString(bestIndex, '3'), 2)], 15);
                                 }
                                 
                                 matrix = matrices[bestIndex];
@@ -3838,26 +3838,27 @@
                         me.drawFormatInformation(matrix, formatInformation, micro, quietZoneSize, size, true);
                         success();
                     });
-                }).on ('complete', function () {
+                }).on('complete', function () {
                     _soon(function () {
                         callbackFunction(matrix, size);
                     });
                 });
             },
             getAlignmentPatternCoordinates: function (quietZoneSize) {
-                var version = String(this.get('version'));
-                if (version.charAt(0) === 'M' || version === '1') {
-                    return [];
-                }
-
-                var alignmentPatternCoordinates = [],
+                var version = String(this.get('version')),
+                
+                    alignmentPatternCoordinates = [],
                     alignmentPatternLocation = [
                         6
                     ].concat(_alignmentPatternLocations[+version - 2]),
                     alignmentPatternLocationLengthMinusOne = alignmentPatternLocation.length - 1;
+                
+                if (version.charAt(0) === 'M' || version === '1') {
+                    return [];
+                }
 
-                _each(alignmentPatternLocation, function(x, xIndex) {
-                    _each(alignmentPatternLocation, function(y, yIndex) {
+                _each(alignmentPatternLocation, function (x, xIndex) {
+                    _each(alignmentPatternLocation, function (y, yIndex) {
                         if ((xIndex || yIndex) && (xIndex || yIndex !== alignmentPatternLocationLengthMinusOne) && (xIndex !== alignmentPatternLocationLengthMinusOne || yIndex)) {
                             alignmentPatternCoordinates.push([
                                 quietZoneSize + x,
@@ -3889,10 +3890,10 @@
                 var version = String(this.get('version'));
 
                 if (version.charAt(0) === 'M') {
-                  return 12 + +version.charAt(1) * 3;
+                    return 12 + (+version.charAt(1)) * 3;
                 }
 
-                return 25 + +version * 4;
+                return 25 + (+version) * 4;
             },
             initializer: function () {
                 
