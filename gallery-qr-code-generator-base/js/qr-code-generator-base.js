@@ -5,8 +5,23 @@
     'use strict';
     
     var _string__empty = '',
+        _string_0 = '0',
+        _string_1 = '1',
+        _string_alphanumeric = 'alphanumeric',
+        _string_complete = 'complete',
+        _string_E = 'E',
+        _string_errorCorrection = 'errorCorrection',
+        _string_H = 'H',
         _string_initOnly = 'initOnly',
+        _string_L = 'L',
+        _string_M = 'M',
+        _string_M1 = 'M1',
+        _string_M3 = 'M3',
+        _string_M4 = 'M4',
         _string_numeric = 'numeric',
+        _string_Q = 'Q',
+        _string_value = 'value',
+        _string_version = 'version',
         
         _alignmentPatternLocations = [[
             18
@@ -1542,9 +1557,9 @@
             }
         },
         _dataTypes = {
-            alphanumeric: 'alphanumeric',
-            numeric: _string_numeric,
-            ucs2: 'ucs2' // ECI 000025
+            alphanumeric: _string_alphanumeric,
+            numeric: _string_numeric//,
+            //ucs2: 'ucs2' // ECI 000025
         },
         _formatInformation = [
             21522,
@@ -3007,7 +3022,7 @@
                     maskRowRun.push(maskRowFunction);
                 }
                 
-                _YAsync.runQueue(maskRowRun).on('complete', function () {
+                _YAsync.runQueue(maskRowRun).on(_string_complete, function () {
                     _soon(function () {
                         callbackFunction(matrix);
                     });
@@ -3063,7 +3078,7 @@
                 }
                 
                 for (i = 0; i < 15; i += 1) {
-                    value = binaryString.charAt(14 - i) === '1';
+                    value = binaryString.charAt(14 - i) === _string_1;
                     
                     index = x0 + y0 * size;
                     if (overwrite || _isUndefined(matrix[index])) {
@@ -3138,7 +3153,7 @@
                     y1 = size - quietZoneSize - 11;
                     
                 for (i = 17; i >= 0; i -= 1) {
-                    value = binaryString.charAt(i) === '1';
+                    value = binaryString.charAt(i) === _string_1;
                     
                     index = x0 + y0 * size;
                     if (overwrite || _isUndefined(matrix[index])) {
@@ -3302,9 +3317,9 @@
                     });
                 }, function (success) {
                     _soon(function () {
-                        _YAsync.runQueue(evaluationRun).on('complete', success);
+                        _YAsync.runQueue(evaluationRun).on(_string_complete, success);
                     });
-                }).on('complete', function () {
+                }).on(_string_complete, function () {
                     _soon(function () {
                         callbackFunction(score + 2 * _abs(_floor(100 * total / ((size - quietZoneSize) * (size - quietZoneSize)) - 50)));
                     });
@@ -3367,8 +3382,8 @@
                     interleaveCodewordsFunction = function (blocksIndex, codewordIndex) {
                         blockRun.push(function (success) {
                             _soon(function () {
-                                success(_reduce(blocks, '', function (binaryString, blocks) {
-                                    return binaryString + (blocks[blocksIndex][codewordIndex] || '');
+                                success(_reduce(blocks, _string__empty, function (binaryString, blocks) {
+                                    return binaryString + (blocks[blocksIndex][codewordIndex] || _string__empty);
                                 }));
                             });
                         });
@@ -3377,48 +3392,48 @@
                 _YAsync.runQueue(function (success) {
                     _soon(function () {
                         var codewordCount,
-                            errorCorrection = me.get('errorCorrection'),
+                            errorCorrection = me.get(_string_errorCorrection),
                             remainder,
-                            version = String(me.get('version'));
+                            version = String(me.get(_string_version));
 
-                        if (version.charAt(0) === 'M') {
+                        if (version.charAt(0) === _string_M) {
                             // Sanitize error correction value for Micro QR Codes.
-                            if (version === 'M1') {
-                                errorCorrection = 'E';
-                            } else if (version !== 'M4') {
-                                if (errorCorrection === 'H' || errorCorrection === 'Q') {
-                                    errorCorrection = 'M';
+                            if (version === _string_M1) {
+                                errorCorrection = _string_E;
+                            } else if (version !== _string_M4) {
+                                if (errorCorrection === _string_H || errorCorrection === _string_Q) {
+                                    errorCorrection = _string_M;
                                 }
-                            } else if (errorCorrection === 'H') {
-                                errorCorrection = 'Q';
+                            } else if (errorCorrection === _string_H) {
+                                errorCorrection = _string_Q;
                             }
                             
                             // Append Micro QR Code terminator.
-                            binaryString += _Array(2 + 2 * +version.charAt(1)).join('0');
+                            binaryString += _Array(2 + 2 * +version.charAt(1)).join(_string_0);
                         } else {
                             // Sanitize error correction for QR Codes.
-                            if (errorCorrection === 'E') {
-                                errorCorrection = 'L';
+                            if (errorCorrection === _string_E) {
+                                errorCorrection = _string_L;
                             }
                             
                             // Append QR Code terminator.
                             binaryString += '0000';
                         }
                         
-                        me._set('errorCorrection', errorCorrection);
+                        me._set(_string_errorCorrection, errorCorrection);
 
                         remainder = binaryString.length % 8;
 
                         // Pad with 0 bits to fill out remainder.
-                        if (version === 'M1' || version === 'M3') {
+                        if (version === _string_M1 || version === _string_M3) {
                             // M1 and M3 versions end with a 4 bit codeword.
                             if (remainder < 4) {
-                                binaryString += _Array(5 - remainder).join('0');
+                                binaryString += _Array(5 - remainder).join(_string_0);
                             } else if (remainder > 4) {
-                                binaryString += _Array(13 - remainder).join('0');
+                                binaryString += _Array(13 - remainder).join(_string_0);
                             }
                         } else if (remainder) {
-                            binaryString += _Array(9 - remainder).join('0');
+                            binaryString += _Array(9 - remainder).join(_string_0);
                         }
 
                         // Get info required to format binaryData.
@@ -3448,7 +3463,7 @@
                         
                         // Split the binary string into an array of codewords.
                         dataCodewords = binaryString.match(/.{1,8}/g);
-                        binaryString = '';
+                        binaryString = _string__empty;
                         
                         success();
                     });
@@ -3470,7 +3485,7 @@
                 }, function (success) {
                     _soon(function () {
                         // Generate data blocks and error correction blocks.
-                        _YAsync.runAll(blockRun).on('complete', function (eventFacade) {
+                        _YAsync.runAll(blockRun).on(_string_complete, function (eventFacade) {
                             blockRun = [];
                             blocks = eventFacade.value;
                             success();
@@ -3501,12 +3516,12 @@
                 }, function (success) {
                     _soon(function () {
                         // Interleave codewords.
-                        _YAsync.runAll(blockRun).on('complete', function (eventFacade) {
-                            binaryString = eventFacade.value.join('');
+                        _YAsync.runAll(blockRun).on(_string_complete, function (eventFacade) {
+                            binaryString = eventFacade.value.join(_string__empty);
                             success();
                         });
                     });
-                }).on('complete', function (eventFacade) {
+                }).on(_string_complete, function (eventFacade) {
                     _soon(function () {
                         if (eventFacade.failed) {
                             callbackFunction(eventFacade.error);
@@ -3548,7 +3563,7 @@
                             success();
                         });
                     });
-                }).on('complete', function (eventFacade) {
+                }).on(_string_complete, function (eventFacade) {
                     _soon(function () {
                         if (eventFacade.failed) {
                             callbackFunction(eventFacade.error);
@@ -3575,7 +3590,7 @@
                             codewordIndex = 0;
                         }
                         
-                        dataMatrix[index] = codeword && codeword.charAt(codewordIndex) === '1' || false;
+                        dataMatrix[index] = codeword && codeword.charAt(codewordIndex) === _string_1 || false;
                         codewordIndex += 1;
                     },
                     
@@ -3607,13 +3622,13 @@
                         });
                     };
                     
-                binaryString = '';
+                binaryString = _string__empty;
                 
                 for (i = quietZoneSize; i <= x; i += 2) {
                     drawColumnRun.push(drawColumnFunction);
                 }
                 
-                _YAsync.runQueue(drawColumnRun).on('complete', function () {
+                _YAsync.runQueue(drawColumnRun).on(_string_complete, function () {
                     _soon(function () {
                         callbackFunction(dataMatrix);
                     });
@@ -3660,7 +3675,7 @@
                     });
                 }, function (success) {
                     _soon(function () {
-                        _YAsync.runQueue(coefficientRun).on('complete', success);
+                        _YAsync.runQueue(coefficientRun).on(_string_complete, success);
                     });
                 }, function (success) {
                     _soon(function () {
@@ -3669,7 +3684,7 @@
                         });
                         success();
                     });
-                }).on('complete', function () {
+                }).on(_string_complete, function () {
                     _soon(function () {
                         callbackFunction(errorCorrectionBlock);
                     });
@@ -3678,12 +3693,12 @@
             generateMatrix: function (binaryString, callbackFunction) {
                 var me = this,
                     size = me.getSize(),
-                    version = String(me.get('version')),
+                    version = String(me.get(_string_version)),
                     
                     formatInformation,
                     initialDataMatrix,
                     matrix = _Array(size * size),
-                    micro = version.charAt(0) === 'M',
+                    micro = version.charAt(0) === _string_M,
                     quietZoneSize = micro ? 2 : 4;
                     
                 _YAsync.runQueue(function (success) {
@@ -3733,7 +3748,7 @@
                             });
                         });
                         
-                        _YAsync.runAll(alignmentPatternRun).on('complete', success);
+                        _YAsync.runAll(alignmentPatternRun).on(_string_complete, success);
                     });
                 }, function (success) {
                     if (micro || +version < 7) {
@@ -3746,7 +3761,7 @@
                     }
                 }, function (success) {
                     _soon(function () {
-                        me.drawFormatInformation(matrix, _Array(16).join('0'), micro, quietZoneSize, size);
+                        me.drawFormatInformation(matrix, _Array(16).join(_string_0), micro, quietZoneSize, size);
                         success();
                     });
                 }, function (success) {
@@ -3764,7 +3779,7 @@
                                     me.applyMask(matrix.concat(), initialDataMatrix, maskFunction, quietZoneSize, size, success);
                                 });
                             };
-                        })).on('complete', function (eventFacade) {
+                        })).on(_string_complete, function (eventFacade) {
                             var matrices = eventFacade.value;
                             
                             _YAsync.runAll(_map(matrices, function (matrix) {
@@ -3777,32 +3792,32 @@
                                         }
                                     });
                                 };
-                            })).on('complete', function (eventFacade) {
+                            })).on(_string_complete, function (eventFacade) {
                                 var bestIndex,
-                                    errorCorrection = me.get('errorCorrection'),
+                                    errorCorrection = me.get(_string_errorCorrection),
                                     values = eventFacade.value;
                                  
                                 if (micro) {
                                     bestIndex = _indexOf(values, _max.apply(Math, values));
                                     
                                     switch (version) {
-                                        case 'M1':
+                                        case _string_M1:
                                             formatInformation = 0;
                                             break;
                                         case 'M2':
                                             formatInformation = 1;
                                             break;
-                                        case 'M3':
+                                        case _string_M3:
                                             formatInformation = 3;
                                             break;
-                                        case 'M4':
+                                        case _string_M4:
                                             formatInformation = 5;
                                             break;
                                     }
                                     
-                                    if (errorCorrection === 'M') {
+                                    if (errorCorrection === _string_M) {
                                         formatInformation += 1;
-                                    } else if (errorCorrection === 'Q') {
+                                    } else if (errorCorrection === _string_Q) {
                                         formatInformation += 2;
                                     }
                                     
@@ -3811,21 +3826,21 @@
                                     bestIndex = _indexOf(values, _min.apply(Math, values));
                                     
                                     switch (errorCorrection) {
-                                        case 'H':
+                                        case _string_H:
                                             formatInformation = '10';
                                             break;
-                                        case 'L':
+                                        case _string_L:
                                             formatInformation = '01';
                                             break;
-                                        case 'M':
+                                        case _string_M:
                                             formatInformation = '00';
                                             break;
-                                        case 'Q':
+                                        case _string_Q:
                                             formatInformation = '11';
                                             break;
                                     }
                                     
-                                    formatInformation = _numberToBinaryString(_formatInformation[_parseInt(formatInformation + _numberToBinaryString(bestIndex, '3'), 2)], 15);
+                                    formatInformation = _numberToBinaryString(_formatInformation[_parseInt(formatInformation + _numberToBinaryString(bestIndex, 3), 2)], 15);
                                 }
                                 
                                 matrix = matrices[bestIndex];
@@ -3838,14 +3853,14 @@
                         me.drawFormatInformation(matrix, formatInformation, micro, quietZoneSize, size, true);
                         success();
                     });
-                }).on('complete', function () {
+                }).on(_string_complete, function () {
                     _soon(function () {
                         callbackFunction(matrix, size);
                     });
                 });
             },
             getAlignmentPatternCoordinates: function (quietZoneSize) {
-                var version = String(this.get('version')),
+                var version = String(this.get(_string_version)),
                 
                     alignmentPatternCoordinates = [],
                     alignmentPatternLocation = [
@@ -3853,7 +3868,7 @@
                     ].concat(_alignmentPatternLocations[+version - 2]),
                     alignmentPatternLocationLengthMinusOne = alignmentPatternLocation.length - 1;
                 
-                if (version.charAt(0) === 'M' || version === '1') {
+                if (version.charAt(0) === _string_M || version === _string_1) {
                     return [];
                 }
 
@@ -3872,7 +3887,7 @@
             },
             getBinaryString: function (callbackFunction) {
                 var me = this,
-                    version = me.get('version');
+                    version = me.get(_string_version);
                 
                 _YAsync.runAll(_map(me.get('data'), function (data) {
                     return function (success) {
@@ -3880,16 +3895,16 @@
                             success(data.toBinaryString(version));
                         });
                     };
-                })).on('complete', function (eventFacade) {
+                })).on(_string_complete, function (eventFacade) {
                     _soon(function () {
-                        callbackFunction(eventFacade.value.join(''));
+                        callbackFunction(eventFacade.value.join(_string__empty));
                     });
                 });
             },
             getSize: function () {
-                var version = String(this.get('version'));
+                var version = String(this.get(_string_version));
 
-                if (version.charAt(0) === 'M') {
+                if (version.charAt(0) === _string_M) {
                     return 12 + (+version.charAt(1)) * 3;
                 }
 
@@ -3911,22 +3926,105 @@
                         return value;
                     },
                     value: [],
-                    writeOnce: 'initOnly'
+                    writeOnce: _string_initOnly
                 },
                 errorCorrection: {
                     validator: function (value) {
-                        if (value === 'E' || value === 'H' || value === 'L' || value === 'M' || value === 'Q') {
+                        if (value === _string_E || value === _string_H || value === _string_L || value === _string_M || value === _string_Q) {
                             return true;
                         }
                         
                         return false;
                     },
-                    value: 'M',
-                    writeOnce: 'initOnly'
+                    value: _string_M,
+                    writeOnce: _string_initOnly
                 },
                 version: {
-                    value: '1',
-                    writeOnce: 'initOnly'
+                    value: _string_1,
+                    writeOnce: _string_initOnly
+                }
+            }
+        }),
+        
+        _AlphanumericData = _YBase.create('qr-code-alphanumeric-data', _Data, [], {
+            toBinaryString: function (version) {
+                version = String(version);
+                
+                var characterCountIndicatorBitLength,
+                    characters = [
+                        ' ',
+                        '$',
+                        '%',
+                        '*',
+                        '+',
+                        '-',
+                        '.',
+                        '/',
+                        ':'
+                    ],
+                    modeIndicator,
+                    value = this.get(_string_value),
+                    valueBinaryString = _reduce(value.match(/.{1,2}/g), _string__empty, function (binaryString, value) {
+                        var character = value.charAt(0),
+                            characterIndex = _indexOf(characters, character),
+                            characterValue;
+                            
+                        if (characterIndex === -1) {
+                            characterValue = _parseInt(character, 36);
+                        } else {
+                            characterValue = characterIndex + 36;
+                        }
+                        
+                        if (value.length === 1) {
+                            return binaryString + _numberToBinaryString(characterValue, 6);
+                        }
+                        
+                        characterValue *= 45;
+                        
+                        character = value.charAt(1);
+                        characterIndex = _indexOf(characters, character);
+                        
+                        if (characterIndex === -1) {
+                            characterValue += _parseInt(character, 36);
+                        } else {
+                            characterValue += characterIndex + 36;
+                        }
+                        
+                        return binaryString + _numberToBinaryString(characterValue, 11);
+                    });
+                
+                if (version.charAt(0) === _string_M) {
+                    version = +version.charAt(1);
+                    characterCountIndicatorBitLength = version + 1;
+                    modeIndicator = _Array(version - 1).join(0) + _string_1;
+                } else {
+                    version = +version;
+                    
+                    if (version <= 9) {
+                        characterCountIndicatorBitLength = 9;
+                    } else if (version <= 26) {
+                        characterCountIndicatorBitLength = 11;
+                    } else {
+                        characterCountIndicatorBitLength = 13;
+                    }
+                    
+                    modeIndicator = '0010';
+                }
+                
+                return modeIndicator + _numberToBinaryString(value.length, characterCountIndicatorBitLength) + valueBinaryString;
+            }
+        }, {
+            ATTRS: {
+                type: {
+                    readonly: true,
+                    value: _string_alphanumeric
+                },
+                value: {
+                    setter: function (value) {
+                        return _String(value).toUpperCase().replace(/[^0-9A-Z $%*+\-.\/:]/g, _string__empty);
+                    },
+                    value: _string__empty,
+                    writeOnce: _string_initOnly
                 }
             }
         }),
@@ -3937,12 +4035,12 @@
                 
                 var characterCountIndicatorBitLength,
                     modeIndicator,
-                    value = this.get('value'),
-                    valueBinaryString = _reduce(value.match(/.{1,3}/g), '', function (binaryString, value) {
+                    value = this.get(_string_value),
+                    valueBinaryString = _reduce(value.match(/.{1,3}/g), _string__empty, function (binaryString, value) {
                         return binaryString + _numberToBinaryString(value, value.length >= 3 ? 10 : (value.length <= 1 ? 4 : 7));
                     });
                 
-                if (version.charAt(0) === 'M') {
+                if (version.charAt(0) === _string_M) {
                     version = +version.charAt(1);
                     characterCountIndicatorBitLength = version + 2;
                     modeIndicator = _Array(version).join(0);
@@ -3970,7 +4068,7 @@
                 },
                 value: {
                     setter: function (value) {
-                        return _String(value).replace(/[^\d]/g, '');
+                        return _String(value).replace(/[\D]/g, _string__empty);
                     },
                     value: _string__empty,
                     writeOnce: _string_initOnly
@@ -3990,6 +4088,7 @@
     };
     
     _mix(_YQrCode, {
+        AlphanumericData: _AlphanumericData,
         Data: _Data,
         GeneratorBase: _GeneratorBase,
         NumericData: _NumericData,
