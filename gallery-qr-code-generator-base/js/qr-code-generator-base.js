@@ -1,6 +1,11 @@
 /**
  * @module gallery-qr-code-generator-base
  */
+
+/**
+ * @class QrCode
+ * @static
+ */
 (function (Y) {
     'use strict';
     
@@ -1559,7 +1564,8 @@
         _dataTypes = {
             alphanumeric: _string_alphanumeric,
             numeric: _string_numeric//,
-            //ucs2: 'ucs2' // ECI 000025
+            //ucs2: 'ucs2', // ECI 000025
+            //utf8: 'utf8' // ECI 000026
         },
         _formatInformation = [
             21522,
@@ -1595,6 +1601,7 @@
             11994,
             11245
         ],
+        // TODO: Find out if all of these indices are necessary.
         _generatorAlphaIndicies = {
             2: [
                 25,
@@ -2919,7 +2926,6 @@
         _YAsync = Y.Async,
         _YBase = Y.Base,
         _YLang = Y.Lang,
-        _YQrCode = Y.namespace('QrCode'),
         
         _abs = Math.abs,
         _ceil = Math.ceil,
@@ -2974,23 +2980,79 @@
             _maskFunctions[7]
         ],
         
-        _Data = _YBase.create('qr-code-data', _YBase, [], {}, {
+        /**
+         * This class shouldn't be used directly.
+         * It is intended as an interface to implement a specific data encoding mode.
+         * @class Data
+         * @constructor
+         * @extends Base
+         * @namespace QrCode
+         * @param {Object} config Configuration object.
+         */
+        _Data = _YBase.create('qr-code-data', _YBase, [], {
+            /**
+             * This is an abstract method that should be implemented to return a
+             * properly formatted binary string for a specific data encoding mode.
+             * @method toBinaryString
+             * @for QrCode.Data
+             * @param {Number|String} version
+             * @return {String}
+             */
+        }, {
             ATTRS: {
+                /**
+                 * @attribute type
+                 * @initOnly
+                 * @type String
+                 */
                 type: {
                     validator: function (value) {
                         return !!_dataTypes[value];
                     },
                     writeOnce: _string_initOnly
                 },
+                /**
+                 * @attribute value
+                 * @initOnly
+                 */
                 value: {
                     value: null,
                     writeOnce: _string_initOnly
                 }
             },
+            /**
+             * An array of supported data encoding modes.
+             * @property Type
+             * @static
+             * @type [String]
+             */
             Type: _dataTypes
         }),
         
+        /**
+         * @class GeneratorBase
+         * @constructor
+         * @extends Base
+         * @namespace QrCode
+         * @param {Object} config Configuration object.
+         */
         _GeneratorBase = _YBase.create('qr-code-generator-base', _YBase, [], {
+            /**
+             * Performs a mask operation that inverts some data bits.
+             * @method applyMask
+             * @chainable
+             * @for QrCode.GeneratorBase
+             * @param {[Boolean]} matrix The array to write the results to.  Existing data will be overwritten.
+             * @param {[Boolean]} dataMatrix An array with the source data.  Non-data elements should be undefined.
+             * @param {Function} maskFunction A function that accepts x and y coordinates and returns true or false.
+             * The x and y coordinates passed to the mask function do not account for the quiet zone region.
+             * When the mask function returns true, the data at that position is inverted.
+             * @param {Number} quietZoneSize The size of the quiet zone region.
+             * @param {Number} size The square root of the length of matrix.  (dataMatrix and matrix should be the same size.)
+             * @param {Function} callbackFunction This function will be called once the mask has been applied.
+             * It is guaranteed to be called in a future turn of the event loop.  The modified matrix will be
+             * passed as the only argument.
+             */
             applyMask: function (matrix, dataMatrix, maskFunction, quietZoneSize, size, callbackFunction) {
                 var maskRowRun = [],
                     i,
@@ -3002,11 +3064,13 @@
                                 value,
                                 x = size - quietZoneSize - 1;
                                 
+                            // Iterate through the columns within this row.
                             while (x >= quietZoneSize) {
                                 index = x + y * size;
                                 value = dataMatrix[index];
                                 
                                 if (!_isUndefined(value)) {
+                                    // Write an inverted value to matrix if maskFunction returns true.
                                     matrix[index] = maskFunction(x - quietZoneSize, y - quietZoneSize) ? !value : value;
                                 }
                                 
@@ -3018,16 +3082,32 @@
                         });
                     };
                     
+                // Prepare to iterate through the rows of the matrix.
                 for (i = size - quietZoneSize - 1; i >= y; i -= 1) {
                     maskRowRun.push(maskRowFunction);
                 }
                 
+                // Iterate through the rows of the matrix.
                 _YAsync.runQueue(maskRowRun).on(_string_complete, function () {
                     _soon(function () {
                         callbackFunction(matrix);
                     });
                 });
+                
+                return this;
             },
+            /**
+             * Alignment patterns are distinct patterns used to help decoders judge,
+             * the scale, orientation, and perspective of a QR Code.
+             * @method drawAlignmentPattern
+             * @chainable
+             * @param {[Boolean]} matrix The array to write to.
+             * @param {Number} centerX The x coordinate of the center of the alignment pattern.
+             * @param {Number} centerY The y coordinate of the center of the alignment pattern.
+             * @param {Number} size The square root of the length of matrix.
+             * @param {Boolean} overwrite When set to true, the alignment pattern will replace
+             * any existing data in the matrix at that location.
+             */
             drawAlignmentPattern: function (matrix, centerX, centerY, size, overwrite) {
                 var endX = centerX + 2,
                     endY = centerY + 2,
@@ -3037,15 +3117,31 @@
                     x,
                     y;
                     
+                // Iterate through the positions occupied by the alignment pattern.
                 for (x = startX; x <= endX; x += 1) {
                     for (y = startY; y <= endY; y += 1) {
                         index = x + y * size;
                         if (overwrite || _isUndefined(matrix[index])) {
+                            // Write a light or dark value as required.
                             matrix[index] = x === startX || x === endX || y === startY || y === endY || x === centerX && y === centerY;
                         }
                     }
                 }
+                
+                return this;
             },
+            /**
+             * Finder patterns are distinct patterns in the corners of a QR code
+             * to help decoders judge boundaries, scale, orientation, and perspective.
+             * @method drawFinderPattern
+             * @chainable
+             * @param {[Boolean]} matrix The array to write to.
+             * @param {Number} centerX The x coordinate of the center of the finder pattern.
+             * @param {Number} centerY The y coordinate of the center of the finder pattern.
+             * @param {Number} size The square root of the length of matrix.
+             * @param {Boolean} overwrite When set to true, the finder pattern will replace
+             * any existing data in the matrix at that location.
+             */
             drawFinderPattern: function (matrix, centerX, centerY, size, overwrite) {
                 var endX = centerX + 3,
                     endY = centerY + 3,
@@ -3055,15 +3151,33 @@
                     x,
                     y;
                     
+                // Iterate through the positions occupied by the finder pattern.
                 for (x = startX - 1; x <= endX + 1; x += 1) {
                     for (y = startY - 1; y <= endY + 1; y += 1) {
                         index = x + y * size;
                         if (overwrite || _isUndefined(matrix[index])) {
+                            // Write a light or dark value as required.
                             matrix[index] = x >= startX && x <= endX && y >= startY && y <= endY && (x === startX || x === endX || y === startY || y === endY) || x >= centerX - 1 && x <= centerX + 1 && y >= centerY - 1 && y <= centerY + 1;
                         }
                     }
                 }
+                
+                return this;
             },
+            /**
+             * The error correction level and the id of the mask that has been applied to the
+             * data matrix are encoded together for decoders.  This information has specific
+             * locations reserved for it within the matrix.
+             * @method drawFormatInformation
+             * @chainable
+             * @param {[Boolean]} matrix The array to write to.
+             * @param {String} binaryString A string conatining 15 '1' or '0' characters.
+             * @param {Boolean} micro Set this to true for a Micro QR Code or false for a QR Code.
+             * @param {Number} quietZoneSize The size of the quiet zone region.
+             * @param {Number} size The square root of the length of matrix.
+             * @param {Boolean} overwrite When set to true, the format information will replace
+             * any existing data in the matrix at that location.
+             */
             drawFormatInformation: function (matrix, binaryString, micro, quietZoneSize, size, overwrite) {
                 var i,
                     index,
@@ -3074,9 +3188,11 @@
                     y1 = quietZoneSize + 8;
                 
                 if (micro) {
+                    // Skip the timing pattern.
                     y0 += 1;
                 }
                 
+                // Iterate through the binary string once.
                 for (i = 0; i < 15; i += 1) {
                     value = binaryString.charAt(14 - i) === _string_1;
                     
@@ -3095,12 +3211,14 @@
                             y0 += 1;
 
                             if (i === 5) {
+                                // Skip the timing pattern.
                                 y0 += 1;
                             }
                         } else {
                             x0 -= 1;
 
                             if (i === 8) {
+                                // Skip the timing pattern.
                                 x0 -= 1;
                             }
                         }
@@ -3113,6 +3231,7 @@
 
                             index = x1 + y1 * size;
                             if (overwrite || _isUndefined(matrix[index])) {
+                                // This position is always a dark value in QR Codes.
                                 matrix[index] = true;
                             }
 
@@ -3126,23 +3245,99 @@
                         x0 -= 1;
                     }
                 }
+                
+                return true;
             },
+            /**
+             * The quiet zone region is a padding of light values around the outside of a
+             * QR Code.  It helps separate the QR Code from other visual elements.
+             * @method drawQuietZone
+             * @chainable
+             * @param {[Boolean]} matrix The array to write to.
+             * @param {Number} quietZoneSize The size of the quiet zone region.
+             * @param {Number} size The square root of the length of matrix.
+             * @param {Boolean} overwrite When set to true, the quiet zone region will replace
+             * any existing data in the matrix at that location.
+             */
+            drawQuietZone: function (matrix, quietZoneSize, size, overwrite) {
+                var farQuietZoneCoordinate = size - quietZoneSize,
+                    index,
+                    x,
+                    y;
+                    
+                // Iterate through columns.
+                for (x = 0; x < size; x += 1) {
+                    // Write top padding.
+                    for (y = 0; y < quietZoneSize; y += 1) {
+                        index = x + y * size;
+                        if (overwrite || _isUndefined(matrix[index])) {
+                            matrix[index] = false;
+                        }
+                    }
+                    
+                    // Write left and right padding.
+                    if (x < quietZoneSize || x >= farQuietZoneCoordinate) {
+                        for (y = quietZoneSize; y < farQuietZoneCoordinate; y += 1) {
+                            index = x + y * size;
+                            if (overwrite || _isUndefined(matrix[index])) {
+                                matrix[index] = false;
+                            }
+                        }
+                    }
+                    
+                    // Write bottom padding.
+                    for (y = farQuietZoneCoordinate; y < size; y += 1) {
+                        index = x + y * size;
+                        if (overwrite || _isUndefined(matrix[index])) {
+                            matrix[index] = false;
+                        }
+                    }
+                }
+                
+                return this;
+            },
+            /**
+             * The timing pattern is a row and column of alternating dark and light values.
+             * @method drawTimingPattern
+             * @chainable
+             * @param {[Boolean]} matrix The array to write to.
+             * @param {Number} coordinate The row and column index to write to.
+             * @param {Number} size The square root of the length of matrix.
+             * @param {Boolean} overwrite When set to true, the timing pattern will replace
+             * any existing data in the matrix at that location.
+             */
             drawTimingPattern: function (matrix, coordinate, size, overwrite) {
                 var i,
                     index;
                 
+                // TODO: Skip the quiet zone and finder pattern.
                 for (i = 0; i < size; i += 1) {
+                    // Write the vertical timing patter.
                     index = coordinate + i * size;
                     if (overwrite || _isUndefined(matrix[index])) {
                         matrix[index] = !(i % 2);
                     }
                     
+                    // Write the horizontal timing pattern.
                     index = i + coordinate * size;
                     if (overwrite || _isUndefined(matrix[index])) {
                         matrix[index] = !(i % 2);
                     }
                 }
+                
+                return this;
             },
+            /**
+             * QR Codes version 7 and higher contain two encoded copies of the version number.
+             * @method drawVersionInformation
+             * @chainable
+             * @param {[Boolean]} matrix The array to write to.
+             * @param {String} binaryString A string conatining 18 '1' or '0' characters.
+             * @param {Number} quietZoneSize The size of the quiet zone region.
+             * @param {Number} size The square root of the length of matrix.
+             * @param {Boolean} overwrite When set to true, the version information will replace
+             * any existing data in the matrix at that location.
+             */
             drawVersionInformation: function (matrix, binaryString, quietZoneSize, size, overwrite) {
                 var i,
                     index,
@@ -3152,6 +3347,7 @@
                     y0 = quietZoneSize,
                     y1 = size - quietZoneSize - 11;
                     
+                // Iterate through the binary string once.
                 for (i = 17; i >= 0; i -= 1) {
                     value = binaryString.charAt(i) === _string_1;
                     
@@ -3175,38 +3371,22 @@
                         y1 -= 2;
                     }
                 }
+                
+                return this;
             },
-            drawQuietZone: function (matrix, quietZoneSize, size, overwrite) {
-                var farQuietZoneCoordinate = size - quietZoneSize,
-                    index,
-                    x,
-                    y;
-                    
-                for (x = 0; x < size; x += 1) {
-                    for (y = 0; y < quietZoneSize; y += 1) {
-                        index = x + y * size;
-                        if (overwrite || _isUndefined(matrix[index])) {
-                            matrix[index] = false;
-                        }
-                    }
-                    
-                    if (x < quietZoneSize || x >= farQuietZoneCoordinate) {
-                        for (y = quietZoneSize; y < farQuietZoneCoordinate; y += 1) {
-                            index = x + y * size;
-                            if (overwrite || _isUndefined(matrix[index])) {
-                                matrix[index] = false;
-                            }
-                        }
-                    }
-                    
-                    for (y = farQuietZoneCoordinate; y < size; y += 1) {
-                        index = x + y * size;
-                        if (overwrite || _isUndefined(matrix[index])) {
-                            matrix[index] = false;
-                        }
-                    }
-                }
-            },
+            /**
+             * Several potential matrices are generated during the masking process.
+             * This method searches a matrix for negative features and generates a
+             * penalty score.  This score is used to determine which matrix to keep.
+             * @method evaluateMatrix
+             * @chainable
+             * @param {[Boolean]} matrix The array to examine.
+             * @param {Number} quietZoneSize The size of the quiet zone region.
+             * @param {Number} size The square root of the length of matrix.
+             * @param {Function} callbackFunction This function will be called once the matrix has been
+             * evaluated.  It is guaranteed to be called in a future turn of the event loop.  The score
+             * will be passed as the only argument.
+             */
             evaluateMatrix: function (matrix, quietZoneSize, size, callbackFunction) {
                 var coordinate = size - quietZoneSize - 1,
                     evaluationRun = [],
@@ -3235,11 +3415,13 @@
                                 previousVerticalValue,
                                 value,
                                 verticalPatternIndex = 0;
-
+                            
+                            // Iterate through a row and column.
                             for (otherCoordinate = size - quietZoneSize - 1; otherCoordinate >= quietZoneSize; otherCoordinate -= 1) {
                                 index = otherCoordinate + coordinate * size;
                                 value = matrix[index];
                                 
+                                // Count consecutive similar values within the row.
                                 if (value === previousHorizontalValue) {
                                     consecutiveHorizontalCount += 1;
                                 } else {
@@ -3248,20 +3430,25 @@
                                     previousHorizontalValue = value;
                                 }
                                 
+                                // Look for patterns that match the finder pattern and quiet zone region within the row.
                                 if (value === pattern[horizontalPatternIndex]) {
                                     horizontalPatternIndex += 1;
                                     
                                     if (horizontalPatternIndex === 7 && (otherCoordinate >= quietZoneSize + 4 && !(matrix[index - 1] || matrix[index - 2] || matrix[index - 3] || matrix[index - 4])) || (otherCoordinate < size - quietZoneSize - 10 && !(matrix[index + 7] || matrix[index + 8] || matrix[index + 9] || matrix[index + 10]))) {
+                                        // For each of these patterns that exist, add 40 points.
                                         score += 40;
                                     }
                                 } else {
                                     horizontalPatternIndex = 0;
                                 }
                                 
+                                // Search for blocks of similar values.
                                 if (coordinate > quietZoneSize && otherCoordinate > quietZoneSize && matrix[index - 1] === value && matrix[index - size] === value && matrix[index - size - 1] === value) {
+                                    // For each 2x2 block that exists, add 3 points.
                                     score += 3;
                                 }
                                 
+                                // Count the number of dark values.
                                 if (value) {
                                     total += 1;
                                 }
@@ -3269,6 +3456,7 @@
                                 index = coordinate + otherCoordinate * size;
                                 value = matrix[index];
                                 
+                                // Count consecutive similar values within the column.
                                 if (value === previousVerticalValue) {
                                     consecutiveVerticalCount += 1;
                                 } else {
@@ -3277,10 +3465,12 @@
                                     previousVerticalValue = value;
                                 }
                                 
+                                // Look for patterns that match the finder pattern and quiet zone region within the colomn.
                                 if (value === pattern[verticalPatternIndex]) {
                                     verticalPatternIndex += 1;
                                     
                                     if (verticalPatternIndex === 7 && (otherCoordinate >= quietZoneSize + 4 && !(matrix[index - size] || matrix[index - 2 * size] || matrix[index - 3 * size] || matrix[index - 4 * size])) || (otherCoordinate < size - quietZoneSize - 10 && !(matrix[index + 7 * size] || matrix[index + 8 * size] || matrix[index + 9 * size] || matrix[index + 10 * size]))) {
+                                        // For each of these patterns that exist, add 40 points.
                                         score += 40;
                                     }
                                 } else {
@@ -3290,13 +3480,17 @@
                             
                             maximumConsecutiveHorizontalCount = _max(consecutiveHorizontalCount, maximumConsecutiveHorizontalCount);
                             
+                            // If 5 consecutive values in a row are the same, add 3 points.
                             if (maximumConsecutiveHorizontalCount >= 5) {
+                                // Add 1 point for each similar consecutive value beyond 5.
                                 score += 3 + maximumConsecutiveHorizontalCount - 5;
                             }
                             
                             maximumConsecutiveVerticalCount = _max(consecutiveVerticalCount, maximumConsecutiveVerticalCount);
                             
+                            // If 5 consecutive values in a column are the same, add 3 points.
                             if (maximumConsecutiveVerticalCount >= 5) {
+                                // Add 1 point for each similar consecutive value beyond 5.
                                 score += 3 + maximumConsecutiveVerticalCount - 5;
                             }
                             
@@ -3309,6 +3503,7 @@
                     _soon(function () {
                         var i;
                         
+                        // Prepare to iterate through the rows and columns of the matrix.
                         for (i = coordinate; i >= quietZoneSize; i -= 1) {
                             evaluationRun.push(evaluationFunction);
                         }
@@ -3317,14 +3512,33 @@
                     });
                 }, function (success) {
                     _soon(function () {
+                        // Iterate through the rows and columns of the matrix.
                         _YAsync.runQueue(evaluationRun).on(_string_complete, success);
                     });
                 }).on(_string_complete, function () {
                     _soon(function () {
+                        // Points are added to the score as the ratio of light and dark modules gets further from 1:1.
                         callbackFunction(score + 2 * _abs(_floor(100 * total / ((size - quietZoneSize) * (size - quietZoneSize)) - 50)));
                     });
                 });
+                
+                return this;
             },
+            /**
+             * Several potential matrices are generated during the masking process.
+             * This method searches for dark values along the non timing pattern edges.
+             * Dark values along these edges make it easier for decoders to determine
+             * the difference between data and the quiet zone region.  The matrix is
+             * given a score used to determine which matrix to keep.
+             * @method evaluateMicroMatrix
+             * @chainable
+             * @param {[Boolean]} matrix The array to examine.
+             * @param {Number} quietZoneSize The size of the quiet zone region.
+             * @param {Number} size The square root of the length of matrix.
+             * @param {Function} callbackFunction This function will be called once the matrix has been
+             * evaluated.  It is guaranteed to be called in a future turn of the event loop.  The score
+             * will be passed as the only argument.
+             */
             evaluateMicroMatrix: function (matrix, quietZoneSize, size, callbackFunction) {
                 _soon(function () {
                     var bottomScore,
@@ -3332,6 +3546,7 @@
                         otherCoordinate,
                         rightScore;
                         
+                    // Iterate through edge values.
                     for (otherCoordinate = quietZoneSize + 1; otherCoordinate <= coordinate; otherCoordinate += 1) {
                         if (matrix[coordinate + otherCoordinate * size]) {
                             rightScore += 1;
@@ -3348,8 +3563,20 @@
                         callbackFunction(rightScore * 16 + bottomScore);
                     }
                 });
-                callbackFunction(0);
+                
+                return this;
             },
+            /**
+             * This method formats the given data into the final binary string used
+             * to create a data matrix.
+             * @method formatBinaryString
+             * @chainable
+             * @param {String} binaryString A string of '1' and '0' characters.
+             * @param {Function} callbackFunction This function will be called once the binary
+             * string has been formated.  It is guaranteed to be called in a future turn of the
+             * event loop.  If an error occurs, the error message will be passed as the first
+             * argument.  The formatted binary string is passed as the second argument.
+             */
             formatBinaryString: function (binaryString, callbackFunction) {
                 var blockCount,
                     blockRun = [],
@@ -3394,7 +3621,7 @@
                         var codewordCount,
                             errorCorrection = me.get(_string_errorCorrection),
                             remainder,
-                            version = String(me.get(_string_version));
+                            version = _String(me.get(_string_version));
 
                         if (version.charAt(0) === _string_M) {
                             // Sanitize error correction value for Micro QR Codes.
@@ -3530,13 +3757,26 @@
                         }
                     });
                 });
+                
+                return me;
             },
+            /**
+             * Generate a QR Code matrix.
+             * @method generate
+             * @chainable
+             * @param {Function} callbackFunction This function will be called once the matrix 
+             * has been generated.  It is guaranteed to be called in a future turn of the
+             * event loop.  If an error occurs, the error message will be passed as the first
+             * argument.  The matrix is passed as the second argument.  The square root of the
+             * length of the matrix is passed as the third argument.
+             */
             generate: function (callbackFunction) {
                 var data,
                     me = this;
                 
                 _YAsync.runQueue(function (success) {
                     _soon(function () {
+                        // Get the initial data.
                         me.getBinaryString(function (binaryString) {
                             data = binaryString;
                             success();
@@ -3544,6 +3784,7 @@
                     });
                 }, function (success) {
                     _soon(function () {
+                        // Format the data.
                         me.formatBinaryString(data, function (error, binaryString) {
                             if (error) {
                                 success.fail(error);
@@ -3555,6 +3796,7 @@
                     });
                 }, function (success) {
                     _soon(function () {
+                        // Generate the matrix.
                         me.generateMatrix(data, function (matrix, size) {
                             data = [
                                 matrix,
@@ -3572,8 +3814,26 @@
                         }
                     });
                 });
+                
+                return me;
             },
+            /**
+             * This method creates a new matrix containing only raw data bits.
+             * @method generateDataMatrix
+             * @chainable
+             * @param {[Boolean]} matrix An array without any data bits defined.  This matrix is
+             * only used to position data bits around other features that are already present.
+             * This matrix is not modified.
+             * @param {String} binaryString A string of '1' and '0' characters.
+             * @param {Number} coordinate The coordinate of the vertical timing pattern.
+             * @param {Number} quietZoneSize The size of the quiet zone region.
+             * @param {Number} size The square root of the length of matrix.
+             * @param {Function} callbackFunction This function will be called once the dataMatrix 
+             * has been generated.  It is guaranteed to be called in a future turn of the
+             * event loop.  The dataMatrix is passed as the only argument.
+             */
             generateDataMatrix: function (matrix, binaryString, coordinate, quietZoneSize, size, callbackFunction) {
+                // Split the binary string into 8 bit codewords.
                 var codewords = binaryString.match(/.{1,8}/g),
                     dataMatrix = _Array(matrix.length),
                     direction = 1,
@@ -3599,21 +3859,26 @@
                             var index,
                                 y;
                                 
+                            // Iterate through rows in the current direction.
                             for (y = direction ? size - quietZoneSize - 1 : quietZoneSize; direction && y >= quietZoneSize || !direction && y < size - quietZoneSize; y += (direction ? -1 : 1)) {
+                                // Write to the right column first if available.
                                 index = x + y * size;
                                 if (_isUndefined(matrix[index])) {
                                     drawCodewordBit(index);
                                 }
                                 
+                                // Write to the left column if available.
                                 index -= 1;
                                 if (_isUndefined(matrix[index])) {
                                     drawCodewordBit(index);
                                 }
                             }
                             
+                            // Change directions at the end of the column.
                             direction = !direction;
                             x -= 2;
                             
+                            // Skip the vertical timing pattern.
                             if (x === coordinate) {
                                 x -= 1;
                             }
@@ -3624,16 +3889,31 @@
                     
                 binaryString = _string__empty;
                 
+                // Prepare to iterate through columns, two at a time.
                 for (i = quietZoneSize; i <= x; i += 2) {
                     drawColumnRun.push(drawColumnFunction);
                 }
                 
+                // Iterate through columns, two at a time.
                 _YAsync.runQueue(drawColumnRun).on(_string_complete, function () {
                     _soon(function () {
                         callbackFunction(dataMatrix);
                     });
                 });
+                
+                return this;
             },
+            /**
+             * Generates a block of error correction codewords based on a block of data codewords.
+             * @method generateErrorCorrectionBlock
+             * @chainable
+             * @param {[String]} dataBlock Array of strings of '1' and '0' characters, 8 characters long each.
+             * @param {Number} errorCorrectionBlockLength The number of 8 bit codewords to generate 
+             * in the error correction block.
+             * @param {Function} callbackFunction This function will be called once the error correction block 
+             * has been generated.  It is guaranteed to be called in a future turn of the event loop.
+             * The error correction block is passed as the only argument.
+             */
             generateErrorCorrectionBlock: function (dataBlock, errorCorrectionBlockLength, callbackFunction) {
                 var coefficientRun = [],
                     errorCorrectionBlock,
@@ -3642,8 +3922,10 @@
                     
                     coefficientIterationFunction = function (success) {
                         _soon(function () {
+                            // Remove the first coefficient.
                             var leadingPolynomialAlphaIndex = polynomialAlphaIndicies.shift() || 0;
                             
+                            // Iterate the generator and process the remaining polynomial coefficients.
                             _each(generatorAlphaIndicies, function (generatorAlphaIndex, index) {
                                 var alphaIndex = _cachedIndexOf(_alpha, _alpha[(generatorAlphaIndex + leadingPolynomialAlphaIndex) % 255] ^ (_alpha[polynomialAlphaIndicies[index]] || 0));
                                 polynomialAlphaIndicies[index] = alphaIndex === -1 ? null : alphaIndex;
@@ -3655,6 +3937,7 @@
                     
                 _YAsync.runQueue(function (success) {
                     _soon(function () {
+                        // Create the polynomial.
                         polynomialAlphaIndicies = _map(dataBlock, function (binaryCodeword) {
                             var alphaIndex = _cachedIndexOf(_alpha, _parseInt(binaryCodeword, 2));
                             return alphaIndex === -1 ? null : alphaIndex;
@@ -3667,6 +3950,7 @@
                         var dataBlockLength = dataBlock.length,
                             i;
                         
+                        // Prepare to process the polynomial with the generator.
                         for (i = 0; i < dataBlockLength; i += 1) {
                             coefficientRun.push(coefficientIterationFunction);
                         }
@@ -3675,10 +3959,12 @@
                     });
                 }, function (success) {
                     _soon(function () {
+                        // Process the polynomial with the generator.
                         _YAsync.runQueue(coefficientRun).on(_string_complete, success);
                     });
                 }, function (success) {
                     _soon(function () {
+                        // Read error correction codewords from the remaining coefficients.
                         errorCorrectionBlock = _map(polynomialAlphaIndicies, function (alphaIndex) {
                             return _numberToBinaryString(_alpha[alphaIndex] || 0, 8);
                         });
@@ -3689,11 +3975,23 @@
                         callbackFunction(errorCorrectionBlock);
                     });
                 });
+                
+                return this;
             },
+            /**
+             * Generates a matrix which represents the given data.
+             * @method generateMatrix
+             * @chainable
+             * @param {String} binaryString A string of '1' and '0' characters.
+             * @param {Function} callbackFunction This function will be called once the matrix
+             * has been generated.  It is guaranteed to be called in a future turn of the event
+             * loop.  The matrix is passed as the first argument.  The square root of the length
+             * of the matrix is passed as the second argument.
+             */
             generateMatrix: function (binaryString, callbackFunction) {
                 var me = this,
                     size = me.getSize(),
-                    version = String(me.get(_string_version)),
+                    version = _String(me.get(_string_version)),
                     
                     formatInformation,
                     initialDataMatrix,
@@ -3703,11 +4001,13 @@
                     
                 _YAsync.runQueue(function (success) {
                     _soon(function () {
+                        // Write the quiet zone region.
                         me.drawQuietZone(matrix, quietZoneSize, size);
                         success();
                     });
                 }, function (success) {
                     _soon(function () {
+                        // Write the upper left finder pattern.
                         var coordinate = quietZoneSize + 3;
                         me.drawFinderPattern(matrix, coordinate, coordinate, size);
                         success();
@@ -3717,6 +4017,7 @@
                         success();
                     } else {
                         _soon(function () {
+                            // Write the upper right finder pattern.
                             me.drawFinderPattern(matrix, size - quietZoneSize - 4, quietZoneSize + 3, size);
                             success();
                         });
@@ -3726,12 +4027,14 @@
                         success();
                     } else {
                         _soon(function () {
+                            // Write the lower left finder pattern.
                             me.drawFinderPattern(matrix, quietZoneSize + 3, size - quietZoneSize - 4, size);
                             success();
                         });
                     }
                 }, function (success) {
                     _soon(function () {
+                        // Write the timing pattern.
                         me.drawTimingPattern(matrix, micro ? 2 : 10, size);
                         success();
                     });
@@ -3739,6 +4042,7 @@
                     _soon(function () {
                         var alignmentPatternRun = [];
                         
+                        // Prepare to write the alignment patterns.
                         _each(me.getAlignmentPatternCoordinates(quietZoneSize), function (alignmentPatternCoordinates) {
                             alignmentPatternRun.push(function (success) {
                                 _soon(function () {
@@ -3748,24 +4052,31 @@
                             });
                         });
                         
+                        // Write the alignment patterns
                         _YAsync.runAll(alignmentPatternRun).on(_string_complete, success);
                     });
                 }, function (success) {
                     if (micro || +version < 7) {
+                        // Versions less than 7 do not encode version information.
                         success();
                     } else {
                         _soon(function () {
+                            // Write the version information.
                             me.drawVersionInformation(matrix, _numberToBinaryString(_versionInformation[+version - 7], 18), quietZoneSize, size);
                             success();
                         });
                     }
                 }, function (success) {
                     _soon(function () {
+                        // The format information hasn't been determined yet.
+                        // Write empty format information to the matrix for now so that
+                        // all of the non data bits are defined.
                         me.drawFormatInformation(matrix, _Array(16).join(_string_0), micro, quietZoneSize, size);
                         success();
                     });
                 }, function (success) {
                     _soon(function () {
+                        // Generate the initial data matrix.
                         me.generateDataMatrix(matrix, binaryString, micro ? 2 : 10, quietZoneSize, size, function (dataMatrix) {
                             initialDataMatrix = dataMatrix;
                             success();
@@ -3773,6 +4084,8 @@
                     });
                 }, function (success) {
                     _soon(function () {
+                        // Generate an array of matrix candidates by running
+                        // the data through different mask operations.
                         _YAsync.runQueue(_map(micro ? _microMaskFunctions : _maskFunctions, function (maskFunction) {
                             return function (success) {
                                 _soon(function () {
@@ -3782,6 +4095,7 @@
                         })).on(_string_complete, function (eventFacade) {
                             var matrices = eventFacade.value;
                             
+                            // Evaluate each matrix candidate.
                             _YAsync.runAll(_map(matrices, function (matrix) {
                                 return function (success) {
                                     _soon(function () {
@@ -3798,8 +4112,12 @@
                                     values = eventFacade.value;
                                  
                                 if (micro) {
+                                    // For Micro QR Codes, points are awarded for positive features.
+                                    // Accept the matrix with the highest score.
                                     bestIndex = _indexOf(values, _max.apply(Math, values));
                                     
+                                    // The error correction mode becomes part of the format information.
+                                    // Each version has a different way of encoding the error correction mode.
                                     switch (version) {
                                         case _string_M1:
                                             formatInformation = 0;
@@ -3821,10 +4139,15 @@
                                         formatInformation += 2;
                                     }
                                     
+                                    // The error correction mode and the index of the mask used in the best matrix
+                                    // are combined to form the 15 bit format information codeword.
                                     formatInformation = _numberToBinaryString(_microFormatInformation[_parseInt(_numberToBinaryString(formatInformation, 3) + _numberToBinaryString(bestIndex, 2), 2)], 15);
                                 } else {
+                                    // For QR Codes, penalty points are given for negative features.
+                                    // Accept the matrix with the lowest score.
                                     bestIndex = _indexOf(values, _min.apply(Math, values));
                                     
+                                    // The error correction mode becomes part of the format information.
                                     switch (errorCorrection) {
                                         case _string_H:
                                             formatInformation = '10';
@@ -3840,6 +4163,8 @@
                                             break;
                                     }
                                     
+                                    // The error correction mode and the index of the mask used in the best matrix
+                                    // are combined to form the 15 bit format information codeword.
                                     formatInformation = _numberToBinaryString(_formatInformation[_parseInt(formatInformation + _numberToBinaryString(bestIndex, 3), 2)], 15);
                                 }
                                 
@@ -3850,6 +4175,7 @@
                     });
                 }, function (success) {
                     _soon(function () {
+                        // Write the format information, replacing the placeholder bits that were set earlier.
                         me.drawFormatInformation(matrix, formatInformation, micro, quietZoneSize, size, true);
                         success();
                     });
@@ -3858,9 +4184,17 @@
                         callbackFunction(matrix, size);
                     });
                 });
+                
+                return me;
             },
+            /**
+             * Get the center position of each alignment pattern.
+             * @method getAlignmentPatternCoordinates
+             * @param {Number} quietZoneSize The size of the quiet zone region.
+             * @return {[[x, y]]}
+             */
             getAlignmentPatternCoordinates: function (quietZoneSize) {
-                var version = String(this.get(_string_version)),
+                var version = _String(this.get(_string_version)),
                 
                     alignmentPatternCoordinates = [],
                     alignmentPatternLocation = [
@@ -3885,6 +4219,15 @@
 
                 return alignmentPatternCoordinates;
             },
+            /**
+             * Converts the value of the data attribute
+             * to a string of '1' and '0' characters.
+             * @method getBinaryString
+             * @chainable
+             * @param {Function} callbackFunction This function will be called once the binary string
+             * has been created.  It is guaranteed to be called in a future turn of the event loop.
+             * The binary string is passed as the only argument.
+             */
             getBinaryString: function (callbackFunction) {
                 var me = this,
                     version = me.get(_string_version);
@@ -3900,21 +4243,31 @@
                         callbackFunction(eventFacade.value.join(_string__empty));
                     });
                 });
+                
+                return me;
             },
+            /**
+             * Returns the proper size of a matrix for this version.
+             * @method getSize
+             * @return {Number}
+             */
             getSize: function () {
-                var version = String(this.get(_string_version));
+                var version = _String(this.get(_string_version));
 
                 if (version.charAt(0) === _string_M) {
                     return 12 + (+version.charAt(1)) * 3;
                 }
 
                 return 25 + (+version) * 4;
-            },
-            initializer: function () {
-                
             }
         }, {
             ATTRS: {
+                /**
+                 * @attribute data
+                 * @default []
+                 * @initOnly
+                 * @type Array
+                 */
                 data: {
                     setter: function (value) {
                         if (!_isArray(value)) {
@@ -3928,6 +4281,12 @@
                     value: [],
                     writeOnce: _string_initOnly
                 },
+                /**
+                 * @attribute errorCorrection
+                 * @default 'M',
+                 * @initOnly
+                 * @type String
+                 */
                 errorCorrection: {
                     validator: function (value) {
                         if (value === _string_E || value === _string_H || value === _string_L || value === _string_M || value === _string_Q) {
@@ -3939,6 +4298,12 @@
                     value: _string_M,
                     writeOnce: _string_initOnly
                 },
+                /**
+                 * @attribute version
+                 * @default '1'
+                 * @initOnly
+                 * @type String
+                 */
                 version: {
                     value: _string_1,
                     writeOnce: _string_initOnly
@@ -3946,9 +4311,23 @@
             }
         }),
         
+        /**
+         * @class AlphanumericData
+         * @constructor
+         * @extends QrCode.Data
+         * @namespace QrCode
+         * @param {Object} config Configuration object.
+         */
         _AlphanumericData = _YBase.create('qr-code-alphanumeric-data', _Data, [], {
+            /**
+             * Returns a properly formatted binary string for alphanumeric data.
+             * @method toBinaryString
+             * @for QrCode.AlphanumericData
+             * @param {Number|String} version
+             * @return {String}
+             */
             toBinaryString: function (version) {
-                version = String(version);
+                version = _String(version);
                 
                 var characterCountIndicatorBitLength,
                     characters = [
@@ -3964,23 +4343,27 @@
                     ],
                     modeIndicator,
                     value = this.get(_string_value),
+                    // Split the string into 2-character chunks.
                     valueBinaryString = _reduce(value.match(/.{1,2}/g), _string__empty, function (binaryString, value) {
                         var character = value.charAt(0),
                             characterIndex = _indexOf(characters, character),
                             characterValue;
                             
+                        // Assign a value to the first character.
                         if (characterIndex === -1) {
                             characterValue = _parseInt(character, 36);
                         } else {
                             characterValue = characterIndex + 36;
                         }
                         
+                        // If the last chunk only contains one character, append its value as a 6 bit binary string.
                         if (value.length === 1) {
                             return binaryString + _numberToBinaryString(characterValue, 6);
                         }
                         
                         characterValue *= 45;
                         
+                        // Assign a value to the second character.
                         character = value.charAt(1);
                         characterIndex = _indexOf(characters, character);
                         
@@ -3990,9 +4373,11 @@
                             characterValue += characterIndex + 36;
                         }
                         
+                        // Append the sum of the two character values as an 11 bit binary string.
                         return binaryString + _numberToBinaryString(characterValue, 11);
                     });
                 
+                // The mode indicator value and the bit length of the character count indicator depend on the version.
                 if (version.charAt(0) === _string_M) {
                     version = +version.charAt(1);
                     characterCountIndicatorBitLength = version + 1;
@@ -4015,10 +4400,21 @@
             }
         }, {
             ATTRS: {
+                /**
+                 * @attribute type
+                 * @default 'alphanumeric'
+                 * @readOnly
+                 * @type String
+                 */
                 type: {
-                    readonly: true,
+                    readOnly: true,
                     value: _string_alphanumeric
                 },
+                /**
+                 * @attribute value
+                 * @initOnly
+                 * @type Number|String
+                 */
                 value: {
                     setter: function (value) {
                         return _String(value).toUpperCase().replace(/[^0-9A-Z $%*+\-.\/:]/g, _string__empty);
@@ -4029,17 +4425,36 @@
             }
         }),
         
+        /**
+         * @class NumericData
+         * @constructor
+         * @extends QrCode.Data
+         * @namespace QrCode
+         * @param {Object} config Configuration object.
+         */
         _NumericData = _YBase.create('qr-code-numeric-data', _Data, [], {
+            /**
+             * Returns a properly formatted binary string for numeric data.
+             * @method toBinaryString
+             * @for QrCode.NumericData
+             * @param {Number|String} version
+             * @return {String}
+             */
             toBinaryString: function (version) {
-                version = String(version);
+                version = _String(version);
                 
                 var characterCountIndicatorBitLength,
                     modeIndicator,
                     value = this.get(_string_value),
+                    // Split the string into 3-character chunks
                     valueBinaryString = _reduce(value.match(/.{1,3}/g), _string__empty, function (binaryString, value) {
+                        // Convert 3-character chunks into 10 bit binary strings.
+                        // If the last chunk only contains 1 or 2 characters, convert it to a 4 or 7 bit binary string.
+                        // Concatenate the binary strings.
                         return binaryString + _numberToBinaryString(value, value.length >= 3 ? 10 : (value.length <= 1 ? 4 : 7));
                     });
                 
+                // The mode indicator value and the bit length of the character count indicator depend on the version.
                 if (version.charAt(0) === _string_M) {
                     version = +version.charAt(1);
                     characterCountIndicatorBitLength = version + 2;
@@ -4062,10 +4477,21 @@
             }
         }, {
             ATTRS: {
+                /**
+                 * @attribute type
+                 * @default 'numeric'
+                 * @readOnly
+                 * @type String
+                 */
                 type: {
-                    readonly: true,
+                    readOnly: true,
                     value: _string_numeric
                 },
+                /**
+                 * @attribute value
+                 * @initOnly
+                 * @type Number|String
+                 */
                 value: {
                     setter: function (value) {
                         return _String(value).replace(/[\D]/g, _string__empty);
@@ -4076,6 +4502,18 @@
             }
         });
     
+    /**
+     * Converts a decimal non-negative integer to a string containing '1' and '0' characters.
+     * If the number does not fit within the given length, null is returned.  If the number is
+     * smaller than the given length, it is padded with '0' and a string with the given length
+     * is returned.
+     * @method numberToBinaryString
+     * @for QrCode
+     * @param {Number} number
+     * @param {Number} length
+     * @return {String}
+     * @static
+     */
     _numberToBinaryString = function (number, length) {
         number = (+number).toString(2);
         
@@ -4087,7 +4525,7 @@
         return _Array(length - numberLength + 1).join(0) + number;
     };
     
-    _mix(_YQrCode, {
+    _mix(Y.namespace('QrCode'), {
         AlphanumericData: _AlphanumericData,
         Data: _Data,
         GeneratorBase: _GeneratorBase,
