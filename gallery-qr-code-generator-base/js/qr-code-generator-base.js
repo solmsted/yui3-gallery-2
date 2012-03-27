@@ -3923,13 +3923,15 @@
                     coefficientIterationFunction = function (success) {
                         _soon(function () {
                             // Remove the first coefficient.
-                            var leadingPolynomialAlphaIndex = polynomialAlphaIndicies.shift() || 0;
+                            var leadingPolynomialAlphaIndex = polynomialAlphaIndicies.shift();
                             
-                            // Iterate the generator and process the remaining polynomial coefficients.
-                            _each(generatorAlphaIndicies, function (generatorAlphaIndex, index) {
-                                var alphaIndex = _cachedIndexOf(_alpha, _alpha[(generatorAlphaIndex + leadingPolynomialAlphaIndex) % 255] ^ (_alpha[polynomialAlphaIndicies[index]] || 0));
-                                polynomialAlphaIndicies[index] = alphaIndex === -1 ? null : alphaIndex;
-                            });
+                            if (leadingPolynomialAlphaIndex) {
+                                // Iterate the generator and process the remaining polynomial coefficients.
+                                _each(generatorAlphaIndicies, function (generatorAlphaIndex, index) {
+                                    var alphaIndex = _cachedIndexOf(_alpha, _alpha[(generatorAlphaIndex + leadingPolynomialAlphaIndex) % 255] ^ (_alpha[polynomialAlphaIndicies[index]] || 0));
+                                    polynomialAlphaIndicies[index] = alphaIndex === -1 ? null : alphaIndex;
+                                });
+                            }
                             
                             success();
                         });
