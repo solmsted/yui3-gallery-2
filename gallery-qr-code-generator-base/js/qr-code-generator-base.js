@@ -12,7 +12,9 @@
     var _string__empty = '',
         _string_0 = '0',
         _string_1 = '1',
+        _string_10 = '10',
         _string_alphanumeric = 'alphanumeric',
+        _string_byte = 'byte',
         _string_complete = 'complete',
         _string_E = 'E',
         _string_errorCorrection = 'errorCorrection',
@@ -25,6 +27,8 @@
         _string_M4 = 'M4',
         _string_numeric = 'numeric',
         _string_Q = 'Q',
+        _string_ucs2 = 'ucs2',
+        _string_utf8 = 'utf8',
         _string_value = 'value',
         _string_version = 'version',
         
@@ -1563,9 +1567,10 @@
         },
         _dataTypes = {
             alphanumeric: _string_alphanumeric,
-            numeric: _string_numeric//,
-            //ucs2: 'ucs2', // ECI 000025
-            //utf8: 'utf8' // ECI 000026
+            'byte': _string_byte,
+            numeric: _string_numeric,
+            ucs2: _string_ucs2,
+            utf8: _string_utf8
         },
         _formatInformation = [
             21522,
@@ -4164,7 +4169,7 @@
                                     // The error correction mode becomes part of the format information.
                                     switch (errorCorrection) {
                                         case _string_H:
-                                            formatInformation = '10';
+                                            formatInformation = _string_10;
                                             break;
                                         case _string_L:
                                             formatInformation = '01';
@@ -4450,6 +4455,89 @@
         }),
         
         /**
+         * @class ByteData
+         * @constructor
+         * @extends QrCode.Data
+         * @namespace QrCode
+         * @param {Object} config Configuration object.
+         */
+        _ByteData = _YBase.create('qr-code-byte-data', _Data, [], {
+            /**
+             * Returns a properly formatted binary string for byte data.
+             * @method toBinaryString
+             * @for QrCode.ByteData
+             * @param {Number|String} version
+             * @return {String}
+             */
+            toBinaryString: function (version) {
+                version = _String(version);
+                
+                var characterCountIndicatorBitLength,
+                    characterWidth = this.get('characterWidth'),
+                    i,
+                    length,
+                    modeIndicator,
+                    value = this.get(_string_value),
+                    valueBinaryString = _string__empty;
+                    
+                for (i = 0, length = value.length; i < length; i += 1) {
+                    valueBinaryString += _numberToBinaryString(value.charCodeAt(i), characterWidth);
+                }
+                
+                // The mode indicator value and the bit length of the character count indicator depend on the version.
+                if (version.charAt(0) === _string_M) {
+                    version = +version.charAt(1);
+                    characterCountIndicatorBitLength = version + 1;
+                    modeIndicator = _Array(version - 2).join(0) + _string_10;
+                } else {
+                    version = +version;
+                    
+                    if (version <= 9) {
+                        characterCountIndicatorBitLength = 8;
+                    } else {
+                        characterCountIndicatorBitLength = 16;
+                    }
+                    
+                    modeIndicator = '0100';
+                }
+                
+                return modeIndicator + _numberToBinaryString(valueBinaryString.length / 8, characterCountIndicatorBitLength) + valueBinaryString;
+            }
+        }, {
+            ATTRS: {
+                /**
+                 * @attribute characterWidth
+                 * @default 8
+                 * @initOnly
+                 * @type Number
+                 */
+                characterWidth: {
+                    value: 8,
+                    writeOnce: _string_initOnly
+                },
+                /**
+                 * @attribute type
+                 * @default 'byte'
+                 * @readOnly
+                 * @type String
+                 */
+                type: {
+                    readOnly: true,
+                    value: 'byte'
+                },
+                /**
+                 * @attribute value
+                 * @initOnly
+                 * @type Number|String
+                 */
+                value: {
+                    value: _string__empty,
+                    writeOnce: _string_initOnly
+                }
+            }
+        }),
+        
+        /**
          * @class NumericData
          * @constructor
          * @extends QrCode.Data
@@ -4524,6 +4612,92 @@
                     writeOnce: _string_initOnly
                 }
             }
+        }),
+        
+        /**
+         * @class Ucs2Data
+         * @constructor
+         * @extends QrCode.Data
+         * @namespace QrCode
+         * @param {Object} config Configuration object.
+         */
+        _Ucs2Data = _YBase.create('qr-code-ucs2-data', _Data, [], {
+            /**
+             * Returns a properly formatted binary string for ucs2 data.
+             * @method toBinaryString
+             * @for QrCode.Ucs2Data
+             * @param {Number|String} version
+             * @return {String}
+             */
+            toBinaryString: function (version) {
+                return '011100011001';
+            }
+        }, {
+            ATTRS: {
+                /**
+                 * @attribute type
+                 * @default 'ucs2'
+                 * @readOnly
+                 * @type String
+                 */
+                type: {
+                    readOnly: true,
+                    value: _string_ucs2
+                },
+                /**
+                 * @attribute value
+                 * @default ''
+                 * @readOnly
+                 * @type Number|String
+                 */
+                value: {
+                    readOnly: true,
+                    value: _string__empty
+                }
+            }
+        }),
+        
+        /**
+         * @class Utf8Data
+         * @constructor
+         * @extends QrCode.Data
+         * @namespace QrCode
+         * @param {Object} config Configuration object.
+         */
+        _Utf8Data = _YBase.create('qr-code-utf8-data', _Data, [], {
+            /**
+             * Returns a properly formatted binary string for utf8 data.
+             * @method toBinaryString
+             * @for QrCode.Utf8Data
+             * @param {Number|String} version
+             * @return {String}
+             */
+            toBinaryString: function (version) {
+                return '011100011010';
+            }
+        }, {
+            ATTRS: {
+                /**
+                 * @attribute type
+                 * @default 'utf8'
+                 * @readOnly
+                 * @type String
+                 */
+                type: {
+                    readOnly: true,
+                    value: _string_ucs2
+                },
+                /**
+                 * @attribute value
+                 * @default ''
+                 * @readOnly
+                 * @type Number|String
+                 */
+                value: {
+                    readOnly: true,
+                    value: _string__empty
+                }
+            }
         });
     
     /**
@@ -4551,9 +4725,12 @@
     
     _mix(Y.namespace('QrCode'), {
         AlphanumericData: _AlphanumericData,
+        ByteData: _ByteData,
         Data: _Data,
         GeneratorBase: _GeneratorBase,
         NumericData: _NumericData,
-        numberToBinaryString: _numberToBinaryString
+        numberToBinaryString: _numberToBinaryString,
+        Ucs2Data: _Ucs2Data,
+        Utf8Data: _Utf8Data
     });
 }(Y));

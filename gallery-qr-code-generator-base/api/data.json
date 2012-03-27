@@ -14,13 +14,19 @@
                 "QrCode.Data": 1,
                 "QrCode.GeneratorBase": 1,
                 "QrCode.AlphanumericData": 1,
-                "QrCode.NumericData": 1
+                "QrCode.ByteData": 1,
+                "QrCode.NumericData": 1,
+                "QrCode.Ucs2Data": 1,
+                "QrCode.Utf8Data": 1
             },
             "fors": {
                 "QrCode.Data": 1,
                 "QrCode.GeneratorBase": 1,
                 "QrCode.AlphanumericData": 1,
+                "QrCode.ByteData": 1,
                 "QrCode.NumericData": 1,
+                "QrCode.Ucs2Data": 1,
+                "QrCode.Utf8Data": 1,
                 "QrCode": 1
             },
             "namespaces": {
@@ -37,13 +43,19 @@
                 "QrCode.Data": 1,
                 "QrCode.GeneratorBase": 1,
                 "QrCode.AlphanumericData": 1,
-                "QrCode.NumericData": 1
+                "QrCode.ByteData": 1,
+                "QrCode.NumericData": 1,
+                "QrCode.Ucs2Data": 1,
+                "QrCode.Utf8Data": 1
             },
             "fors": {
                 "QrCode.Data": 1,
                 "QrCode.GeneratorBase": 1,
                 "QrCode.AlphanumericData": 1,
+                "QrCode.ByteData": 1,
                 "QrCode.NumericData": 1,
+                "QrCode.Ucs2Data": 1,
+                "QrCode.Utf8Data": 1,
                 "QrCode": 1
             },
             "namespaces": {
@@ -80,7 +92,7 @@
             "module": "gallery-qr-code-generator-base",
             "namespace": "QrCode",
             "file": "js/qr-code-generator-base.js",
-            "line": 2983,
+            "line": 2988,
             "description": "This class shouldn't be used directly.\nIt is intended as an interface to implement a specific data encoding mode.",
             "is_constructor": 1,
             "extends": "Base",
@@ -103,7 +115,7 @@
             "module": "gallery-qr-code-generator-base",
             "namespace": "QrCode",
             "file": "js/qr-code-generator-base.js",
-            "line": 3032,
+            "line": 3037,
             "is_constructor": 1,
             "extends": "Base",
             "params": [
@@ -125,7 +137,29 @@
             "module": "gallery-qr-code-generator-base",
             "namespace": "QrCode",
             "file": "js/qr-code-generator-base.js",
-            "line": 4338,
+            "line": 4343,
+            "is_constructor": 1,
+            "extends": "QrCode.Data",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "Configuration object.",
+                    "type": "Object"
+                }
+            ]
+        },
+        "QrCode.ByteData": {
+            "name": "QrCode.ByteData",
+            "shortname": "QrCode.ByteData",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "gallery-qr-code-generator-base",
+            "namespace": "QrCode",
+            "file": "js/qr-code-generator-base.js",
+            "line": 4457,
             "is_constructor": 1,
             "extends": "QrCode.Data",
             "params": [
@@ -147,7 +181,51 @@
             "module": "gallery-qr-code-generator-base",
             "namespace": "QrCode",
             "file": "js/qr-code-generator-base.js",
-            "line": 4452,
+            "line": 4540,
+            "is_constructor": 1,
+            "extends": "QrCode.Data",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "Configuration object.",
+                    "type": "Object"
+                }
+            ]
+        },
+        "QrCode.Ucs2Data": {
+            "name": "QrCode.Ucs2Data",
+            "shortname": "QrCode.Ucs2Data",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "gallery-qr-code-generator-base",
+            "namespace": "QrCode",
+            "file": "js/qr-code-generator-base.js",
+            "line": 4617,
+            "is_constructor": 1,
+            "extends": "QrCode.Data",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "Configuration object.",
+                    "type": "Object"
+                }
+            ]
+        },
+        "QrCode.Utf8Data": {
+            "name": "QrCode.Utf8Data",
+            "shortname": "QrCode.Utf8Data",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "gallery-qr-code-generator-base",
+            "namespace": "QrCode",
+            "file": "js/qr-code-generator-base.js",
+            "line": 4660,
             "is_constructor": 1,
             "extends": "QrCode.Data",
             "params": [
@@ -162,7 +240,7 @@
     "classitems": [
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 2993,
+            "line": 2998,
             "description": "This is an abstract method that should be implemented to return a\nproperly formatted binary string for a specific data encoding mode.",
             "itemtype": "method",
             "name": "toBinaryString",
@@ -183,7 +261,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3003,
+            "line": 3008,
             "itemtype": "attribute",
             "name": "type",
             "initonly": "",
@@ -194,7 +272,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3014,
+            "line": 3019,
             "itemtype": "attribute",
             "name": "value",
             "initonly": "",
@@ -204,7 +282,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3023,
+            "line": 3028,
             "description": "An array of supported data encoding modes.",
             "itemtype": "property",
             "name": "Type",
@@ -216,7 +294,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3040,
+            "line": 3045,
             "description": "Performs a mask operation that inverts some data bits.",
             "itemtype": "method",
             "name": "applyMask",
@@ -259,7 +337,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3099,
+            "line": 3104,
             "description": "Alignment patterns are distinct patterns used to help decoders judge,\nthe scale, orientation, and perspective of a QR Code.",
             "itemtype": "method",
             "name": "drawAlignmentPattern",
@@ -297,7 +375,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3133,
+            "line": 3138,
             "description": "Finder patterns are distinct patterns in the corners of a QR code\nto help decoders judge boundaries, scale, orientation, and perspective.",
             "itemtype": "method",
             "name": "drawFinderPattern",
@@ -335,7 +413,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3167,
+            "line": 3172,
             "description": "The error correction level and the id of the mask that has been applied to the\ndata matrix are encoded together for decoders.  This information has specific\nlocations reserved for it within the matrix.",
             "itemtype": "method",
             "name": "drawFormatInformation",
@@ -378,7 +456,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3251,
+            "line": 3256,
             "description": "The quiet zone region is a padding of light values around the outside of a\nQR Code.  It helps separate the QR Code from other visual elements.",
             "itemtype": "method",
             "name": "drawQuietZone",
@@ -411,7 +489,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3299,
+            "line": 3304,
             "description": "The timing pattern is a row and column of alternating dark and light values.",
             "itemtype": "method",
             "name": "drawTimingPattern",
@@ -444,7 +522,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3330,
+            "line": 3335,
             "description": "QR Codes version 7 and higher contain two encoded copies of the version number.",
             "itemtype": "method",
             "name": "drawVersionInformation",
@@ -482,7 +560,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3377,
+            "line": 3382,
             "description": "Several potential matrices are generated during the masking process.\nThis method searches a matrix for negative features and generates a\npenalty score.  This score is used to determine which matrix to keep.",
             "itemtype": "method",
             "name": "evaluateMatrix",
@@ -515,7 +593,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3527,
+            "line": 3532,
             "description": "Several potential matrices are generated during the masking process.\nThis method searches for dark values along the non timing pattern edges.\nDark values along these edges make it easier for decoders to determine\nthe difference between data and the quiet zone region.  The matrix is\ngiven a score used to determine which matrix to keep.",
             "itemtype": "method",
             "name": "evaluateMicroMatrix",
@@ -548,7 +626,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3569,
+            "line": 3574,
             "description": "This method formats the given data into the final binary string used\nto create a data matrix.",
             "itemtype": "method",
             "name": "formatBinaryString",
@@ -571,7 +649,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3763,
+            "line": 3768,
             "description": "Generate a QR Code matrix.",
             "itemtype": "method",
             "name": "generate",
@@ -589,7 +667,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3820,
+            "line": 3825,
             "description": "This method creates a new matrix containing only raw data bits.",
             "itemtype": "method",
             "name": "generateDataMatrix",
@@ -632,7 +710,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3906,
+            "line": 3911,
             "description": "Generates a block of error correction codewords based on a block of data codewords.",
             "itemtype": "method",
             "name": "generateErrorCorrectionBlock",
@@ -660,7 +738,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3983,
+            "line": 3988,
             "description": "Generates a matrix which represents the given data.",
             "itemtype": "method",
             "name": "generateMatrix",
@@ -683,7 +761,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4204,
+            "line": 4209,
             "description": "Get the center position of each alignment pattern.",
             "itemtype": "method",
             "name": "getAlignmentPatternCoordinates",
@@ -704,7 +782,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4236,
+            "line": 4241,
             "description": "Converts the value of the data attribute\nto a string of '1' and '0' characters.",
             "itemtype": "method",
             "name": "getBinaryString",
@@ -722,7 +800,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4263,
+            "line": 4268,
             "description": "Returns the proper size of a matrix for this version.",
             "itemtype": "method",
             "name": "getSize",
@@ -736,7 +814,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4279,
+            "line": 4284,
             "itemtype": "attribute",
             "name": "data",
             "default": "[]",
@@ -748,7 +826,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4298,
+            "line": 4303,
             "itemtype": "attribute",
             "name": "errorCorrection",
             "default": "'M',",
@@ -760,7 +838,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4315,
+            "line": 4320,
             "itemtype": "attribute",
             "name": "mask",
             "default": "null",
@@ -772,7 +850,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4325,
+            "line": 4330,
             "itemtype": "attribute",
             "name": "version",
             "default": "'1'",
@@ -784,7 +862,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4346,
+            "line": 4351,
             "description": "Returns a properly formatted binary string for alphanumeric data.",
             "itemtype": "method",
             "name": "toBinaryString",
@@ -805,7 +883,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4427,
+            "line": 4432,
             "itemtype": "attribute",
             "name": "type",
             "default": "'alphanumeric'",
@@ -817,7 +895,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4437,
+            "line": 4442,
             "itemtype": "attribute",
             "name": "value",
             "initonly": "",
@@ -828,7 +906,63 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4460,
+            "line": 4465,
+            "description": "Returns a properly formatted binary string for byte data.",
+            "itemtype": "method",
+            "name": "toBinaryString",
+            "params": [
+                {
+                    "name": "version",
+                    "description": "",
+                    "type": "Number|String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "QrCode.ByteData",
+            "module": "gallery-qr-code-generator-base",
+            "namespace": "QrCode"
+        },
+        {
+            "file": "js/qr-code-generator-base.js",
+            "line": 4508,
+            "itemtype": "attribute",
+            "name": "characterWidth",
+            "default": "8",
+            "initonly": "",
+            "type": "Number",
+            "class": "QrCode.ByteData",
+            "module": "gallery-qr-code-generator-base",
+            "namespace": "QrCode"
+        },
+        {
+            "file": "js/qr-code-generator-base.js",
+            "line": 4518,
+            "itemtype": "attribute",
+            "name": "type",
+            "default": "'byte'",
+            "readonly": "",
+            "type": "String",
+            "class": "QrCode.ByteData",
+            "module": "gallery-qr-code-generator-base",
+            "namespace": "QrCode"
+        },
+        {
+            "file": "js/qr-code-generator-base.js",
+            "line": 4528,
+            "itemtype": "attribute",
+            "name": "value",
+            "initonly": "",
+            "type": "Number|String",
+            "class": "QrCode.ByteData",
+            "module": "gallery-qr-code-generator-base",
+            "namespace": "QrCode"
+        },
+        {
+            "file": "js/qr-code-generator-base.js",
+            "line": 4548,
             "description": "Returns a properly formatted binary string for numeric data.",
             "itemtype": "method",
             "name": "toBinaryString",
@@ -849,7 +983,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4504,
+            "line": 4592,
             "itemtype": "attribute",
             "name": "type",
             "default": "'numeric'",
@@ -861,7 +995,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4514,
+            "line": 4602,
             "itemtype": "attribute",
             "name": "value",
             "initonly": "",
@@ -872,7 +1006,97 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4529,
+            "line": 4625,
+            "description": "Returns a properly formatted binary string for ucs2 data.",
+            "itemtype": "method",
+            "name": "toBinaryString",
+            "params": [
+                {
+                    "name": "version",
+                    "description": "",
+                    "type": "Number|String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "QrCode.Ucs2Data",
+            "module": "gallery-qr-code-generator-base",
+            "namespace": "QrCode"
+        },
+        {
+            "file": "js/qr-code-generator-base.js",
+            "line": 4637,
+            "itemtype": "attribute",
+            "name": "type",
+            "default": "'ucs2'",
+            "readonly": "",
+            "type": "String",
+            "class": "QrCode.Ucs2Data",
+            "module": "gallery-qr-code-generator-base",
+            "namespace": "QrCode"
+        },
+        {
+            "file": "js/qr-code-generator-base.js",
+            "line": 4647,
+            "itemtype": "attribute",
+            "name": "value",
+            "default": "''",
+            "readonly": "",
+            "type": "Number|String",
+            "class": "QrCode.Ucs2Data",
+            "module": "gallery-qr-code-generator-base",
+            "namespace": "QrCode"
+        },
+        {
+            "file": "js/qr-code-generator-base.js",
+            "line": 4668,
+            "description": "Returns a properly formatted binary string for utf8 data.",
+            "itemtype": "method",
+            "name": "toBinaryString",
+            "params": [
+                {
+                    "name": "version",
+                    "description": "",
+                    "type": "Number|String"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "QrCode.Utf8Data",
+            "module": "gallery-qr-code-generator-base",
+            "namespace": "QrCode"
+        },
+        {
+            "file": "js/qr-code-generator-base.js",
+            "line": 4680,
+            "itemtype": "attribute",
+            "name": "type",
+            "default": "'utf8'",
+            "readonly": "",
+            "type": "String",
+            "class": "QrCode.Utf8Data",
+            "module": "gallery-qr-code-generator-base",
+            "namespace": "QrCode"
+        },
+        {
+            "file": "js/qr-code-generator-base.js",
+            "line": 4690,
+            "itemtype": "attribute",
+            "name": "value",
+            "default": "''",
+            "readonly": "",
+            "type": "Number|String",
+            "class": "QrCode.Utf8Data",
+            "module": "gallery-qr-code-generator-base",
+            "namespace": "QrCode"
+        },
+        {
+            "file": "js/qr-code-generator-base.js",
+            "line": 4703,
             "description": "Converts a decimal non-negative integer to a string containing '1' and '0' characters.\nIf the number does not fit within the given length, null is returned.  If the number is\nsmaller than the given length, it is padded with '0' and a string with the given length\nis returned.",
             "itemtype": "method",
             "name": "numberToBinaryString",

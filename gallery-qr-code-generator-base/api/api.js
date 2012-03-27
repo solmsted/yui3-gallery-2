@@ -3,9 +3,12 @@ YUI.add("yuidoc-meta", function(Y) {
     "classes": [
         "QrCode",
         "QrCode.AlphanumericData",
+        "QrCode.ByteData",
         "QrCode.Data",
         "QrCode.GeneratorBase",
-        "QrCode.NumericData"
+        "QrCode.NumericData",
+        "QrCode.Ucs2Data",
+        "QrCode.Utf8Data"
     ],
     "modules": [
         "gallery-qr-code-generator-base"

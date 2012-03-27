@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>QrCode.AlphanumericData - QR Code Generator Base</title>
+    <title>QrCode.ByteData - QR Code Generator Base</title>
     <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.4.0&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
@@ -89,7 +89,7 @@
 
             <div class="apidocs">
                 <div id="docs-main" class="content">
-                    <h1>QrCode.AlphanumericData Class</h1>
+                    <h1>QrCode.ByteData Class</h1>
 <div class="box meta">
     
 
@@ -101,7 +101,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4343"><code>js&#x2F;qr-code-generator-base.js:4343</code></a>
+            Defined in: <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4457"><code>js&#x2F;qr-code-generator-base.js:4457</code></a>
         </div>
     
 
@@ -117,8 +117,8 @@
 
     <div class="constructor">
         <h2>Constructor</h2>
-        <div id="method_QrCode.AlphanumericData" class="method item">
-    <h3 class="name"><code>QrCode.AlphanumericData</code></h3>
+        <div id="method_QrCode.ByteData" class="method item">
+    <h3 class="name"><code>QrCode.ByteData</code></h3>
 
     
         <div class="args">
@@ -153,7 +153,7 @@
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4343"><code>js&#x2F;qr-code-generator-base.js:4343</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4457"><code>js&#x2F;qr-code-generator-base.js:4457</code></a></p>
 
         
 
@@ -245,6 +245,10 @@
 
                     <ul class="index-list attrs">
                         
+                            <li class="index-item attr">
+                                <a href="#attr_characterWidth">characterWidth</a>
+                            </li>
+                        
                             <li class="index-item attr inherited">
                                 <a href="#attr_type">type</a>
                             </li>
@@ -305,7 +309,7 @@
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4351"><code>js&#x2F;qr-code-generator-base.js:4351</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4465"><code>js&#x2F;qr-code-generator-base.js:4465</code></a></p>
 
         
 
@@ -313,7 +317,7 @@
     </div>
 
     <div class="description">
-        <p>Returns a properly formatted binary string for alphanumeric data.</p>
+        <p>Returns a properly formatted binary string for byte data.</p>
     </div>
 
     
@@ -426,7 +430,7 @@ properly formatted binary string for a specific data encoding mode.</p>
                     
 
                     <div class="param-description">
-                        
+                         
                     </div>
 
                     
@@ -464,6 +468,98 @@ properly formatted binary string for a specific data encoding mode.</p>
                 <h2 class="off-left">Attributes</h2>
 
                 
+                    <div id="attr_characterWidth" class="attr item">
+    <a name="config_characterWidth"></a> 
+    <h3 class="name"><code>characterWidth</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>Defined in
+            
+        
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4508"><code>js&#x2F;qr-code-generator-base.js:4508</code></a></p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+    
+        <p><strong>Default:</strong> 8</p>
+    
+
+    
+        <div class="emits box">
+            <h4>Fires event <code>characterWidthChange</code></h4>
+
+            <p>
+            Fires when the value for the configuration attribute <code>characterWidth</code> is
+            changed. You can listen for the event using the <code>on</code> method if you
+            wish to be notified before the attribute's value has changed, or
+            using the <code>after</code> method if you wish to be notified after the
+            attribute's value has changed.
+            </p>
+
+            <div class="params">
+                <h4>Parameters:</h4>
+
+                <ul class="params-list">
+                    <li class="param">
+                        <code class="param-name">e</code>
+                        <span class="type">EventFacade</span>
+
+                        <div class="param-description">
+                            An Event Facade object with the following
+                            attribute-specific properties added:
+                        </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                <code class="param-name">prevVal</code>
+                                <span class="type">Any</span>
+                                <div class="param-description">The value of the attribute, prior to it being set.</div>
+                            </li>
+                            <li class="param">
+                                <code class="param-name">newVal</code>
+                                <span class="type">Any</span>
+                                <div class="param-description">The value the attribute is to be set to.</div>
+                            </li>
+                            <li class="param">
+                                <code class="param-name">attrName</code>
+                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                <div class="param-description">The name of the attribute being set.</div>
+                            </li>
+                            <li class="param">
+                                <code class="param-name">subAttrName</code>
+                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                <div class="param-description">If setting a property within the attribute's value, the name of the sub-attribute property being set.</div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="attr_type" class="attr item">
     <a name="config_type"></a> 
     <h3 class="name"><code>type</code></h3>
@@ -485,7 +581,7 @@ properly formatted binary string for a specific data encoding mode.</p>
             </a>
             but overwritten in
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4432"><code>js&#x2F;qr-code-generator-base.js:4432</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4518"><code>js&#x2F;qr-code-generator-base.js:4518</code></a></p>
 
         
 
@@ -497,7 +593,7 @@ properly formatted binary string for a specific data encoding mode.</p>
     </div>
 
     
-        <p><strong>Default:</strong> &#x27;alphanumeric&#x27;</p>
+        <p><strong>Default:</strong> &#x27;byte&#x27;</p>
     
 
     
@@ -578,7 +674,7 @@ properly formatted binary string for a specific data encoding mode.</p>
             </a>
             but overwritten in
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4442"><code>js&#x2F;qr-code-generator-base.js:4442</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4528"><code>js&#x2F;qr-code-generator-base.js:4528</code></a></p>
 
         
 
