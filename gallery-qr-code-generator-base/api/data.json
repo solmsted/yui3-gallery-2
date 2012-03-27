@@ -125,7 +125,7 @@
             "module": "gallery-qr-code-generator-base",
             "namespace": "QrCode",
             "file": "js/qr-code-generator-base.js",
-            "line": 4314,
+            "line": 4338,
             "is_constructor": 1,
             "extends": "QrCode.Data",
             "params": [
@@ -147,7 +147,7 @@
             "module": "gallery-qr-code-generator-base",
             "namespace": "QrCode",
             "file": "js/qr-code-generator-base.js",
-            "line": 4428,
+            "line": 4452,
             "is_constructor": 1,
             "extends": "QrCode.Data",
             "params": [
@@ -660,7 +660,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 3981,
+            "line": 3983,
             "description": "Generates a matrix which represents the given data.",
             "itemtype": "method",
             "name": "generateMatrix",
@@ -683,7 +683,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4190,
+            "line": 4204,
             "description": "Get the center position of each alignment pattern.",
             "itemtype": "method",
             "name": "getAlignmentPatternCoordinates",
@@ -704,7 +704,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4222,
+            "line": 4236,
             "description": "Converts the value of the data attribute\nto a string of '1' and '0' characters.",
             "itemtype": "method",
             "name": "getBinaryString",
@@ -722,7 +722,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4249,
+            "line": 4263,
             "description": "Returns the proper size of a matrix for this version.",
             "itemtype": "method",
             "name": "getSize",
@@ -736,7 +736,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4265,
+            "line": 4279,
             "itemtype": "attribute",
             "name": "data",
             "default": "[]",
@@ -748,7 +748,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4284,
+            "line": 4298,
             "itemtype": "attribute",
             "name": "errorCorrection",
             "default": "'M',",
@@ -760,7 +760,19 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4301,
+            "line": 4315,
+            "itemtype": "attribute",
+            "name": "mask",
+            "default": "null",
+            "initonly": "",
+            "type": "Number",
+            "class": "QrCode.GeneratorBase",
+            "module": "gallery-qr-code-generator-base",
+            "namespace": "QrCode"
+        },
+        {
+            "file": "js/qr-code-generator-base.js",
+            "line": 4325,
             "itemtype": "attribute",
             "name": "version",
             "default": "'1'",
@@ -772,7 +784,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4322,
+            "line": 4346,
             "description": "Returns a properly formatted binary string for alphanumeric data.",
             "itemtype": "method",
             "name": "toBinaryString",
@@ -793,7 +805,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4403,
+            "line": 4427,
             "itemtype": "attribute",
             "name": "type",
             "default": "'alphanumeric'",
@@ -805,7 +817,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4413,
+            "line": 4437,
             "itemtype": "attribute",
             "name": "value",
             "initonly": "",
@@ -816,7 +828,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4436,
+            "line": 4460,
             "description": "Returns a properly formatted binary string for numeric data.",
             "itemtype": "method",
             "name": "toBinaryString",
@@ -837,7 +849,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4480,
+            "line": 4504,
             "itemtype": "attribute",
             "name": "type",
             "default": "'numeric'",
@@ -849,7 +861,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4490,
+            "line": 4514,
             "itemtype": "attribute",
             "name": "value",
             "initonly": "",
@@ -860,7 +872,7 @@
         },
         {
             "file": "js/qr-code-generator-base.js",
-            "line": 4505,
+            "line": 4529,
             "description": "Converts a decimal non-negative integer to a string containing '1' and '0' characters.\nIf the number does not fit within the given length, null is returned.  If the number is\nsmaller than the given length, it is padded with '0' and a string with the given length\nis returned.",
             "itemtype": "method",
             "name": "numberToBinaryString",

@@ -3997,6 +3997,7 @@
                     
                     formatInformation,
                     initialDataMatrix,
+                    mask = me.get('mask'),
                     matrix = _Array(size * size),
                     micro = version.charAt(0) === _string_M,
                     quietZoneSize = micro ? 2 : 4;
@@ -4088,11 +4089,14 @@
                     _soon(function () {
                         // Generate an array of matrix candidates by running
                         // the data through different mask operations.
-                        _YAsync.runQueue(_map(micro ? _microMaskFunctions : _maskFunctions, function (maskFunction) {
-                            return function (success) {
+                        _YAsync.runQueue(_map(micro ? _microMaskFunctions : _maskFunctions, function (maskFunction, index) {
+                            return (mask === null || mask === index) && function (success) {
                                 _soon(function () {
                                     me.applyMask(matrix.concat(), initialDataMatrix, maskFunction, quietZoneSize, size, success);
                                 });
+                            } || function (success) {
+                                // If mask is already defined, don't waste time generating extra matrices.
+                                success();
                             };
                         })).on(_string_complete, function (eventFacade) {
                             var matrices = eventFacade.value;
@@ -4102,9 +4106,17 @@
                                 return function (success) {
                                     _soon(function () {
                                         if (micro) {
-                                            me.evaluateMicroMatrix(matrix, quietZoneSize, size, success);
-                                        } else {
+                                            if (matrix) {
+                                                me.evaluateMicroMatrix(matrix, quietZoneSize, size, success);
+                                            } else {
+                                                // This matrix wasn't defined, give it an impossibly low score.
+                                                success(-1);
+                                            }
+                                        } else if (matrix) {
                                             me.evaluateMatrix(matrix, quietZoneSize, size, success);
+                                        } else {
+                                            // This matrix wasn't defined, give it an impossibly high score.
+                                            success(Infinity);
                                         }
                                     });
                                 };
@@ -4298,6 +4310,16 @@
                         return false;
                     },
                     value: _string_M,
+                    writeOnce: _string_initOnly
+                },
+                /**
+                 * @attribute mask
+                 * @default null
+                 * @initOnly
+                 * @type Number
+                 */
+                mask: {
+                    value: null,
                     writeOnce: _string_initOnly
                 },
                 /**

@@ -4012,13 +4012,15 @@
                     coefficientIterationFunction = function (success) {
                         _soon(function () {
                             &#x2F;&#x2F; Remove the first coefficient.
-                            var leadingPolynomialAlphaIndex = polynomialAlphaIndicies.shift() || 0;
+                            var leadingPolynomialAlphaIndex = polynomialAlphaIndicies.shift();
                             
-                            &#x2F;&#x2F; Iterate the generator and process the remaining polynomial coefficients.
-                            _each(generatorAlphaIndicies, function (generatorAlphaIndex, index) {
-                                var alphaIndex = _cachedIndexOf(_alpha, _alpha[(generatorAlphaIndex + leadingPolynomialAlphaIndex) % 255] ^ (_alpha[polynomialAlphaIndicies[index]] || 0));
-                                polynomialAlphaIndicies[index] = alphaIndex === -1 ? null : alphaIndex;
-                            });
+                            if (leadingPolynomialAlphaIndex) {
+                                &#x2F;&#x2F; Iterate the generator and process the remaining polynomial coefficients.
+                                _each(generatorAlphaIndicies, function (generatorAlphaIndex, index) {
+                                    var alphaIndex = _cachedIndexOf(_alpha, _alpha[(generatorAlphaIndex + leadingPolynomialAlphaIndex) % 255] ^ (_alpha[polynomialAlphaIndicies[index]] || 0));
+                                    polynomialAlphaIndicies[index] = alphaIndex === -1 ? null : alphaIndex;
+                                });
+                            }
                             
                             success();
                         });
@@ -4084,6 +4086,7 @@
                     
                     formatInformation,
                     initialDataMatrix,
+                    mask = me.get(&#x27;mask&#x27;),
                     matrix = _Array(size * size),
                     micro = version.charAt(0) === _string_M,
                     quietZoneSize = micro ? 2 : 4;
@@ -4175,11 +4178,14 @@
                     _soon(function () {
                         &#x2F;&#x2F; Generate an array of matrix candidates by running
                         &#x2F;&#x2F; the data through different mask operations.
-                        _YAsync.runQueue(_map(micro ? _microMaskFunctions : _maskFunctions, function (maskFunction) {
-                            return function (success) {
+                        _YAsync.runQueue(_map(micro ? _microMaskFunctions : _maskFunctions, function (maskFunction, index) {
+                            return (mask === null || mask === index) &amp;&amp; function (success) {
                                 _soon(function () {
                                     me.applyMask(matrix.concat(), initialDataMatrix, maskFunction, quietZoneSize, size, success);
                                 });
+                            } || function (success) {
+                                &#x2F;&#x2F; If mask is already defined, don&#x27;t waste time generating extra matrices.
+                                success();
                             };
                         })).on(_string_complete, function (eventFacade) {
                             var matrices = eventFacade.value;
@@ -4189,9 +4195,17 @@
                                 return function (success) {
                                     _soon(function () {
                                         if (micro) {
-                                            me.evaluateMicroMatrix(matrix, quietZoneSize, size, success);
-                                        } else {
+                                            if (matrix) {
+                                                me.evaluateMicroMatrix(matrix, quietZoneSize, size, success);
+                                            } else {
+                                                &#x2F;&#x2F; This matrix wasn&#x27;t defined, give it an impossibly low score.
+                                                success(-1);
+                                            }
+                                        } else if (matrix) {
                                             me.evaluateMatrix(matrix, quietZoneSize, size, success);
+                                        } else {
+                                            &#x2F;&#x2F; This matrix wasn&#x27;t defined, give it an impossibly high score.
+                                            success(Infinity);
                                         }
                                     });
                                 };
@@ -4385,6 +4399,16 @@
                         return false;
                     },
                     value: _string_M,
+                    writeOnce: _string_initOnly
+                },
+                &#x2F;**
+                 * @attribute mask
+                 * @default null
+                 * @initOnly
+                 * @type Number
+                 *&#x2F;
+                mask: {
+                    value: null,
                     writeOnce: _string_initOnly
                 },
                 &#x2F;**
