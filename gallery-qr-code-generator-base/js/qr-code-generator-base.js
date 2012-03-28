@@ -1,4 +1,5 @@
 /**
+ * gallery-qr-code-generator-base is a slightly low-level utility for generating QR Codes.
  * @module gallery-qr-code-generator-base
  */
 
@@ -3006,6 +3007,8 @@
         }, {
             ATTRS: {
                 /**
+                 * When extending this class, the value of type should be specifically defined.
+                 * Make sure the type is also set on the Y.QrCode.Data.Type object.
                  * @attribute type
                  * @initOnly
                  * @type String
@@ -3017,6 +3020,7 @@
                     writeOnce: _string_initOnly
                 },
                 /**
+                 * The value to encode.
                  * @attribute value
                  * @initOnly
                  */
@@ -3026,7 +3030,7 @@
                 }
             },
             /**
-             * An array of supported data encoding modes.
+             * This object lists all supported data encoding modes.
              * @property Type
              * @static
              * @type [String]
@@ -3035,6 +3039,7 @@
         }),
         
         /**
+         * This class provides utility methods for generating QR Codes.
          * @class GeneratorBase
          * @constructor
          * @extends Base
@@ -3043,7 +3048,10 @@
          */
         _GeneratorBase = _YBase.create('qr-code-generator-base', _YBase, [], {
             /**
-             * Performs a mask operation that inverts some data bits.
+             * Performs a mask operation that inverts some data bits.  QR Codes apply
+             * one of eight possible masks to the raw data matrix.  Decoders benefit
+             * when a mask is used to reduce the occurence of ambiguous patterns
+             * within the data matrix.
              * @method applyMask
              * @chainable
              * @for QrCode.GeneratorBase
@@ -3102,8 +3110,10 @@
                 return this;
             },
             /**
-             * Alignment patterns are distinct patterns used to help decoders judge,
-             * the scale, orientation, and perspective of a QR Code.
+             * Alignment patterns are distinct patterns used to help decoders overcome
+             * distortion and perspective when viewing a QR Code.  They are made up of
+             * a 5x5 square of dark values surrounding a 3x3 square of light values
+             * surrounding a single dark value.
              * @method drawAlignmentPattern
              * @chainable
              * @param {[Boolean]} matrix The array to write to.
@@ -3136,8 +3146,11 @@
                 return this;
             },
             /**
-             * Finder patterns are distinct patterns in the corners of a QR code
-             * to help decoders judge boundaries, scale, orientation, and perspective.
+             * Finder patterns are distinct patterns placed in three corners of a QR code.
+             * Finder patterns help decoders determine position, scale, and orientation.
+             * They are made up of a 9x9 square of light values surrounding a 7x7 square
+             * of dark values surrounding a 5x5 square of light values surrounding a 3x3
+             * square filled with dark values.
              * @method drawFinderPattern
              * @chainable
              * @param {[Boolean]} matrix The array to write to.
@@ -3171,8 +3184,10 @@
             },
             /**
              * The error correction level and the id of the mask that has been applied to the
-             * data matrix are encoded together for decoders.  This information has specific
-             * locations reserved for it within the matrix.
+             * data matrix are encoded together as a 5 bit value.  This value gets 10 error
+             * correction bits appended to it, created by a (15, 5) BCH code.  The final 15 bit
+             * format information codeword has specific locations reserved for it within the
+             * matrix.  QR Codes contain the format information twice for additional redundancy.
              * @method drawFormatInformation
              * @chainable
              * @param {[Boolean]} matrix The array to write to.
@@ -3303,6 +3318,8 @@
             },
             /**
              * The timing pattern is a row and column of alternating dark and light values.
+             * The timing pattern allows decoders to determine the version of the QR Code as
+             * well as the pixel density and coordinate system.
              * @method drawTimingPattern
              * @chainable
              * @param {[Boolean]} matrix The array to write to.
@@ -3333,7 +3350,11 @@
                 return this;
             },
             /**
-             * QR Codes version 7 and higher contain two encoded copies of the version number.
+             * QR Codes version 7 and higher contain the version number as a 6 bit
+             * value.  This value gets 12 error correction bits appended to it, created
+             * by an (18, 6) Golay code.  The final 18 bit version information codeword
+             * has specific locations reserved for it within the matrix.  QR Codes
+             * contain the version information twice for additional redundancy.
              * @method drawVersionInformation
              * @chainable
              * @param {[Boolean]} matrix The array to write to.
@@ -4207,7 +4228,9 @@
                 return me;
             },
             /**
-             * Get the center position of each alignment pattern.
+             * Each QR Code version has specific requirements for the position
+             * of alignment patterns.  This method returns the center position
+             * of each required alignment pattern.
              * @method getAlignmentPatternCoordinates
              * @param {Number} quietZoneSize The size of the quiet zone region.
              * @return {[[x, y]]}
@@ -4282,6 +4305,9 @@
         }, {
             ATTRS: {
                 /**
+                 * Input data must be wrapped up in data objects.  A single data object or
+                 * an array is acceptable.  Data objects are responsible for encoding raw
+                 * values into one of the data encoding modes supported by QR codes.
                  * @attribute data
                  * @default []
                  * @initOnly
@@ -4301,6 +4327,15 @@
                     writeOnce: _string_initOnly
                 },
                 /**
+                 * QR Codes use error correction when encoding data.  Error correction
+                 * allows a code to be successfully scanned even if part of the code is
+                 * damaged, missing, or scanned incorrectly.  There are four different
+                 * error correction modes.
+                 * Mode H can recover from 30% data loss.
+                 * Mode L can recover from 7% data loss.
+                 * Mode M can recover from 15% data loss.
+                 * Mode Q can recover from 25% data loss.
+                 * The more error correction added, the less data the QR Code can hold.
                  * @attribute errorCorrection
                  * @default 'M',
                  * @initOnly
@@ -4318,6 +4353,18 @@
                     writeOnce: _string_initOnly
                 },
                 /**
+                 * QR Codes apply one of eight possible masks to the raw data matrix.
+                 * Decoders benefit when a mask is used to reduce the occurence of
+                 * ambiguous patterns within the data matrix.  When this attribute is
+                 * set to null, the data matrix will be have all 8 masks applied to it.
+                 * Each one will be evaluated and the one with the fewest ambiguous
+                 * patterns will be used.  When this attribute is set to a value from 0
+                 * to 7, only that specific mask will be applied and used.  This
+                 * improves the performace of the encoding process by cutting out a
+                 * complex step but manually selecting a mask is not recommended because
+                 * it can negatively affect decoder performance and/or accuracy.  Using
+                 * different masks on the same data can result in QR Codes that appear
+                 * very different, so some choose to select a mask for aesthetic reasons.
                  * @attribute mask
                  * @default null
                  * @initOnly
@@ -4328,6 +4375,11 @@
                     writeOnce: _string_initOnly
                 },
                 /**
+                 * There are 40 different versions of QR Codes. A QR Code's version
+                 * is just a confusing way to specify how big it is.  A version 1 QR
+                 * Code is a 25x25 grid.  That size increases by 4 up to the 181x181
+                 * grid of a version 40 QR code.  The larger the grid, the more data
+                 * the QR Code can hold.
                  * @attribute version
                  * @default '1'
                  * @initOnly
@@ -4341,6 +4393,11 @@
         }),
         
         /**
+         * This class encodes a value in alphanumeric mode.  Alphanumeric mode
+         * encodes strings containing only numeric characters, capital-letter
+         * characters, space, dollar sign, percent sign, asterisk, plus sign,
+         * hyphen-minus, full stop, solidus, and colon.
+         * 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:
          * @class AlphanumericData
          * @constructor
          * @extends QrCode.Data
@@ -4455,6 +4512,8 @@
         }),
         
         /**
+         * This class encodes a value in byte mode.  Byte mode encodes strings
+         * as raw binary data.
          * @class ByteData
          * @constructor
          * @extends QrCode.Data
@@ -4506,6 +4565,7 @@
         }, {
             ATTRS: {
                 /**
+                 * The number of bits used to encode each character.
                  * @attribute characterWidth
                  * @default 8
                  * @initOnly
@@ -4538,6 +4598,9 @@
         }),
         
         /**
+         * This class encodes a value in numeric mode.  Numeric mode encodes
+         * strings containing only numeric characters.
+         * 0123456789
          * @class NumericData
          * @constructor
          * @extends QrCode.Data
@@ -4615,6 +4678,17 @@
         }),
         
         /**
+         * This class sets the extended channel interpretation mode indicator
+         * for the ucs2 character set.  While this is a Data object, it does not
+         * directly encode data.  Instead, it sets a flag in the data stream
+         * which tells a decoder how to interpret the data that follows.  Ucs2
+         * is an interesting character set because JavaScript strings are
+         * handled in ucs2.  Combined with the ByteData object and a character
+         * width set to 16, any JavaScript string can be precisely encoded.
+         * Unfortunately it appears that many decoders lack support for the ucs2
+         * character set.  Android's standard Barcode Scanner application does
+         * provide support, but the font used to display the result is not able
+         * to render the entire range of unicode characters.
          * @class Ucs2Data
          * @constructor
          * @extends QrCode.Data
@@ -4645,6 +4719,7 @@
                     value: _string_ucs2
                 },
                 /**
+                 * This object does not require a value.
                  * @attribute value
                  * @default ''
                  * @readOnly
@@ -4658,6 +4733,15 @@
         }),
         
         /**
+         * This class sets the extended channel interpretation mode indicator
+         * for the utf8 character set.  While this is a Data object, it does not
+         * directly encode data.  Instead, it sets a flag in the data stream
+         * which tells a decoder how to interpret the data that follows.  Utf8
+         * is a widely supported character set, so this may be a good choice if
+         * you need to encode characters that are not supported in alphanumeric
+         * mode.  Note that JavaScript strings do not use utf8 characters.  This
+         * module does not provide the functionality required to convert
+         * characters to utf8.
          * @class Utf8Data
          * @constructor
          * @extends QrCode.Data
@@ -4688,6 +4772,7 @@
                     value: _string_ucs2
                 },
                 /**
+                 * This object does not require a value.
                  * @attribute value
                  * @default ''
                  * @readOnly

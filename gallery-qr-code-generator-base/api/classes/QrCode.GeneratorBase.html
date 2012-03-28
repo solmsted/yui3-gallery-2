@@ -101,7 +101,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3037"><code>js&#x2F;qr-code-generator-base.js:3037</code></a>
+            Defined in: <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3041"><code>js&#x2F;qr-code-generator-base.js:3041</code></a>
         </div>
     
 
@@ -111,7 +111,7 @@
 
 
 <div class="box intro">
-    
+    <p>This class provides utility methods for generating QR Codes.</p>
 </div>
 
 
@@ -153,7 +153,7 @@
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3037"><code>js&#x2F;qr-code-generator-base.js:3037</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3041"><code>js&#x2F;qr-code-generator-base.js:3041</code></a></p>
 
         
 
@@ -431,7 +431,7 @@
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3045"><code>js&#x2F;qr-code-generator-base.js:3045</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3050"><code>js&#x2F;qr-code-generator-base.js:3050</code></a></p>
 
         
 
@@ -439,7 +439,10 @@
     </div>
 
     <div class="description">
-        <p>Performs a mask operation that inverts some data bits.</p>
+        <p>Performs a mask operation that inverts some data bits.  QR Codes apply
+one of eight possible masks to the raw data matrix.  Decoders benefit
+when a mask is used to reduce the occurence of ambiguous patterns
+within the data matrix.</p>
     </div>
 
     
@@ -614,7 +617,7 @@ passed as the only argument.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3104"><code>js&#x2F;qr-code-generator-base.js:3104</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3112"><code>js&#x2F;qr-code-generator-base.js:3112</code></a></p>
 
         
 
@@ -622,8 +625,10 @@ passed as the only argument.</p>
     </div>
 
     <div class="description">
-        <p>Alignment patterns are distinct patterns used to help decoders judge,
-the scale, orientation, and perspective of a QR Code.</p>
+        <p>Alignment patterns are distinct patterns used to help decoders overcome
+distortion and perspective when viewing a QR Code.  They are made up of
+a 5x5 square of dark values surrounding a 3x3 square of light values
+surrounding a single dark value.</p>
     </div>
 
     
@@ -780,7 +785,7 @@ any existing data in the matrix at that location.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3138"><code>js&#x2F;qr-code-generator-base.js:3138</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3148"><code>js&#x2F;qr-code-generator-base.js:3148</code></a></p>
 
         
 
@@ -788,8 +793,11 @@ any existing data in the matrix at that location.</p>
     </div>
 
     <div class="description">
-        <p>Finder patterns are distinct patterns in the corners of a QR code
-to help decoders judge boundaries, scale, orientation, and perspective.</p>
+        <p>Finder patterns are distinct patterns placed in three corners of a QR code.
+Finder patterns help decoders determine position, scale, and orientation.
+They are made up of a 9x9 square of light values surrounding a 7x7 square
+of dark values surrounding a 5x5 square of light values surrounding a 3x3
+square filled with dark values.</p>
     </div>
 
     
@@ -952,7 +960,7 @@ any existing data in the matrix at that location.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3172"><code>js&#x2F;qr-code-generator-base.js:3172</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3185"><code>js&#x2F;qr-code-generator-base.js:3185</code></a></p>
 
         
 
@@ -961,8 +969,10 @@ any existing data in the matrix at that location.</p>
 
     <div class="description">
         <p>The error correction level and the id of the mask that has been applied to the
-data matrix are encoded together for decoders.  This information has specific
-locations reserved for it within the matrix.</p>
+data matrix are encoded together as a 5 bit value.  This value gets 10 error
+correction bits appended to it, created by a (15, 5) BCH code.  The final 15 bit
+format information codeword has specific locations reserved for it within the
+matrix.  QR Codes contain the format information twice for additional redundancy.</p>
     </div>
 
     
@@ -1128,7 +1138,7 @@ any existing data in the matrix at that location.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3256"><code>js&#x2F;qr-code-generator-base.js:3256</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3271"><code>js&#x2F;qr-code-generator-base.js:3271</code></a></p>
 
         
 
@@ -1273,7 +1283,7 @@ any existing data in the matrix at that location.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3304"><code>js&#x2F;qr-code-generator-base.js:3304</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3319"><code>js&#x2F;qr-code-generator-base.js:3319</code></a></p>
 
         
 
@@ -1281,7 +1291,9 @@ any existing data in the matrix at that location.</p>
     </div>
 
     <div class="description">
-        <p>The timing pattern is a row and column of alternating dark and light values.</p>
+        <p>The timing pattern is a row and column of alternating dark and light values.
+The timing pattern allows decoders to determine the version of the QR Code as
+well as the pixel density and coordinate system.</p>
     </div>
 
     
@@ -1423,7 +1435,7 @@ any existing data in the matrix at that location.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3335"><code>js&#x2F;qr-code-generator-base.js:3335</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3352"><code>js&#x2F;qr-code-generator-base.js:3352</code></a></p>
 
         
 
@@ -1431,7 +1443,11 @@ any existing data in the matrix at that location.</p>
     </div>
 
     <div class="description">
-        <p>QR Codes version 7 and higher contain two encoded copies of the version number.</p>
+        <p>QR Codes version 7 and higher contain the version number as a 6 bit
+value.  This value gets 12 error correction bits appended to it, created
+by an (18, 6) Golay code.  The final 18 bit version information codeword
+has specific locations reserved for it within the matrix.  QR Codes
+contain the version information twice for additional redundancy.</p>
     </div>
 
     
@@ -1582,7 +1598,7 @@ any existing data in the matrix at that location.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3382"><code>js&#x2F;qr-code-generator-base.js:3382</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3403"><code>js&#x2F;qr-code-generator-base.js:3403</code></a></p>
 
         
 
@@ -1729,7 +1745,7 @@ will be passed as the only argument.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3532"><code>js&#x2F;qr-code-generator-base.js:3532</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3553"><code>js&#x2F;qr-code-generator-base.js:3553</code></a></p>
 
         
 
@@ -1866,7 +1882,7 @@ will be passed as the only argument.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3574"><code>js&#x2F;qr-code-generator-base.js:3574</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3595"><code>js&#x2F;qr-code-generator-base.js:3595</code></a></p>
 
         
 
@@ -1965,7 +1981,7 @@ argument.  The formatted binary string is passed as the second argument.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3768"><code>js&#x2F;qr-code-generator-base.js:3768</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3789"><code>js&#x2F;qr-code-generator-base.js:3789</code></a></p>
 
         
 
@@ -2079,7 +2095,7 @@ length of the matrix is passed as the third argument.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3825"><code>js&#x2F;qr-code-generator-base.js:3825</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3846"><code>js&#x2F;qr-code-generator-base.js:3846</code></a></p>
 
         
 
@@ -2250,7 +2266,7 @@ event loop.  The dataMatrix is passed as the only argument.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3911"><code>js&#x2F;qr-code-generator-base.js:3911</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3932"><code>js&#x2F;qr-code-generator-base.js:3932</code></a></p>
 
         
 
@@ -2369,7 +2385,7 @@ The error correction block is passed as the only argument.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l3988"><code>js&#x2F;qr-code-generator-base.js:3988</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4009"><code>js&#x2F;qr-code-generator-base.js:4009</code></a></p>
 
         
 
@@ -2469,7 +2485,7 @@ of the matrix is passed as the second argument.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4209"><code>js&#x2F;qr-code-generator-base.js:4209</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4230"><code>js&#x2F;qr-code-generator-base.js:4230</code></a></p>
 
         
 
@@ -2477,7 +2493,9 @@ of the matrix is passed as the second argument.</p>
     </div>
 
     <div class="description">
-        <p>Get the center position of each alignment pattern.</p>
+        <p>Each QR Code version has specific requirements for the position
+of alignment patterns.  This method returns the center position
+of each required alignment pattern.</p>
     </div>
 
     
@@ -2561,7 +2579,7 @@ of the matrix is passed as the second argument.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4241"><code>js&#x2F;qr-code-generator-base.js:4241</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4264"><code>js&#x2F;qr-code-generator-base.js:4264</code></a></p>
 
         
 
@@ -2636,7 +2654,7 @@ The binary string is passed as the only argument.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4268"><code>js&#x2F;qr-code-generator-base.js:4268</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4291"><code>js&#x2F;qr-code-generator-base.js:4291</code></a></p>
 
         
 
@@ -2697,7 +2715,7 @@ The binary string is passed as the only argument.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4284"><code>js&#x2F;qr-code-generator-base.js:4284</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4307"><code>js&#x2F;qr-code-generator-base.js:4307</code></a></p>
 
         
 
@@ -2705,7 +2723,9 @@ The binary string is passed as the only argument.</p>
     </div>
 
     <div class="description">
-        
+        <p>Input data must be wrapped up in data objects.  A single data object or
+an array is acceptable.  Data objects are responsible for encoding raw
+values into one of the data encoding modes supported by QR codes.</p>
     </div>
 
     
@@ -2789,7 +2809,7 @@ The binary string is passed as the only argument.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4303"><code>js&#x2F;qr-code-generator-base.js:4303</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4329"><code>js&#x2F;qr-code-generator-base.js:4329</code></a></p>
 
         
 
@@ -2797,7 +2817,15 @@ The binary string is passed as the only argument.</p>
     </div>
 
     <div class="description">
-        
+        <p>QR Codes use error correction when encoding data.  Error correction
+allows a code to be successfully scanned even if part of the code is
+damaged, missing, or scanned incorrectly.  There are four different
+error correction modes.
+Mode H can recover from 30% data loss.
+Mode L can recover from 7% data loss.
+Mode M can recover from 15% data loss.
+Mode Q can recover from 25% data loss.
+The more error correction added, the less data the QR Code can hold.</p>
     </div>
 
     
@@ -2881,7 +2909,7 @@ The binary string is passed as the only argument.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4320"><code>js&#x2F;qr-code-generator-base.js:4320</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4355"><code>js&#x2F;qr-code-generator-base.js:4355</code></a></p>
 
         
 
@@ -2889,7 +2917,18 @@ The binary string is passed as the only argument.</p>
     </div>
 
     <div class="description">
-        
+        <p>QR Codes apply one of eight possible masks to the raw data matrix.
+Decoders benefit when a mask is used to reduce the occurence of
+ambiguous patterns within the data matrix.  When this attribute is
+set to null, the data matrix will be have all 8 masks applied to it.
+Each one will be evaluated and the one with the fewest ambiguous
+patterns will be used.  When this attribute is set to a value from 0
+to 7, only that specific mask will be applied and used.  This
+improves the performace of the encoding process by cutting out a
+complex step but manually selecting a mask is not recommended because
+it can negatively affect decoder performance and/or accuracy.  Using
+different masks on the same data can result in QR Codes that appear
+very different, so some choose to select a mask for aesthetic reasons.</p>
     </div>
 
     
@@ -2973,7 +3012,7 @@ The binary string is passed as the only argument.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4330"><code>js&#x2F;qr-code-generator-base.js:4330</code></a></p>
+        <a href="../files&#x2F;js_qr-code-generator-base.js.html#l4377"><code>js&#x2F;qr-code-generator-base.js:4377</code></a></p>
 
         
 
@@ -2981,7 +3020,11 @@ The binary string is passed as the only argument.</p>
     </div>
 
     <div class="description">
-        
+        <p>There are 40 different versions of QR Codes. A QR Code's version
+is just a confusing way to specify how big it is.  A version 1 QR
+Code is a 25x25 grid.  That size increases by 4 up to the 181x181
+grid of a version 40 QR code.  The larger the grid, the more data
+the QR Code can hold.</p>
     </div>
 
     
