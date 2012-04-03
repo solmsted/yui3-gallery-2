@@ -1,13 +1,13 @@
 /**
  * @module gallery-async-command-timeout
  */
-(function (Y) {
+(function (Y, moduleName) {
     'use strict';
     
-    var _invoke = Y.Array.invoke,
-        _later = Y.later,
+    var _Plugin = Y.Plugin,
         
-        _class;
+        _invoke = Y.Array.invoke,
+        _later = Y.later;
 
     /**
      * Asynchronous command timeout plugin.
@@ -16,9 +16,7 @@
      * @namespace Y.Plugin
      * @param {Object} config Configuration Object.
      */
-    _class = Y.extend(function (config) {
-        _class.superclass.constructor.call(this, config);
-    }, Y.Plugin.Base, {
+    _Plugin.AsyncCommandTimeout = Y.Base.create(moduleName, _Plugin.Base, [], {
         destructor: function () {
             _invoke(this._subscriptions, 'detach');
             
@@ -72,9 +70,6 @@
                 writeOnce: 'initOnly'
             }
         },
-        NAME: 'async-command-timeout',
         NS: 'timeout'
     });
-
-    Y.Plugin.AsyncCommandTimeout = _class;
-}(Y));
+}(Y, arguments[1]));

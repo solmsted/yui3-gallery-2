@@ -1,12 +1,12 @@
 /**
  * @module gallery-async-command-withhold
  */
-(function (Y) {
+(function (Y, moduleName) {
     'use strict';
     
-    var _delay = Y.delay,
+    var _Plugin = Y.Plugin,
         
-        _class;
+        _delay = Y.delay;
 
     /**
      * Asynchronous command withhold plugin.
@@ -15,9 +15,7 @@
      * @namespace Y.Plugin
      * @param {Object} config Configuration Object.
      */
-    _class = Y.extend(function (config) {
-        _class.superclass.constructor.call(this, config);
-    }, Y.Plugin.Base, {
+    _Plugin.AsyncCommandWithhold = Y.Base.create(moduleName, _Plugin.Base, [], {
         initializer: function () {
             this.onHostEvent([
                 'failure',
@@ -47,9 +45,6 @@
                 writeOnce: 'initOnly'
             }
         },
-        NAME: 'async-command-withhold',
         NS: 'withhold'
     });
-
-    Y.Plugin.AsyncCommandWithhold = _class;
-}(Y));
+}(Y, arguments[1]));

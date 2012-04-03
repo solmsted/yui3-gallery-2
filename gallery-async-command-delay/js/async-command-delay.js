@@ -1,15 +1,15 @@
 /**
  * @module gallery-async-command-delay
  */
-(function (Y) {
+(function (Y, moduleName) {
     'use strict';
     
-    var _delay = Y.delay,
+    var _Plugin = Y.Plugin,
+        
+        _delay = Y.delay,
         _do = Y.Do,
         _DoAlterReturn = _do.AlterReturn,
-        _DoPrevent = _do.Prevent,
-        
-        _class;
+        _DoPrevent = _do.Prevent;
 
     /**
      * Asynchronous command delay plugin.
@@ -18,9 +18,7 @@
      * @namespace Y.Plugin
      * @param {Object} config Configuration Object.
      */
-    _class = Y.extend(function (config) {
-        _class.superclass.constructor.call(this, config);
-    }, Y.Plugin.Base, {
+    _Plugin.AsyncCommandDelay = Y.Base.create(moduleName, _Plugin.Base, [], {
         initializer: function () {
             var me = this,
                 host = this.get('host'),
@@ -50,9 +48,6 @@
                 writeOnce: 'initOnly'
             }
         },
-        NAME: 'async-command-delay',
         NS: 'delay'
     });
-
-    Y.Plugin.AsyncCommandDelay = _class;
-}(Y));
+}(Y, arguments[1]));

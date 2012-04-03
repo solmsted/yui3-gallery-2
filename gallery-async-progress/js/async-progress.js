@@ -1,12 +1,12 @@
 /**
  * @module gallery-async-progress
  */
-(function (Y) {
+(function (Y, moduleName) {
     'use strict';
     
-    var _invoke = Y.Array.invoke,
+    var _Plugin = Y.Plugin,
         
-        _class;
+        _invoke = Y.Array.invoke;
 
     /**
      * Asynchronous command runner progress plugin.
@@ -14,9 +14,7 @@
      * @extends Y.Plugin.Base
      * @param {Object} config Configuration Object.
      */
-    _class = Y.extend(function (config) {
-        _class.superclass.constructor.call(this, config);
-    }, Y.Plugin.Base, {
+    _Plugin.AsyncProgress = Y.Base.create(moduleName, _Plugin.Base, [], {
         destructor: function () {
             _invoke(this._subscriptions, 'detach');
         },
@@ -42,9 +40,6 @@
             });
         }
     }, {
-        NAME: 'async-progress',
         NS: 'progress'
     });
-
-    Y.Plugin.AsyncProgress = _class;
-}(Y));
+}(Y, arguments[1]));

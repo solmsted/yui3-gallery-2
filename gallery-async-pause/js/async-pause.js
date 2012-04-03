@@ -1,12 +1,11 @@
 /**
  * @module gallery-async-pause
  */
-(function (Y) {
+(function (Y, moduleName) {
     'use strict';
     
     var _DoPrevent = Y.Do.Prevent,
-        
-        _class;
+        _Plugin = Y.Plugin;
 
     /**
      * Asynchronous command runner pause plugin.
@@ -15,9 +14,7 @@
      * @namespace Y.Plugin
      * @param {Object} config Configuration Object.
      */
-    _class = Y.extend(function (config) {
-        _class.superclass.constructor.call(this, config);
-    }, Y.Plugin.Base, {
+    _Plugin.AsyncPause = Y.Base.create(moduleName, _Plugin.Base, [], {
         initializer: function () {
             var me = this;
                 
@@ -129,9 +126,6 @@
                 readOnly: true
             }
         },
-        NAME: 'async-pause',
         NS: 'pause'
     });
-
-    Y.Plugin.AsyncPause = _class;
-}(Y));
+}(Y, arguments[1]));
