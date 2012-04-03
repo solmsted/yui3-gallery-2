@@ -103,11 +103,13 @@
      *&#x2F;
     _Plugin.AsyncCommandTimeout = Y.Base.create(moduleName, _Plugin.Base, [], {
         destructor: function () {
-            _invoke(this._subscriptions, &#x27;detach&#x27;);
+            var me = this;
             
-            if (this._timer) {
-                this._timer.cancel();
-                delete this._timer;
+            _invoke(me._subs, &#x27;detach&#x27;);
+            
+            if (me._timer) {
+                me._timer.cancel();
+                delete me._timer;
             }
         },
         initializer: function () {
@@ -119,7 +121,7 @@
                 return;
             }
             
-            me._subscriptions = [
+            me._subs = [
                 host.on(&#x27;start&#x27;, function () {
                     me._timer = _later(timeout, host, host.fire, [
                         &#x27;failure&#x27;,
