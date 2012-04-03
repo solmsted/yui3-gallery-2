@@ -91,7 +91,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files&#x2F;.._gallery-async_js_async.js.html#l22"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:22</code></a>
+            Defined in: <a href="../files&#x2F;.._gallery-async_js_async.js.html#l26"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:26</code></a>
         </div>
     
 
@@ -184,6 +184,10 @@
                         
                             <li class="index-item attr inherited">
                                 <a href="#attr_completed">completed</a>
+                            </li>
+                        
+                            <li class="index-item attr">
+                                <a href="#attr_config">config</a>
                             </li>
                         
                             <li class="index-item attr protected inherited">
@@ -306,7 +310,7 @@
                 <p>Defined in
             
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l39"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:39</code></a></p>
+        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l43"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:43</code></a></p>
 
         
 
@@ -419,7 +423,7 @@
                 <p>Defined in
             
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l71"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:71</code></a></p>
+        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l75"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:75</code></a></p>
 
         
 
@@ -534,7 +538,7 @@
                 <a href="AsyncCommand.html#method_run">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;js_async-command.js.html#l98"><code>js&#x2F;async-command.js:98</code></a></p>
+        <a href="../files&#x2F;js_async-command.js.html#l105"><code>js&#x2F;async-command.js:105</code></a></p>
 
         
 
@@ -585,7 +589,7 @@
                 <p>Defined in
             
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l181"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:181</code></a></p>
+        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l199"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:199</code></a></p>
 
         
 
@@ -649,7 +653,7 @@ Parameters can be command functions, instances of AsyncCommand, instances of Asy
                 <p>Defined in
             
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l191"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:191</code></a></p>
+        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l209"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:209</code></a></p>
 
         
 
@@ -714,7 +718,7 @@ Parameters can be command functions, instances of AsyncCommand, instances of Asy
             </a>
             but overwritten in
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l102"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:102</code></a></p>
+        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l106"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:106</code></a></p>
 
         
 
@@ -806,7 +810,7 @@ Parameters can be command functions, instances of AsyncCommand, instances of Asy
                 <a href="AsyncCommand.html#attr_completed">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;js_async-command.js.html#l130"><code>js&#x2F;async-command.js:130</code></a></p>
+        <a href="../files&#x2F;js_async-command.js.html#l137"><code>js&#x2F;async-command.js:137</code></a></p>
 
         
 
@@ -827,6 +831,99 @@ Parameters can be command functions, instances of AsyncCommand, instances of Asy
 
             <p>
             Fires when the value for the configuration attribute <code>completed</code> is
+            changed. You can listen for the event using the <code>on</code> method if you
+            wish to be notified before the attribute's value has changed, or
+            using the <code>after</code> method if you wish to be notified after the
+            attribute's value has changed.
+            </p>
+
+            <div class="params">
+                <h4>Parameters:</h4>
+
+                <ul class="params-list">
+                    <li class="param">
+                        <code class="param-name">e</code>
+                        <span class="type">EventFacade</span>
+
+                        <div class="param-description">
+                            An Event Facade object with the following
+                            attribute-specific properties added:
+                        </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                <code class="param-name">prevVal</code>
+                                <span class="type">Any</span>
+                                <div class="param-description">The value of the attribute, prior to it being set.</div>
+                            </li>
+                            <li class="param">
+                                <code class="param-name">newVal</code>
+                                <span class="type">Any</span>
+                                <div class="param-description">The value the attribute is to be set to.</div>
+                            </li>
+                            <li class="param">
+                                <code class="param-name">attrName</code>
+                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                <div class="param-description">The name of the attribute being set.</div>
+                            </li>
+                            <li class="param">
+                                <code class="param-name">subAttrName</code>
+                                <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                <div class="param-description">If setting a property within the attribute's value, the name of the sub-attribute property being set.</div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="attr_config" class="attr item">
+    <a name="config_config"></a> 
+    <h3 class="name"><code>config</code></h3>
+    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>Defined in
+            
+        
+        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l114"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:114</code></a></p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>A config object passed to the AsyncCommand constructor when
+instantiating dynamically.</p>
+    </div>
+
+    
+        <p><strong>Default:</strong> {}</p>
+    
+
+    
+        <div class="emits box">
+            <h4>Fires event <code>configChange</code></h4>
+
+            <p>
+            Fires when the value for the configuration attribute <code>config</code> is
             changed. You can listen for the event using the <code>on</code> method if you
             wish to be notified before the attribute's value has changed, or
             using the <code>after</code> method if you wish to be notified after the
@@ -901,7 +998,7 @@ Parameters can be command functions, instances of AsyncCommand, instances of Asy
             </a>
             but overwritten in
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l110"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:110</code></a></p>
+        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l126"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:126</code></a></p>
 
         
 
@@ -991,7 +1088,7 @@ Parameters can be command functions, instances of AsyncCommand, instances of Asy
                 <a href="AsyncCommand.html#attr_error">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;js_async-command.js.html#l150"><code>js&#x2F;async-command.js:150</code></a></p>
+        <a href="../files&#x2F;js_async-command.js.html#l157"><code>js&#x2F;async-command.js:157</code></a></p>
 
         
 
@@ -1081,7 +1178,7 @@ Parameters can be command functions, instances of AsyncCommand, instances of Asy
                 <a href="AsyncCommand.html#attr_failed">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;js_async-command.js.html#l159"><code>js&#x2F;async-command.js:159</code></a></p>
+        <a href="../files&#x2F;js_async-command.js.html#l166"><code>js&#x2F;async-command.js:166</code></a></p>
 
         
 
@@ -1176,7 +1273,7 @@ Parameters can be command functions, instances of AsyncCommand, instances of Asy
             </a>
             but overwritten in
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l116"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:116</code></a></p>
+        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l132"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:132</code></a></p>
 
         
 
@@ -1266,7 +1363,7 @@ Parameters can be command functions, instances of AsyncCommand, instances of Asy
                 <p>Defined in
             
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l123"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:123</code></a></p>
+        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l139"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:139</code></a></p>
 
         
 
@@ -1377,7 +1474,7 @@ Parameters can be command functions, instances of AsyncCommand, instances of Asy
                 <p>Defined in
             
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l152"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:152</code></a></p>
+        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l168"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:168</code></a></p>
 
         
 
@@ -1469,7 +1566,7 @@ Parameters can be command functions, instances of AsyncCommand, instances of Asy
                 <a href="AsyncCommand.html#attr_started">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;js_async-command.js.html#l184"><code>js&#x2F;async-command.js:184</code></a></p>
+        <a href="../files&#x2F;js_async-command.js.html#l191"><code>js&#x2F;async-command.js:191</code></a></p>
 
         
 
@@ -1561,7 +1658,7 @@ Parameters can be command functions, instances of AsyncCommand, instances of Asy
                 <a href="AsyncCommand.html#attr_value">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;js_async-command.js.html#l195"><code>js&#x2F;async-command.js:195</code></a></p>
+        <a href="../files&#x2F;js_async-command.js.html#l202"><code>js&#x2F;async-command.js:202</code></a></p>
 
         
 
@@ -1658,7 +1755,7 @@ Parameters can be command functions, instances of AsyncCommand, instances of Asy
                 <a href="AsyncCommand.html#event_complete">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;js_async-command.js.html#l24"><code>js&#x2F;async-command.js:24</code></a></p>
+        <a href="../files&#x2F;js_async-command.js.html#l31"><code>js&#x2F;async-command.js:31</code></a></p>
 
         
 
@@ -1750,7 +1847,7 @@ Parameters can be command functions, instances of AsyncCommand, instances of Asy
                 <a href="AsyncCommand.html#event_failure">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;js_async-command.js.html#l39"><code>js&#x2F;async-command.js:39</code></a></p>
+        <a href="../files&#x2F;js_async-command.js.html#l46"><code>js&#x2F;async-command.js:46</code></a></p>
 
         
 
@@ -1812,7 +1909,7 @@ Parameters can be command functions, instances of AsyncCommand, instances of Asy
                 <a href="AsyncCommand.html#event_start">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;js_async-command.js.html#l61"><code>js&#x2F;async-command.js:61</code></a></p>
+        <a href="../files&#x2F;js_async-command.js.html#l68"><code>js&#x2F;async-command.js:68</code></a></p>
 
         
 
@@ -1851,7 +1948,7 @@ Parameters can be command functions, instances of AsyncCommand, instances of Asy
                 <a href="AsyncCommand.html#event_success">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;js_async-command.js.html#l75"><code>js&#x2F;async-command.js:75</code></a></p>
+        <a href="../files&#x2F;js_async-command.js.html#l82"><code>js&#x2F;async-command.js:82</code></a></p>
 
         
 

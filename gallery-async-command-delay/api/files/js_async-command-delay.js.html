@@ -93,7 +93,11 @@
 (function (Y, moduleName) {
     &#x27;use strict&#x27;;
     
-    var _Do = Y.Do,
+    var _string_delay = &#x27;delay&#x27;,
+        _string_delayed = &#x27;delayed&#x27;,
+        _string_run = &#x27;run&#x27;,
+        
+        _Do = Y.Do,
         _DoAlterReturn = _Do.AlterReturn,
         _DoPrevent = _Do.Prevent,
         _Plugin = Y.Plugin,
@@ -114,13 +118,13 @@
                 host = me.get(&#x27;host&#x27;),
                 run = host.run;
             
-            me.afterHostMethod(&#x27;run&#x27;, function () {
-                return new _DoAlterReturn(&#x27;delayed&#x27;, host);
+            me.afterHostMethod(_string_run, function () {
+                return new _DoAlterReturn(_string_delayed, host);
             });
             
-            me.beforeHostMethod(&#x27;run&#x27;, function () {
-                _delay(run, me.get(&#x27;delay&#x27;)).call(host);
-                return new _DoPrevent(&#x27;delayed&#x27;);
+            me.beforeHostMethod(_string_run, function () {
+                _delay(run, me.get(_string_delay)).call(host);
+                return new _DoPrevent(_string_delayed);
             });
         }
     }, {
@@ -138,7 +142,7 @@
                 writeOnce: &#x27;initOnly&#x27;
             }
         },
-        NS: &#x27;delay&#x27;
+        NS: _string_delay
     });
 }(Y, arguments[1]));
     </pre>

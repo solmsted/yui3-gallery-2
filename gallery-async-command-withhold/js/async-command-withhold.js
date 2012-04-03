@@ -4,7 +4,9 @@
 (function (Y, moduleName) {
     'use strict';
     
-    var _Plugin = Y.Plugin,
+    var _string_withhold = 'withhold',
+        
+        _Plugin = Y.Plugin,
         
         _delay = Y.delay;
 
@@ -27,7 +29,7 @@
                 
                 var targetEvent = eventFacade.target.getEvent(eventFacade.type);
                 
-                _delay(targetEvent.defaultFn, me.get('withhold')).apply(targetEvent, arguments);
+                _delay(targetEvent.defaultFn, me.get(_string_withhold)).apply(targetEvent, arguments);
             });
         }
     }, {
@@ -45,6 +47,6 @@
                 writeOnce: 'initOnly'
             }
         },
-        NS: 'withhold'
+        NS: _string_withhold
     });
 }(Y, arguments[1]));

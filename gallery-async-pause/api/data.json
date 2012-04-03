@@ -92,7 +92,7 @@
             "module": "gallery-async-pause",
             "namespace": "Plugin",
             "file": "js/async-pause.js",
-            "line": 13,
+            "line": 18,
             "description": "Asynchronous command runner pause plugin.",
             "extends": "Plugin.Base",
             "params": [
@@ -114,7 +114,7 @@
             "module": "gallery-async",
             "namespace": "",
             "file": "../gallery-async/js/async.js",
-            "line": 22,
+            "line": 26,
             "description": "Asynchronous command runner class.",
             "extends": "AsyncCommand",
             "params": [
@@ -136,7 +136,7 @@
             "module": "gallery-async-command",
             "namespace": "",
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 14,
+            "line": 21,
             "description": "Asynchronous command class.",
             "extends": "Base",
             "params": [
@@ -151,7 +151,7 @@
     "classitems": [
         {
             "file": "js/async-pause.js",
-            "line": 35,
+            "line": 40,
             "description": "Pause the run.  Does not stop a command that is currently running, the run will pause\nbefore the next command runs.",
             "itemtype": "method",
             "name": "pause",
@@ -162,7 +162,7 @@
         },
         {
             "file": "js/async-pause.js",
-            "line": 44,
+            "line": 49,
             "description": "Resumes a paused run.  If a command is currently running, the paused state may not be updated\nimmediately.  Resume does nothing if the run is not paused or not started yet or already complete.",
             "itemtype": "method",
             "name": "resume",
@@ -173,7 +173,7 @@
         },
         {
             "file": "js/async-pause.js",
-            "line": 97,
+            "line": 102,
             "description": "Boolean value indicating the paused status of the run.",
             "itemtype": "attribute",
             "name": "paused",
@@ -186,7 +186,7 @@
         },
         {
             "file": "js/async-pause.js",
-            "line": 108,
+            "line": 113,
             "description": "Paused _runQueue arguments.",
             "itemtype": "attribute",
             "name": "_args",
@@ -200,7 +200,7 @@
         },
         {
             "file": "js/async-pause.js",
-            "line": 119,
+            "line": 124,
             "description": "Boolean value indicating the resumed status of the run.",
             "itemtype": "attribute",
             "name": "_resumed",
@@ -214,7 +214,7 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 39,
+            "line": 43,
             "description": "Command function for all mode.",
             "itemtype": "method",
             "name": "_runAll",
@@ -237,7 +237,7 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 71,
+            "line": 75,
             "description": "Command function for queue mode.",
             "itemtype": "method",
             "name": "_runAll",
@@ -270,7 +270,7 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 102,
+            "line": 106,
             "description": "The inherited args attribute is protected.",
             "itemtype": "attribute",
             "name": "args",
@@ -284,7 +284,19 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 110,
+            "line": 114,
+            "description": "A config object passed to the AsyncCommand constructor when\ninstantiating dynamically.",
+            "itemtype": "attribute",
+            "name": "config",
+            "default": "{}",
+            "initonly": "",
+            "type": "Object",
+            "class": "Async",
+            "module": "gallery-async"
+        },
+        {
+            "file": "../gallery-async/js/async.js",
+            "line": 126,
             "description": "The inherited ctx attribute is protected.",
             "itemtype": "attribute",
             "name": "ctx",
@@ -296,7 +308,7 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 116,
+            "line": 132,
             "description": "The inherited fn attribute is protected.",
             "itemtype": "attribute",
             "name": "fn",
@@ -309,7 +321,7 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 123,
+            "line": 139,
             "description": "Value indicating the run mode.  Possible modes are:\n<dl>\n    <dt>\n        all\n    </dt>\n    <dd>\n        This mode runs all commands.  The commands might be completed out of order.\n        The run completes once all commands have completed.  The run fails if any\n        command fails.\n    </dd>\n    <dt>\n        queue\n    </dt>\n    <dd>\n        This mode runs one command at a time.  It waits for the first command to complete\n        before moving on to the next one.  The run completes when the last command has completed.\n        The run fails if a command fails and the remaining commands are not run.\n    </dd>\n</dl>",
             "itemtype": "attribute",
             "name": "mode",
@@ -321,7 +333,7 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 152,
+            "line": 168,
             "description": "An array of AsyncCommands to run.  Functions will get converted to instances of AsyncCommand.",
             "itemtype": "attribute",
             "name": "run",
@@ -333,7 +345,7 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 181,
+            "line": 199,
             "description": "Creates and runs an instance of Async in 'all' mode.  This method accepts an unlimited number of parameters.\nParameters can be command functions, instances of AsyncCommand, instances of Async, or arrays of any of the above.",
             "itemtype": "method",
             "name": "runAll",
@@ -347,7 +359,7 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 191,
+            "line": 209,
             "description": "Creates and runs an instance of Async in 'queue' mode.  This method accepts an unlimited number of parameters.\nParameters can be command functions, instances of AsyncCommand, instances of Async, or arrays of any of the above.",
             "itemtype": "method",
             "name": "runQueue",
@@ -361,7 +373,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 24,
+            "line": 31,
             "description": "Fired when the command function completes.",
             "itemtype": "event",
             "name": "complete",
@@ -386,7 +398,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 39,
+            "line": 46,
             "description": "Fired when the command function fails.",
             "itemtype": "event",
             "name": "failure",
@@ -404,7 +416,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 61,
+            "line": 68,
             "description": "Fired when the command function starts.",
             "itemtype": "event",
             "name": "start",
@@ -416,7 +428,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 75,
+            "line": 82,
             "description": "Fired when the command function succeeds.",
             "itemtype": "event",
             "name": "success",
@@ -434,7 +446,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 98,
+            "line": 105,
             "description": "Execute the command function.",
             "itemtype": "method",
             "name": "run",
@@ -444,7 +456,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 109,
+            "line": 116,
             "description": "Array of arguments to be passed to the command function.\nA special callback function is automatically added as the first argument.",
             "itemtype": "attribute",
             "name": "args",
@@ -456,7 +468,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 130,
+            "line": 137,
             "description": "Boolean value indicating the completed status of the command.",
             "itemtype": "attribute",
             "name": "completed",
@@ -468,7 +480,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 141,
+            "line": 148,
             "description": "Execution context for the command function.",
             "itemtype": "attribute",
             "name": "ctx",
@@ -478,7 +490,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 150,
+            "line": 157,
             "description": "Error value passed to the failure event.",
             "itemtype": "attribute",
             "name": "error",
@@ -488,7 +500,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 159,
+            "line": 166,
             "description": "Boolean value indicating the failed status of the command.",
             "itemtype": "attribute",
             "name": "failed",
@@ -500,7 +512,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 170,
+            "line": 177,
             "description": "The command function to execute.  This function receives a special success callback function as\nthe first parameter.  The success callback function has a method parameter called fail.  One of \nthese callback functions must be called in order to complete the command.",
             "itemtype": "attribute",
             "name": "fn",
@@ -511,7 +523,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 184,
+            "line": 191,
             "description": "Boolean value indicating the started status of the command.",
             "itemtype": "attribute",
             "name": "started",
@@ -523,7 +535,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 195,
+            "line": 202,
             "description": "Value passed to the success event.",
             "itemtype": "attribute",
             "name": "value",

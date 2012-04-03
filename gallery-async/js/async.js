@@ -4,7 +4,10 @@
 (function (Y, moduleName) {
     'use strict';
     
-    var _run = {
+    var _string_complete = 'complete',
+        _string_initOnly = 'initOnly',
+        
+        _run = {
             all: '_runAll',
             queue: '_runQueue'
         },
@@ -50,7 +53,7 @@
                     value = [];
 
                 _each(run, function (asyncCommand, index) {
-                    asyncCommand.run().after('complete', function (eventFacade) {
+                    asyncCommand.run().after(_string_complete, function (eventFacade) {
                         if (eventFacade.failed) {
                             success.fail(eventFacade.error);
                             return;
@@ -87,7 +90,7 @@
                     return;
                 }
 
-                run[index].run().after('complete', function (eventFacade) {
+                run[index].run().after(_string_complete, function (eventFacade) {
                     if (eventFacade.failed) {
                         success.fail(eventFacade.error);
                         return;
@@ -118,7 +121,7 @@
                 */
                config: {
                    value: {},
-                   writeOnce: 'initOnly'
+                   writeOnce: _string_initOnly
                },
                 /**
                 * The inherited ctx attribute is protected.
@@ -160,7 +163,7 @@
                 */
                 mode: {
                     value: 'queue',
-                    writeOnce: 'initOnly'
+                    writeOnce: _string_initOnly
                 },
                 /**
                 * An array of AsyncCommands to run.  Functions will get converted to instances of AsyncCommand.
@@ -190,7 +193,7 @@
                         return run;
                     },
                     value: [],
-                    writeOnce: 'initOnly'
+                    writeOnce: _string_initOnly
                 }
             },
             /**

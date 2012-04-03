@@ -93,7 +93,12 @@
 (function (Y, moduleName) {
     &#x27;use strict&#x27;;
     
-    var _false = false,
+    var _string__args = &#x27;_args&#x27;,
+        _string__resumed = &#x27;_resumed&#x27;,
+        _string_host = &#x27;host&#x27;,
+        _string_paused = &#x27;paused&#x27;,
+        
+        _false = false,
         _true = true,
         
         _DoPrevent = Y.Do.Prevent,
@@ -110,11 +115,11 @@
         initializer: function () {
             var me = this;
                 
-            if (me.get(&#x27;host&#x27;).get(&#x27;mode&#x27;) === &#x27;queue&#x27;) {
+            if (me.get(_string_host).get(&#x27;mode&#x27;) === &#x27;queue&#x27;) {
                 me.beforeHostMethod(&#x27;_runQueue&#x27;, function () {
-                    if (me.get(&#x27;paused&#x27;)) {
-                        me._set(&#x27;_args&#x27;, arguments);
-                        return new _DoPrevent(&#x27;paused&#x27;);
+                    if (me.get(_string_paused)) {
+                        me._set(_string__args, arguments);
+                        return new _DoPrevent(_string_paused);
                     }
 
                     return null;
@@ -128,7 +133,7 @@
          * @chainable
          *&#x2F;
         pause: function () {
-            return this._set(&#x27;paused&#x27;, _true);
+            return this._set(_string_paused, _true);
         },
         &#x2F;**
          * Resumes a paused run.  If a command is currently running, the paused state may not be updated
@@ -141,8 +146,8 @@
                 completeListener,
                 me = this,
                 
-                args = me.get(&#x27;_args&#x27;),
-                host = me.get(&#x27;host&#x27;),
+                args = me.get(_string__args),
+                host = me.get(_string_host),
                 runQueue = host._runQueue,
                 
                 resume = function (args) {
@@ -154,12 +159,12 @@
                     runQueue.apply(host, args);
                 };
             
-            if (!me.get(&#x27;paused&#x27;) || me.get(&#x27;_resumed&#x27;)) {
+            if (!me.get(_string_paused) || me.get(_string__resumed)) {
                 return me;
             }
             
             if (!host.get(&#x27;started&#x27;) || host.get(&#x27;completed&#x27;)) {
-                me._set(&#x27;paused&#x27;, _false);
+                me._set(_string_paused, _false);
                 return me;
             }
 
@@ -168,7 +173,7 @@
                 return me;
             }
             
-            me._set(&#x27;resumed&#x27;, _true);
+            me._set(_string__resumed, _true);
             
             argsChangeListener = me.once(&#x27;_argsChange&#x27;, function (eventFacade) {
                 completeListener.detach();

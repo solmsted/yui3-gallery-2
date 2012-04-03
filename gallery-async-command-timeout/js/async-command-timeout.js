@@ -4,7 +4,9 @@
 (function (Y, moduleName) {
     'use strict';
     
-    var _Plugin = Y.Plugin,
+    var _string_timeout = 'timeout',
+        
+        _Plugin = Y.Plugin,
         
         _invoke = Y.Array.invoke,
         _later = Y.later;
@@ -30,7 +32,7 @@
         initializer: function () {
             var me = this,
                 host = me.get('host'),
-                timeout = me.get('timeout');
+                timeout = me.get(_string_timeout);
             
             if (!timeout) {
                 return;
@@ -41,7 +43,7 @@
                     me._timer = _later(timeout, host, host.fire, [
                         'failure',
                         {
-                            error: 'timeout'
+                            error: _string_timeout
                         }
                     ]);
                 }),
@@ -72,6 +74,6 @@
                 writeOnce: 'initOnly'
             }
         },
-        NS: 'timeout'
+        NS: _string_timeout
     });
 }(Y, arguments[1]));

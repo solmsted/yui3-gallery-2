@@ -89,7 +89,10 @@
 (function (Y, moduleName) {
     &#x27;use strict&#x27;;
     
-    var _run = {
+    var _string_complete = &#x27;complete&#x27;,
+        _string_initOnly = &#x27;initOnly&#x27;,
+        
+        _run = {
             all: &#x27;_runAll&#x27;,
             queue: &#x27;_runQueue&#x27;
         },
@@ -135,7 +138,7 @@
                     value = [];
 
                 _each(run, function (asyncCommand, index) {
-                    asyncCommand.run().after(&#x27;complete&#x27;, function (eventFacade) {
+                    asyncCommand.run().after(_string_complete, function (eventFacade) {
                         if (eventFacade.failed) {
                             success.fail(eventFacade.error);
                             return;
@@ -172,7 +175,7 @@
                     return;
                 }
 
-                run[index].run().after(&#x27;complete&#x27;, function (eventFacade) {
+                run[index].run().after(_string_complete, function (eventFacade) {
                     if (eventFacade.failed) {
                         success.fail(eventFacade.error);
                         return;
@@ -203,7 +206,7 @@
                 *&#x2F;
                config: {
                    value: {},
-                   writeOnce: &#x27;initOnly&#x27;
+                   writeOnce: _string_initOnly
                },
                 &#x2F;**
                 * The inherited ctx attribute is protected.
@@ -245,7 +248,7 @@
                 *&#x2F;
                 mode: {
                     value: &#x27;queue&#x27;,
-                    writeOnce: &#x27;initOnly&#x27;
+                    writeOnce: _string_initOnly
                 },
                 &#x2F;**
                 * An array of AsyncCommands to run.  Functions will get converted to instances of AsyncCommand.
@@ -275,7 +278,7 @@
                         return run;
                     },
                     value: [],
-                    writeOnce: &#x27;initOnly&#x27;
+                    writeOnce: _string_initOnly
                 }
             },
             &#x2F;**

@@ -4,7 +4,14 @@
 (function (Y, moduleName) {
     'use strict';
     
-    var _Base = Y.Base,
+    var _string_args = 'args',
+        _string_complete = 'complete',
+        _string_failure = 'failure',
+        _string_initOnly = 'initOnly',
+        _string_start = 'start',
+        _string_success = 'success',
+        
+        _Base = Y.Base,
         
         _createCompleteFunction,
         _false = false,
@@ -29,7 +36,7 @@
             * @param {Boolean} failed Indicates the failed status of the command.
             * @param value Optional return value from the command function.
             */
-            me.publish('complete', {
+            me.publish(_string_complete, {
                 defaultFn: function () {
                     me._set('completed', _true);
                 },
@@ -43,14 +50,14 @@
             * @param error Optional error value.
             * @protected
             */
-            me.publish('failure', {
+            me.publish(_string_failure, {
                 defaultFn: function (eventFacade) {
                     var error = eventFacade.error;
 
                     me._set('error', error);
                     me._set('failed', _true);
 
-                    me.fire('complete', {
+                    me.fire(_string_complete, {
                         error: error,
                         failed: _true
                     });
@@ -64,10 +71,10 @@
             * @fireonce
             * @protected
             */
-            me.publish('start', {
+            me.publish(_string_start, {
                 defaultFn: function () {
                     me._set('started', _true);
-                    me.get('fn').apply(me.get('ctx'), me.get('args'));
+                    me.get('fn').apply(me.get('ctx'), me.get(_string_args));
                 },
                 fireOnce: _true
             });
@@ -79,13 +86,13 @@
             * @param value Optional return value from the command function.
             * @protected
             */
-            me.publish('success', {
+            me.publish(_string_success, {
                 defaultFn: function (eventFacade) {
                     var value = eventFacade.value;
 
                     me._set('value', value);
 
-                    me.fire('complete', {
+                    me.fire(_string_complete, {
                         failed: _false,
                         value: value
                     });
@@ -93,7 +100,7 @@
                 fireOnce: _true
             });
 
-            me.get('args').unshift(_createCompleteFunction(me));
+            me.get(_string_args).unshift(_createCompleteFunction(me));
         },
         /**
         * Execute the command function.
@@ -101,7 +108,7 @@
         * @chainable
         */
         run: function () {
-            this.fire('start');
+            this.fire(_string_start);
             return this;
         }
     }, {
@@ -125,7 +132,7 @@
                     return args;
                 },
                 value: [],
-                writeOnce: 'initOnly'
+                writeOnce: _string_initOnly
             },
             /**
             * Boolean value indicating the completed status of the command.
@@ -145,7 +152,7 @@
             */
             ctx: {
                 value: null,
-                writeOnce: 'initOnly'
+                writeOnce: _string_initOnly
             },
             /**
             * Error value passed to the failure event.
@@ -179,7 +186,7 @@
                 value: function (success) {
                     success();
                 },
-                writeOnce: 'initOnly'
+                writeOnce: _string_initOnly
             },
             /**
             * Boolean value indicating the started status of the command.
@@ -206,13 +213,13 @@
     
     _createCompleteFunction = function (asyncCommand) {
         var successFunction = function (value) {
-            asyncCommand.fire('success', {
+            asyncCommand.fire(_string_success, {
                 value: value
             });
         };
         
         successFunction.fail = function (error) {
-            asyncCommand.fire('failure', {
+            asyncCommand.fire(_string_failure, {
                 error: error
             });
         };

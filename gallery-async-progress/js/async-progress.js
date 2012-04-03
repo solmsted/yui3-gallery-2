@@ -4,7 +4,9 @@
 (function (Y, moduleName) {
     'use strict';
     
-    var _Plugin = Y.Plugin,
+    var _string_progress = 'progress',
+        
+        _Plugin = Y.Plugin,
         
         _invoke = Y.Array.invoke;
 
@@ -33,13 +35,13 @@
                  * @param {Number} completed
                  * @param {Number} total
                  */
-                host.fire('progress', {
+                host.fire(_string_progress, {
                     completed: completed,
                     total: total
                 });
             });
         }
     }, {
-        NS: 'progress'
+        NS: _string_progress
     });
 }(Y, arguments[1]));

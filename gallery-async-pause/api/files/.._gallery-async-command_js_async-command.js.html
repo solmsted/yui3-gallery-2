@@ -93,7 +93,14 @@
 (function (Y, moduleName) {
     &#x27;use strict&#x27;;
     
-    var _Base = Y.Base,
+    var _string_args = &#x27;args&#x27;,
+        _string_complete = &#x27;complete&#x27;,
+        _string_failure = &#x27;failure&#x27;,
+        _string_initOnly = &#x27;initOnly&#x27;,
+        _string_start = &#x27;start&#x27;,
+        _string_success = &#x27;success&#x27;,
+        
+        _Base = Y.Base,
         
         _createCompleteFunction,
         _false = false,
@@ -118,7 +125,7 @@
             * @param {Boolean} failed Indicates the failed status of the command.
             * @param value Optional return value from the command function.
             *&#x2F;
-            me.publish(&#x27;complete&#x27;, {
+            me.publish(_string_complete, {
                 defaultFn: function () {
                     me._set(&#x27;completed&#x27;, _true);
                 },
@@ -132,14 +139,14 @@
             * @param error Optional error value.
             * @protected
             *&#x2F;
-            me.publish(&#x27;failure&#x27;, {
+            me.publish(_string_failure, {
                 defaultFn: function (eventFacade) {
                     var error = eventFacade.error;
 
                     me._set(&#x27;error&#x27;, error);
                     me._set(&#x27;failed&#x27;, _true);
 
-                    me.fire(&#x27;complete&#x27;, {
+                    me.fire(_string_complete, {
                         error: error,
                         failed: _true
                     });
@@ -153,10 +160,10 @@
             * @fireonce
             * @protected
             *&#x2F;
-            me.publish(&#x27;start&#x27;, {
+            me.publish(_string_start, {
                 defaultFn: function () {
                     me._set(&#x27;started&#x27;, _true);
-                    me.get(&#x27;fn&#x27;).apply(me.get(&#x27;ctx&#x27;), me.get(&#x27;args&#x27;));
+                    me.get(&#x27;fn&#x27;).apply(me.get(&#x27;ctx&#x27;), me.get(_string_args));
                 },
                 fireOnce: _true
             });
@@ -168,13 +175,13 @@
             * @param value Optional return value from the command function.
             * @protected
             *&#x2F;
-            me.publish(&#x27;success&#x27;, {
+            me.publish(_string_success, {
                 defaultFn: function (eventFacade) {
                     var value = eventFacade.value;
 
                     me._set(&#x27;value&#x27;, value);
 
-                    me.fire(&#x27;complete&#x27;, {
+                    me.fire(_string_complete, {
                         failed: _false,
                         value: value
                     });
@@ -182,7 +189,7 @@
                 fireOnce: _true
             });
 
-            me.get(&#x27;args&#x27;).unshift(_createCompleteFunction(me));
+            me.get(_string_args).unshift(_createCompleteFunction(me));
         },
         &#x2F;**
         * Execute the command function.
@@ -190,7 +197,7 @@
         * @chainable
         *&#x2F;
         run: function () {
-            this.fire(&#x27;start&#x27;);
+            this.fire(_string_start);
             return this;
         }
     }, {
@@ -214,7 +221,7 @@
                     return args;
                 },
                 value: [],
-                writeOnce: &#x27;initOnly&#x27;
+                writeOnce: _string_initOnly
             },
             &#x2F;**
             * Boolean value indicating the completed status of the command.
@@ -234,7 +241,7 @@
             *&#x2F;
             ctx: {
                 value: null,
-                writeOnce: &#x27;initOnly&#x27;
+                writeOnce: _string_initOnly
             },
             &#x2F;**
             * Error value passed to the failure event.
@@ -268,7 +275,7 @@
                 value: function (success) {
                     success();
                 },
-                writeOnce: &#x27;initOnly&#x27;
+                writeOnce: _string_initOnly
             },
             &#x2F;**
             * Boolean value indicating the started status of the command.
@@ -295,13 +302,13 @@
     
     _createCompleteFunction = function (asyncCommand) {
         var successFunction = function (value) {
-            asyncCommand.fire(&#x27;success&#x27;, {
+            asyncCommand.fire(_string_success, {
                 value: value
             });
         };
         
         successFunction.fail = function (error) {
-            asyncCommand.fire(&#x27;failure&#x27;, {
+            asyncCommand.fire(_string_failure, {
                 error: error
             });
         };
