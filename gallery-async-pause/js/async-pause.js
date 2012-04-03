@@ -49,8 +49,8 @@
                 completeListener,
                 me = this,
                 
-                args = this.get('_args'),
-                host = this.get('host'),
+                args = me.get('_args'),
+                host = me.get('host'),
                 runQueue = host._runQueue,
                 
                 resume = function (args) {
