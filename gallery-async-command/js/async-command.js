@@ -12,8 +12,7 @@
     /**
     * Asynchronous command class.
     * @class AsyncCommand
-    * @extends Y.Base
-    * @namespace Y
+    * @extends Base
     * @param {Object} config Configuration Object.
     */
     Y.AsyncCommand = _Base.create(moduleName, _Base, [], {

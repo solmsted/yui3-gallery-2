@@ -10,8 +10,8 @@
 
     /**
      * Asynchronous command runner progress plugin.
-     * @class Y.Plugin.AsyncProgress
-     * @extends Y.Plugin.Base
+     * @class Plugin.AsyncProgress
+     * @extends Plugin.Base
      * @param {Object} config Configuration Object.
      */
     _Plugin.AsyncProgress = Y.Base.create(moduleName, _Plugin.Base, [], {
@@ -29,7 +29,7 @@
                 
                 /**
                  * @event progress
-                 * @for Y.Async
+                 * @for Async
                  * @param {Number} completed
                  * @param {Number} total
                  */

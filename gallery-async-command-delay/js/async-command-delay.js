@@ -14,8 +14,8 @@
     /**
      * Asynchronous command delay plugin.
      * @class AsyncCommandDelay
-     * @extends Y.Plugin.Base
-     * @namespace Y.Plugin
+     * @extends Plugin.Base
+     * @namespace Plugin
      * @param {Object} config Configuration Object.
      */
     _Plugin.AsyncCommandDelay = Y.Base.create(moduleName, _Plugin.Base, [], {

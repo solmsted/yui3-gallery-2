@@ -18,8 +18,7 @@
         /**
         * Asynchronous command runner class.
         * @class Async
-        * @extends Y.AsyncCommand
-        * @namespace Y
+        * @extends AsyncCommand
         * @param {Object} config Configuration Object.
         */
         _class = Y.Base.create(moduleName, Y.AsyncCommand, [], {

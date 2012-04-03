@@ -11,8 +11,8 @@
     /**
      * Asynchronous command withhold plugin.
      * @class AsyncCommandWithhold
-     * @extends Y.Plugin.Base
-     * @namespace Y.Plugin
+     * @extends Plugin.Base
+     * @namespace Plugin
      * @param {Object} config Configuration Object.
      */
     _Plugin.AsyncCommandWithhold = Y.Base.create(moduleName, _Plugin.Base, [], {

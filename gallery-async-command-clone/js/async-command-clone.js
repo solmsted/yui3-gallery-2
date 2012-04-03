@@ -9,8 +9,8 @@
     /**
      * Asynchronous command clone plugin.
      * @class AsyncCommandClone
-     * @extends Y.Plugin.Base
-     * @namespace Y.Plugin
+     * @extends Plugin.Base
+     * @namespace Plugin
      * @param {Object} config Configuration Object.
      */
     _Plugin.AsyncCommandClone = Y.Base.create(moduleName, _Plugin.Base, [], {

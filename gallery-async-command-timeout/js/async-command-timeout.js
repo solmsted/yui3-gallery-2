@@ -12,8 +12,8 @@
     /**
      * Asynchronous command timeout plugin.
      * @class AsyncCommandTimeout
-     * @extends Y.Plugin.Base
-     * @namespace Y.Plugin
+     * @extends Plugin.Base
+     * @namespace Plugin
      * @param {Object} config Configuration Object.
      */
     _Plugin.AsyncCommandTimeout = Y.Base.create(moduleName, _Plugin.Base, [], {

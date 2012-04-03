@@ -38,11 +38,11 @@
         <div id="api-tabview-panel">
             <ul id="api-classes" class="apis classes">
             
-                <li><a href="..&#x2F;classes/Y.Async.html">Y.Async</a></li>
+                <li><a href="..&#x2F;classes/Async.html">Async</a></li>
             
-                <li><a href="..&#x2F;classes/Y.AsyncCommand.html">Y.AsyncCommand</a></li>
+                <li><a href="..&#x2F;classes/AsyncCommand.html">AsyncCommand</a></li>
             
-                <li><a href="..&#x2F;classes/Y.Plugin.AsyncProgress.html">Y.Plugin.AsyncProgress</a></li>
+                <li><a href="..&#x2F;classes/Plugin.AsyncProgress.html">Plugin.AsyncProgress</a></li>
             
             </ul>
 
@@ -90,22 +90,20 @@
 &#x2F;**
  * @module gallery-async-progress
  *&#x2F;
-(function (Y) {
+(function (Y, moduleName) {
     &#x27;use strict&#x27;;
     
-    var _invoke = Y.Array.invoke,
+    var _Plugin = Y.Plugin,
         
-        _class;
+        _invoke = Y.Array.invoke;
 
     &#x2F;**
      * Asynchronous command runner progress plugin.
-     * @class Y.Plugin.AsyncProgress
-     * @extends Y.Plugin.Base
+     * @class Plugin.AsyncProgress
+     * @extends Plugin.Base
      * @param {Object} config Configuration Object.
      *&#x2F;
-    _class = Y.extend(function (config) {
-        _class.superclass.constructor.call(this, config);
-    }, Y.Plugin.Base, {
+    _Plugin.AsyncProgress = Y.Base.create(moduleName, _Plugin.Base, [], {
         destructor: function () {
             _invoke(this._subscriptions, &#x27;detach&#x27;);
         },
@@ -120,7 +118,7 @@
                 
                 &#x2F;**
                  * @event progress
-                 * @for Y.Async
+                 * @for Async
                  * @param {Number} completed
                  * @param {Number} total
                  *&#x2F;
@@ -131,12 +129,9 @@
             });
         }
     }, {
-        NAME: &#x27;async-progress&#x27;,
         NS: &#x27;progress&#x27;
     });
-
-    Y.Plugin.AsyncProgress = _class;
-}(Y));
+}(Y, arguments[1]));
     </pre>
 </div>
 
