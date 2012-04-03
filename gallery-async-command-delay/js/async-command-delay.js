@@ -4,12 +4,12 @@
 (function (Y, moduleName) {
     'use strict';
     
-    var _Plugin = Y.Plugin,
+    var _Do = Y.Do,
+        _DoAlterReturn = _Do.AlterReturn,
+        _DoPrevent = _Do.Prevent,
+        _Plugin = Y.Plugin,
         
-        _delay = Y.delay,
-        _do = Y.Do,
-        _DoAlterReturn = _do.AlterReturn,
-        _DoPrevent = _do.Prevent;
+        _delay = Y.delay;
 
     /**
      * Asynchronous command delay plugin.
@@ -21,7 +21,8 @@
     _Plugin.AsyncCommandDelay = Y.Base.create(moduleName, _Plugin.Base, [], {
         initializer: function () {
             var me = this,
-                host = this.get('host'),
+            
+                host = me.get('host'),
                 run = host.run;
             
             me.afterHostMethod('run', function () {
