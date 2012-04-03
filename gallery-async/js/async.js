@@ -17,6 +17,7 @@
         _each = _Array.each,
         _isArray = _Lang.isArray,
         _isFunction = _Lang.isFunction,
+        _merge = Y.merge,
         _unnest = _Array.unnest,
     
         /**
@@ -107,6 +108,18 @@
                 * @protected
                 * @type Array
                 */
+               /**
+                * A config object passed to the AsyncCommand constructor when
+                * instantiating dynamically.
+                * @attribute config
+                * @default {}
+                * @initonly
+                * @type Object
+                */
+               config: {
+                   value: {},
+                   writeOnce: 'initOnly'
+               },
                 /**
                 * The inherited ctx attribute is protected.
                 * @attribute ctx
@@ -158,6 +171,8 @@
                 */
                 run: {
                     setter: function (run) {
+                        var config = this.get('config');
+                        
                         if (!_isArray(run)) {
                             run = [
                                 run
@@ -166,9 +181,9 @@
 
                         _each(run, function (item, index, run) {
                             if (_isFunction(item)) {
-                                run[index] = new _AsyncCommand({
+                                run[index] = new _AsyncCommand(_merge(config, {
                                     fn: item
-                                });
+                                }));
                             }
                         });
 
