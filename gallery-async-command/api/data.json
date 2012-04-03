@@ -219,7 +219,7 @@
         },
         {
             "file": "js/async-command.js",
-            "line": 149,
+            "line": 150,
             "description": "Error value passed to the failure event.",
             "itemtype": "attribute",
             "name": "error",
@@ -229,7 +229,7 @@
         },
         {
             "file": "js/async-command.js",
-            "line": 157,
+            "line": 159,
             "description": "Boolean value indicating the failed status of the command.",
             "itemtype": "attribute",
             "name": "failed",
@@ -241,7 +241,7 @@
         },
         {
             "file": "js/async-command.js",
-            "line": 168,
+            "line": 170,
             "description": "The command function to execute.  This function receives a special success callback function as\nthe first parameter.  The success callback function has a method parameter called fail.  One of \nthese callback functions must be called in order to complete the command.",
             "itemtype": "attribute",
             "name": "fn",
@@ -252,7 +252,7 @@
         },
         {
             "file": "js/async-command.js",
-            "line": 182,
+            "line": 184,
             "description": "Boolean value indicating the started status of the command.",
             "itemtype": "attribute",
             "name": "started",
@@ -264,7 +264,7 @@
         },
         {
             "file": "js/async-command.js",
-            "line": 193,
+            "line": 195,
             "description": "Value passed to the success event.",
             "itemtype": "attribute",
             "name": "value",

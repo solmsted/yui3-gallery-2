@@ -144,6 +144,7 @@
             * @initonly
             */
             ctx: {
+                value: null,
                 writeOnce: 'initOnly'
             },
             /**
@@ -152,7 +153,8 @@
             * @readonly
             */
             error: {
-                readOnly: _true
+                readOnly: _true,
+                value: null
             },
             /**
             * Boolean value indicating the failed status of the command.
@@ -196,7 +198,8 @@
             * @readonly
             */
             value: {
-                readOnly: _true
+                readOnly: _true,
+                value: null
             }
         }
     });
