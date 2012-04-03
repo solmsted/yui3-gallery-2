@@ -16,7 +16,7 @@
      */
     _Plugin.AsyncProgress = Y.Base.create(moduleName, _Plugin.Base, [], {
         destructor: function () {
-            _invoke(this._subscriptions, 'detach');
+            _invoke(this._subs, 'detach');
         },
         initializer: function () {
             var completed = 0,
@@ -24,7 +24,7 @@
                 run = host.get('run'),
                 total = run.length;
                 
-            this._subscriptions = _invoke(run, 'on', 'complete', function () {
+            this._subs = _invoke(run, 'on', 'complete', function () {
                 completed += 1;
                 
                 /**
