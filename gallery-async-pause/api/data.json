@@ -92,7 +92,7 @@
             "module": "gallery-async-pause",
             "namespace": "Plugin",
             "file": "js/async-pause.js",
-            "line": 10,
+            "line": 13,
             "description": "Asynchronous command runner pause plugin.",
             "extends": "Plugin.Base",
             "params": [
@@ -151,7 +151,7 @@
     "classitems": [
         {
             "file": "js/async-pause.js",
-            "line": 32,
+            "line": 35,
             "description": "Pause the run.  Does not stop a command that is currently running, the run will pause\nbefore the next command runs.",
             "itemtype": "method",
             "name": "pause",
@@ -162,7 +162,7 @@
         },
         {
             "file": "js/async-pause.js",
-            "line": 41,
+            "line": 44,
             "description": "Resumes a paused run.  If a command is currently running, the paused state may not be updated\nimmediately.  Resume does nothing if the run is not paused or not started yet or already complete.",
             "itemtype": "method",
             "name": "resume",
@@ -173,7 +173,7 @@
         },
         {
             "file": "js/async-pause.js",
-            "line": 94,
+            "line": 97,
             "description": "Boolean value indicating the paused status of the run.",
             "itemtype": "attribute",
             "name": "paused",
@@ -186,7 +186,7 @@
         },
         {
             "file": "js/async-pause.js",
-            "line": 105,
+            "line": 108,
             "description": "Paused _runQueue arguments.",
             "itemtype": "attribute",
             "name": "_args",
@@ -200,7 +200,7 @@
         },
         {
             "file": "js/async-pause.js",
-            "line": 116,
+            "line": 119,
             "description": "Boolean value indicating the resumed status of the run.",
             "itemtype": "attribute",
             "name": "_resumed",

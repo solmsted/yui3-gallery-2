@@ -4,7 +4,10 @@
 (function (Y, moduleName) {
     'use strict';
     
-    var _DoPrevent = Y.Do.Prevent,
+    var _false = false,
+        _true = true,
+        
+        _DoPrevent = Y.Do.Prevent,
         _Plugin = Y.Plugin;
 
     /**
@@ -36,7 +39,7 @@
          * @chainable
          */
         pause: function () {
-            return this._set('paused', true);
+            return this._set('paused', _true);
         },
         /**
          * Resumes a paused run.  If a command is currently running, the paused state may not be updated
@@ -55,9 +58,9 @@
                 
                 resume = function (args) {
                     me._setAttrs({
-                        paused: false,
+                        paused: _false,
                         _args: null,
-                        _resumed: false
+                        _resumed: _false
                     });
                     runQueue.apply(host, args);
                 };
@@ -67,7 +70,7 @@
             }
             
             if (!host.get('started') || host.get('completed')) {
-                me._set('paused', false);
+                me._set('paused', _false);
                 return me;
             }
 
@@ -76,7 +79,7 @@
                 return me;
             }
             
-            me._set('resumed', true);
+            me._set('resumed', _true);
             
             argsChangeListener = me.once('_argsChange', function (eventFacade) {
                 completeListener.detach();
@@ -99,8 +102,8 @@
              * @type Boolean
              */
             paused: {
-                readonly: true,
-                value: false
+                readonly: _true,
+                value: _false
             },
             /**
              * Paused _runQueue arguments.
@@ -110,7 +113,7 @@
              * @type Array
              */
             _args: {
-                readOnly: true,
+                readOnly: _true,
                 value: null
             },
             /**
@@ -121,8 +124,8 @@
              * @type Array
              */
             _resumed: {
-                readOnly: true,
-                value: false
+                readOnly: _true,
+                value: _false
             }
         },
         NS: 'pause'
