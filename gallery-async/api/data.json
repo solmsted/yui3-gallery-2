@@ -65,7 +65,7 @@
             "module": "gallery-async",
             "namespace": "",
             "file": "js/async.js",
-            "line": 18,
+            "line": 22,
             "description": "Asynchronous command runner class.",
             "extends": "AsyncCommand",
             "params": [
@@ -102,7 +102,7 @@
     "classitems": [
         {
             "file": "js/async.js",
-            "line": 35,
+            "line": 39,
             "description": "Command function for all mode.",
             "itemtype": "method",
             "name": "_runAll",
@@ -125,7 +125,7 @@
         },
         {
             "file": "js/async.js",
-            "line": 67,
+            "line": 71,
             "description": "Command function for queue mode.",
             "itemtype": "method",
             "name": "_runAll",
@@ -158,7 +158,7 @@
         },
         {
             "file": "js/async.js",
-            "line": 98,
+            "line": 102,
             "description": "The inherited args attribute is protected.",
             "itemtype": "attribute",
             "name": "args",
@@ -172,7 +172,7 @@
         },
         {
             "file": "js/async.js",
-            "line": 106,
+            "line": 110,
             "description": "The inherited ctx attribute is protected.",
             "itemtype": "attribute",
             "name": "ctx",
@@ -184,7 +184,7 @@
         },
         {
             "file": "js/async.js",
-            "line": 112,
+            "line": 116,
             "description": "The inherited fn attribute is protected.",
             "itemtype": "attribute",
             "name": "fn",
@@ -197,7 +197,7 @@
         },
         {
             "file": "js/async.js",
-            "line": 119,
+            "line": 123,
             "description": "Value indicating the run mode.  Possible modes are:\n<dl>\n    <dt>\n        all\n    </dt>\n    <dd>\n        This mode runs all commands.  The commands might be completed out of order.\n        The run completes once all commands have completed.  The run fails if any\n        command fails.\n    </dd>\n    <dt>\n        queue\n    </dt>\n    <dd>\n        This mode runs one command at a time.  It waits for the first command to complete\n        before moving on to the next one.  The run completes when the last command has completed.\n        The run fails if a command fails and the remaining commands are not run.\n    </dd>\n</dl>",
             "itemtype": "attribute",
             "name": "mode",
@@ -209,7 +209,7 @@
         },
         {
             "file": "js/async.js",
-            "line": 148,
+            "line": 152,
             "description": "An array of AsyncCommands to run.  Functions will get converted to instances of AsyncCommand.",
             "itemtype": "attribute",
             "name": "run",
@@ -221,7 +221,7 @@
         },
         {
             "file": "js/async.js",
-            "line": 177,
+            "line": 181,
             "description": "Creates and runs an instance of Async in 'all' mode.  This method accepts an unlimited number of parameters.\nParameters can be command functions, instances of AsyncCommand, instances of Async, or arrays of any of the above.",
             "itemtype": "method",
             "name": "runAll",
@@ -235,7 +235,7 @@
         },
         {
             "file": "js/async.js",
-            "line": 187,
+            "line": 191,
             "description": "Creates and runs an instance of Async in 'queue' mode.  This method accepts an unlimited number of parameters.\nParameters can be command functions, instances of AsyncCommand, instances of Async, or arrays of any of the above.",
             "itemtype": "method",
             "name": "runQueue",

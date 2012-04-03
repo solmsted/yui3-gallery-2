@@ -4,16 +4,20 @@
 (function (Y, moduleName) {
     'use strict';
     
-    var _lang = Y.Lang,
-        _run = {
+    var _run = {
             all: '_runAll',
             queue: '_runQueue'
         },
-        _unnest = Y.Array.unnest,
+        
+        _Array = Y.Array,
+        _AsyncCommand = Y.AsyncCommand,
+        _Lang = Y.Lang,
         
         _createAndRun,
-        _isArray = _lang.isArray,
-        _isFunction = _lang.isFunction,
+        _each = _Array.each,
+        _isArray = _Lang.isArray,
+        _isFunction = _Lang.isFunction,
+        _unnest = _Array.unnest,
     
         /**
         * Asynchronous command runner class.
@@ -21,11 +25,11 @@
         * @extends AsyncCommand
         * @param {Object} config Configuration Object.
         */
-        _class = Y.Base.create(moduleName, Y.AsyncCommand, [], {
+        _class = Y.Base.create(moduleName, _AsyncCommand, [], {
             initializer: function () {
                 var me = this,
                     run = _run[me.get('mode')];
-
+                
                 if (run) {
                     me._set('fn', function (success) {
                         me[run].call(me, success, me.get('run'));
@@ -44,7 +48,7 @@
                     completeCount = 0,
                     value = [];
 
-                Y.each(run, function (asyncCommand, index) {
+                _each(run, function (asyncCommand, index) {
                     asyncCommand.run().after('complete', function (eventFacade) {
                         if (eventFacade.failed) {
                             success.fail(eventFacade.error);
@@ -160,9 +164,9 @@
                             ];
                         }
 
-                        Y.each(run, function (item, index, run) {
+                        _each(run, function (item, index, run) {
                             if (_isFunction(item)) {
-                                run[index] = new Y.AsyncCommand({
+                                run[index] = new _AsyncCommand({
                                     fn: item
                                 });
                             }
