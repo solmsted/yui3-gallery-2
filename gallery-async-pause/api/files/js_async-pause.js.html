@@ -107,18 +107,16 @@
         initializer: function () {
             var me = this;
                 
-            if (me.get(&#x27;host&#x27;).get(&#x27;mode&#x27;) !== &#x27;queue&#x27;) {
-                return;
+            if (me.get(&#x27;host&#x27;).get(&#x27;mode&#x27;) === &#x27;queue&#x27;) {
+                me.beforeHostMethod(&#x27;_runQueue&#x27;, function () {
+                    if (me.get(&#x27;paused&#x27;)) {
+                        me._set(&#x27;_args&#x27;, arguments);
+                        return new _DoPrevent(&#x27;paused&#x27;);
+                    }
+
+                    return null;
+                });
             }
-            
-            me.beforeHostMethod(&#x27;_runQueue&#x27;, function () {
-                if (me.get(&#x27;paused&#x27;)) {
-                    me._set(&#x27;_args&#x27;, arguments);
-                    return new _DoPrevent(&#x27;paused&#x27;);
-                }
-                
-                return null;
-            });
         },
         &#x2F;**
          * Pause the run.  Does not stop a command that is currently running, the run will pause
@@ -127,8 +125,7 @@
          * @chainable
          *&#x2F;
         pause: function () {
-            this._set(&#x27;paused&#x27;, true);
-            return this;
+            return this._set(&#x27;paused&#x27;, true);
         },
         &#x2F;**
          * Resumes a paused run.  If a command is currently running, the paused state may not be updated
@@ -202,7 +199,8 @@
              * @type Array
              *&#x2F;
             _args: {
-                readOnly: true
+                readOnly: true,
+                value: null
             },
             &#x2F;**
              * Boolean value indicating the resumed status of the run.
@@ -212,7 +210,8 @@
              * @type Array
              *&#x2F;
             _resumed: {
-                readOnly: true
+                readOnly: true,
+                value: false
             }
         },
         NS: &#x27;pause&#x27;

@@ -18,18 +18,16 @@
         initializer: function () {
             var me = this;
                 
-            if (me.get('host').get('mode') !== 'queue') {
-                return;
+            if (me.get('host').get('mode') === 'queue') {
+                me.beforeHostMethod('_runQueue', function () {
+                    if (me.get('paused')) {
+                        me._set('_args', arguments);
+                        return new _DoPrevent('paused');
+                    }
+
+                    return null;
+                });
             }
-            
-            me.beforeHostMethod('_runQueue', function () {
-                if (me.get('paused')) {
-                    me._set('_args', arguments);
-                    return new _DoPrevent('paused');
-                }
-                
-                return null;
-            });
         },
         /**
          * Pause the run.  Does not stop a command that is currently running, the run will pause
@@ -38,8 +36,7 @@
          * @chainable
          */
         pause: function () {
-            this._set('paused', true);
-            return this;
+            return this._set('paused', true);
         },
         /**
          * Resumes a paused run.  If a command is currently running, the paused state may not be updated
@@ -113,7 +110,8 @@
              * @type Array
              */
             _args: {
-                readOnly: true
+                readOnly: true,
+                value: null
             },
             /**
              * Boolean value indicating the resumed status of the run.
@@ -123,7 +121,8 @@
              * @type Array
              */
             _resumed: {
-                readOnly: true
+                readOnly: true,
+                value: false
             }
         },
         NS: 'pause'
