@@ -92,7 +92,9 @@
     var _Base = Y.Base,
         
         _createCompleteFunction,
-        _isArray = Y.Lang.isArray;
+        _false = false,
+        _isArray = Y.Lang.isArray,
+        _true = true;
     
     &#x2F;**
     * Asynchronous command class.
@@ -114,9 +116,9 @@
             *&#x2F;
             me.publish(&#x27;complete&#x27;, {
                 defaultFn: function () {
-                    me._set(&#x27;completed&#x27;, true);
+                    me._set(&#x27;completed&#x27;, _true);
                 },
-                fireOnce: true
+                fireOnce: _true
             });
 
             &#x2F;**
@@ -131,14 +133,14 @@
                     var error = eventFacade.error;
 
                     me._set(&#x27;error&#x27;, error);
-                    me._set(&#x27;failed&#x27;, true);
+                    me._set(&#x27;failed&#x27;, _true);
 
                     me.fire(&#x27;complete&#x27;, {
                         error: error,
-                        failed: true
+                        failed: _true
                     });
                 },
-                fireOnce: true
+                fireOnce: _true
             });
 
             &#x2F;**
@@ -149,10 +151,10 @@
             *&#x2F;
             me.publish(&#x27;start&#x27;, {
                 defaultFn: function () {
-                    me._set(&#x27;started&#x27;, true);
+                    me._set(&#x27;started&#x27;, _true);
                     me.get(&#x27;fn&#x27;).apply(me.get(&#x27;ctx&#x27;), me.get(&#x27;args&#x27;));
                 },
-                fireOnce: true
+                fireOnce: _true
             });
 
             &#x2F;**
@@ -169,11 +171,11 @@
                     me._set(&#x27;value&#x27;, value);
 
                     me.fire(&#x27;complete&#x27;, {
-                        failed: false,
+                        failed: _false,
                         value: value
                     });
                 },
-                fireOnce: true
+                fireOnce: _true
             });
 
             me.get(&#x27;args&#x27;).unshift(_createCompleteFunction(me));
@@ -218,8 +220,8 @@
             * @type Boolean
             *&#x2F;
             completed: {
-                readOnly: true,
-                value: false
+                readOnly: _true,
+                value: _false
             },
             &#x2F;**
             * Execution context for the command function.
@@ -235,7 +237,7 @@
             * @readonly
             *&#x2F;
             error: {
-                readOnly: true
+                readOnly: _true
             },
             &#x2F;**
             * Boolean value indicating the failed status of the command.
@@ -245,8 +247,8 @@
             * @type Boolean
             *&#x2F;
             failed: {
-                readOnly: true,
-                value: false
+                readOnly: _true,
+                value: _false
             },
             &#x2F;**
             * The command function to execute.  This function receives a special success callback function as
@@ -270,8 +272,8 @@
             * @type Boolean
             *&#x2F;
             started: {
-                readOnly: true,
-                value: false
+                readOnly: _true,
+                value: _false
             },
             &#x2F;**
             * Value passed to the success event.
@@ -279,7 +281,7 @@
             * @readonly
             *&#x2F;
             value: {
-                readOnly: true
+                readOnly: _true
             }
         }
     });

@@ -89,16 +89,20 @@
 (function (Y, moduleName) {
     &#x27;use strict&#x27;;
     
-    var _lang = Y.Lang,
-        _run = {
+    var _run = {
             all: &#x27;_runAll&#x27;,
             queue: &#x27;_runQueue&#x27;
         },
-        _unnest = Y.Array.unnest,
+        
+        _Array = Y.Array,
+        _AsyncCommand = Y.AsyncCommand,
+        _Lang = Y.Lang,
         
         _createAndRun,
-        _isArray = _lang.isArray,
-        _isFunction = _lang.isFunction,
+        _each = _Array.each,
+        _isArray = _Lang.isArray,
+        _isFunction = _Lang.isFunction,
+        _unnest = _Array.unnest,
     
         &#x2F;**
         * Asynchronous command runner class.
@@ -106,11 +110,11 @@
         * @extends AsyncCommand
         * @param {Object} config Configuration Object.
         *&#x2F;
-        _class = Y.Base.create(moduleName, Y.AsyncCommand, [], {
+        _class = Y.Base.create(moduleName, _AsyncCommand, [], {
             initializer: function () {
                 var me = this,
                     run = _run[me.get(&#x27;mode&#x27;)];
-
+                
                 if (run) {
                     me._set(&#x27;fn&#x27;, function (success) {
                         me[run].call(me, success, me.get(&#x27;run&#x27;));
@@ -129,7 +133,7 @@
                     completeCount = 0,
                     value = [];
 
-                Y.each(run, function (asyncCommand, index) {
+                _each(run, function (asyncCommand, index) {
                     asyncCommand.run().after(&#x27;complete&#x27;, function (eventFacade) {
                         if (eventFacade.failed) {
                             success.fail(eventFacade.error);
@@ -245,9 +249,9 @@
                             ];
                         }
 
-                        Y.each(run, function (item, index, run) {
+                        _each(run, function (item, index, run) {
                             if (_isFunction(item)) {
-                                run[index] = new Y.AsyncCommand({
+                                run[index] = new _AsyncCommand({
                                     fn: item
                                 });
                             }
