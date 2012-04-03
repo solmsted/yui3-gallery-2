@@ -17,18 +17,18 @@
      */
     _Plugin.AsyncCommandWithhold = Y.Base.create(moduleName, _Plugin.Base, [], {
         initializer: function () {
-            this.onHostEvent([
+            var me = this;
+            
+            me.onHostEvent([
                 'failure',
                 'success'
             ], function (eventFacade) {
                 eventFacade.preventDefault();
                 
-                var args = arguments,
-                    target = eventFacade.target,
-                    targetEvent = target.getEvent(eventFacade.type);
+                var targetEvent = eventFacade.target.getEvent(eventFacade.type);
                 
-                _delay(targetEvent.defaultFn, this.get('withhold')).apply(targetEvent, args);
-            }, this);
+                _delay(targetEvent.defaultFn, me.get('withhold')).apply(targetEvent, arguments);
+            });
         }
     }, {
         ATTRS: {

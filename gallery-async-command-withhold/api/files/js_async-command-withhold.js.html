@@ -106,18 +106,18 @@
      *&#x2F;
     _Plugin.AsyncCommandWithhold = Y.Base.create(moduleName, _Plugin.Base, [], {
         initializer: function () {
-            this.onHostEvent([
+            var me = this;
+            
+            me.onHostEvent([
                 &#x27;failure&#x27;,
                 &#x27;success&#x27;
             ], function (eventFacade) {
                 eventFacade.preventDefault();
                 
-                var args = arguments,
-                    target = eventFacade.target,
-                    targetEvent = target.getEvent(eventFacade.type);
+                var targetEvent = eventFacade.target.getEvent(eventFacade.type);
                 
-                _delay(targetEvent.defaultFn, this.get(&#x27;withhold&#x27;)).apply(targetEvent, args);
-            }, this);
+                _delay(targetEvent.defaultFn, me.get(&#x27;withhold&#x27;)).apply(targetEvent, arguments);
+            });
         }
     }, {
         ATTRS: {
