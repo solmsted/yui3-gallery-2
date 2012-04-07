@@ -7,7 +7,7 @@
         "js/soon.js": {
             "name": "js/soon.js",
             "modules": {
-                "gallery-lazy-load": 1
+                "gallery-soon": 1
             },
             "classes": {},
             "fors": {
@@ -17,8 +17,8 @@
         }
     },
     "modules": {
-        "gallery-lazy-load": {
-            "name": "gallery-lazy-load",
+        "gallery-soon": {
+            "name": "gallery-soon",
             "submodules": {},
             "classes": {
                 "YUI": 1
@@ -42,7 +42,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "gallery-lazy-load",
+            "module": "gallery-soon",
             "namespace": ""
         }
     },
@@ -65,7 +65,7 @@
                 "type": "Object"
             },
             "class": "YUI",
-            "module": "gallery-lazy-load"
+            "module": "gallery-soon"
         }
     ]
 }

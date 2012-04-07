@@ -12,7 +12,7 @@
  * Copyright (c) 2011 Barnesandnoble.com, llc and Donavon West
  * 
  * https://github.com/NobleJS/setImmediate/blob/master/MIT-LICENSE.txt
- * @module gallery-lazy-load
+ * @module gallery-soon
  */
 (function (Y) {
     'use strict';
