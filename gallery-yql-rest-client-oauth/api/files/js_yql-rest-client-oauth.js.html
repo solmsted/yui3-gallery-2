@@ -98,38 +98,44 @@
  *         accept
  *     &lt;&#x2F;dt&gt;
  *     &lt;dd&gt;
- *         Specifies the type of content to send in the response using the Accept HTTP header.
- *         This tells YQL what kind of data format you want returned, as well as how to parse it.
+ *         Specifies the type of content to send in the response using the
+ *         Accept HTTP header.  This tells YQL what kind of data format you want
+ *         returned, as well as how to parse it.
  *     &lt;&#x2F;dd&gt;
  *     &lt;dt&gt;
  *         content
  *     &lt;&#x2F;dt&gt;
  *     &lt;dd&gt;
- *         The body content of a POST or PUT request.  This can be an object or a string.  If an
- *         object is used, contentType is assumed to be application&#x2F;x-www-form-urlencoded.
+ *         The body content of a POST or PUT request.  This can be an object or
+ *         a string.  If an object is used, contentType is assumed to be
+ *         application&#x2F;x-www-form-urlencoded.
  *     &lt;&#x2F;dd&gt;
  *     &lt;dt&gt;
  *         contentType
  *     &lt;&#x2F;dt&gt;
  *     &lt;dd&gt;
- *         Specifies the content-type of the body content of a POST or PUT request.
+ *         Specifies the content-type of the body content of a POST or PUT
+ *         request.
  *     &lt;&#x2F;dd&gt;
  *     &lt;dt&gt;
  *         fallbackCharsets
  *     &lt;&#x2F;dt&gt;
  *     &lt;dd&gt;
- *         Overrides the list of fallback character sets, which is set to &quot;utf-8, iso-8859-1&quot; by default,
- *         for decoding the returned response. YQL attempts to decode the response using the character sets
- *         listed here when the response either does not specify the character set or specifies an
- *         incorrect character set that results in a failed decoding.  This value may be an array of strings
- *         or one string with comma separated values.
+ *         Overrides the list of fallback character sets, which is set to
+ *         &quot;utf-8, iso-8859-1&quot; by default, for decoding the returned response.
+ *         YQL attempts to decode the response using the character sets listed
+ *         here when the response either does not specify the character set or
+ *         specifies an incorrect character set that results in a failed
+ *         decoding.  This value may be an array of strings or one string with
+ *         comma separated values.
  *     &lt;&#x2F;dd&gt;
  *     &lt;dt&gt;
  *         forceCharset
  *     &lt;&#x2F;dt&gt;
  *     &lt;dd&gt;
- *         Forces YQL to use the character set specified. Using this overrides both the character set specified
- *         by the response and the fallback character sets. 
+ *         Forces YQL to use the character set specified. Using this overrides
+ *         both the character set specified by the response and the fallback
+ *         character sets. 
  *     &lt;&#x2F;dd&gt;
  *     &lt;dt&gt;
  *         headers
@@ -141,14 +147,16 @@
  *         jsonCompat
  *     &lt;&#x2F;dt&gt;
  *     &lt;dd&gt;
- *         Set this value to &#x27;new&#x27; to get &quot;lossless&quot; JSON when making a REST call to a Web service.
- *         jsonCompat: &#x27;new&#x27; must also be set in the yqlParams object.
+ *         Set this value to &#x27;new&#x27; to get &quot;lossless&quot; JSON when making a REST
+ *         call to a Web service.  jsonCompat: &#x27;new&#x27; must also be set in the
+ *         yqlParams object.
  *     &lt;&#x2F;dd&gt;
  *     &lt;dt&gt;
  *         method
  *     &lt;&#x2F;dt&gt;
  *     &lt;dd&gt;
- *         The HTTP method to use.  Must be one of &#x27;DELETE&#x27;, &#x27;GET&#x27;, &#x27;HEAD&#x27;, &#x27;POST&#x27; or &#x27;PUT&#x27;.
+ *         The HTTP method to use.  Must be one of &#x27;DELETE&#x27;, &#x27;GET&#x27;, &#x27;HEAD&#x27;,
+ *         &#x27;POST&#x27; or &#x27;PUT&#x27;.
  *     &lt;&#x2F;dd&gt;
  *     &lt;dt&gt;
  *         oAuth
@@ -172,7 +180,8 @@
  *                 token
  *             &lt;&#x2F;dt&gt;
  *             &lt;dd&gt;
- *                 an optional object with three optional members: key, verifier, and secret.
+ *                 an optional object with three optional members: key,
+ *                 verifier, and secret.
  *             &lt;&#x2F;dd&gt;
  *         &lt;&#x2F;dl&gt;
  *     &lt;&#x2F;dd&gt;
@@ -186,16 +195,17 @@
  *         timeout
  *     &lt;&#x2F;dt&gt;
  *     &lt;dd&gt;
- *         Specifies the request timeout in milliseconds. This is useful when you want to cancel
- *         requests that take longer than expected. 
+ *         Specifies the request timeout in milliseconds. This is useful when
+ *         you want to cancel requests that take longer than expected. 
  *     &lt;&#x2F;dd&gt;
  *     &lt;dt&gt;
  *         url
  *     &lt;&#x2F;dt&gt;
  *     &lt;dd&gt;
- *         Provides a URL endpoint to query.  The url scheme and host must be lower case.
- *         If you are using the default port, there must not be a port specified in the url.
- *         Querystring parameters must be defined in the query member and not part of the url string.
+ *         Provides a URL endpoint to query.  The url scheme and host must be
+ *         lower case.  If you are using the default port, there must not be a
+ *         port specified in the url.  Querystring parameters must be defined in
+ *         the query member and not part of the url string.
  *     &lt;&#x2F;dd&gt;
  * &lt;&#x2F;dl&gt;
  * @param {Function} callbackFunction The response object is the only parameter.

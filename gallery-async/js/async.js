@@ -143,17 +143,20 @@
                 *         all
                 *     </dt>
                 *     <dd>
-                *         This mode runs all commands.  The commands might be completed out of order.
-                *         The run completes once all commands have completed.  The run fails if any
-                *         command fails.
+                *         This mode runs all commands.  The commands might be
+                *         completed out of order.  The run completes once all
+                *         commands have completed.  The run fails if any command
+                *         fails.
                 *     </dd>
                 *     <dt>
                 *         queue
                 *     </dt>
                 *     <dd>
-                *         This mode runs one command at a time.  It waits for the first command to complete
-                *         before moving on to the next one.  The run completes when the last command has completed.
-                *         The run fails if a command fails and the remaining commands are not run.
+                *         This mode runs one command at a time.  It waits for
+                *         the first command to complete before moving on to the
+                *         next one.  The run completes when the last command has
+                *         completed.  The run fails if a command fails and the
+                *         remaining commands are not run.
                 *     </dd>
                 * </dl>
                 * @attribute mode
@@ -166,7 +169,8 @@
                     writeOnce: _string_initOnly
                 },
                 /**
-                * An array of AsyncCommands to run.  Functions will get converted to instances of AsyncCommand.
+                * An array of AsyncCommands to run.  Functions will get
+                * converted to instances of AsyncCommand.
                 * @attribute run
                 * @default []
                 * @initonly
@@ -197,8 +201,10 @@
                 }
             },
             /**
-            * Creates and runs an instance of Async in 'all' mode.  This method accepts an unlimited number of parameters.
-            * Parameters can be command functions, instances of AsyncCommand, instances of Async, or arrays of any of the above.
+            * Creates and runs an instance of Async in 'all' mode.  This method
+            * accepts an unlimited number of parameters.  Parameters can be
+            * command functions, instances of AsyncCommand, instances of Async,
+            * or arrays of any of the above.
             * @method runAll
             * @return {Async}
             * @static
@@ -207,8 +213,10 @@
                 return _createAndRun('all', _unnest(arguments));
             },
             /**
-            * Creates and runs an instance of Async in 'queue' mode.  This method accepts an unlimited number of parameters.
-            * Parameters can be command functions, instances of AsyncCommand, instances of Async, or arrays of any of the above.
+            * Creates and runs an instance of Async in 'queue' mode.  This
+            * method accepts an unlimited number of parameters.  Parameters can
+            * be command functions, instances of AsyncCommand, instances of
+            * Async, or arrays of any of the above.
             * @method runQueue
             * @return {Async}
             * @static

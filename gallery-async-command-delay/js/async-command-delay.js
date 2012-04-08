@@ -41,8 +41,8 @@
     }, {
         ATTRS: {
             /**
-             * Approximate delay in milliseconds to wait between the time run is called
-             * and when the command function is executed.
+             * Approximate delay in milliseconds to wait between the time run is
+             * called and when the command function is executed.
              * @attribute delay
              * @default 0
              * @initonly

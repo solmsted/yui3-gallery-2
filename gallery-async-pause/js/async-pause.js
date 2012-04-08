@@ -38,8 +38,8 @@
             }
         },
         /**
-         * Pause the run.  Does not stop a command that is currently running, the run will pause
-         * before the next command runs.
+         * Pause the run.  Does not stop a command that is currently running,
+         * the run will pause before the next command runs.
          * @method pause
          * @chainable
          */
@@ -47,8 +47,9 @@
             return this._set(_string_paused, _true);
         },
         /**
-         * Resumes a paused run.  If a command is currently running, the paused state may not be updated
-         * immediately.  Resume does nothing if the run is not paused or not started yet or already complete.
+         * Resumes a paused run.  If a command is currently running, the paused
+         * state may not be updated immediately.  Resume does nothing if the run
+         * is not paused or not started yet or already complete.
          * @method resume
          * @chainable
          */

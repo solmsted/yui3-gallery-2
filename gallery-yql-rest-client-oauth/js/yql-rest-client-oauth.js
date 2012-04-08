@@ -17,38 +17,44 @@
  *         accept
  *     </dt>
  *     <dd>
- *         Specifies the type of content to send in the response using the Accept HTTP header.
- *         This tells YQL what kind of data format you want returned, as well as how to parse it.
+ *         Specifies the type of content to send in the response using the
+ *         Accept HTTP header.  This tells YQL what kind of data format you want
+ *         returned, as well as how to parse it.
  *     </dd>
  *     <dt>
  *         content
  *     </dt>
  *     <dd>
- *         The body content of a POST or PUT request.  This can be an object or a string.  If an
- *         object is used, contentType is assumed to be application/x-www-form-urlencoded.
+ *         The body content of a POST or PUT request.  This can be an object or
+ *         a string.  If an object is used, contentType is assumed to be
+ *         application/x-www-form-urlencoded.
  *     </dd>
  *     <dt>
  *         contentType
  *     </dt>
  *     <dd>
- *         Specifies the content-type of the body content of a POST or PUT request.
+ *         Specifies the content-type of the body content of a POST or PUT
+ *         request.
  *     </dd>
  *     <dt>
  *         fallbackCharsets
  *     </dt>
  *     <dd>
- *         Overrides the list of fallback character sets, which is set to "utf-8, iso-8859-1" by default,
- *         for decoding the returned response. YQL attempts to decode the response using the character sets
- *         listed here when the response either does not specify the character set or specifies an
- *         incorrect character set that results in a failed decoding.  This value may be an array of strings
- *         or one string with comma separated values.
+ *         Overrides the list of fallback character sets, which is set to
+ *         "utf-8, iso-8859-1" by default, for decoding the returned response.
+ *         YQL attempts to decode the response using the character sets listed
+ *         here when the response either does not specify the character set or
+ *         specifies an incorrect character set that results in a failed
+ *         decoding.  This value may be an array of strings or one string with
+ *         comma separated values.
  *     </dd>
  *     <dt>
  *         forceCharset
  *     </dt>
  *     <dd>
- *         Forces YQL to use the character set specified. Using this overrides both the character set specified
- *         by the response and the fallback character sets. 
+ *         Forces YQL to use the character set specified. Using this overrides
+ *         both the character set specified by the response and the fallback
+ *         character sets. 
  *     </dd>
  *     <dt>
  *         headers
@@ -60,14 +66,16 @@
  *         jsonCompat
  *     </dt>
  *     <dd>
- *         Set this value to 'new' to get "lossless" JSON when making a REST call to a Web service.
- *         jsonCompat: 'new' must also be set in the yqlParams object.
+ *         Set this value to 'new' to get "lossless" JSON when making a REST
+ *         call to a Web service.  jsonCompat: 'new' must also be set in the
+ *         yqlParams object.
  *     </dd>
  *     <dt>
  *         method
  *     </dt>
  *     <dd>
- *         The HTTP method to use.  Must be one of 'DELETE', 'GET', 'HEAD', 'POST' or 'PUT'.
+ *         The HTTP method to use.  Must be one of 'DELETE', 'GET', 'HEAD',
+ *         'POST' or 'PUT'.
  *     </dd>
  *     <dt>
  *         oAuth
@@ -91,7 +99,8 @@
  *                 token
  *             </dt>
  *             <dd>
- *                 an optional object with three optional members: key, verifier, and secret.
+ *                 an optional object with three optional members: key,
+ *                 verifier, and secret.
  *             </dd>
  *         </dl>
  *     </dd>
@@ -105,16 +114,17 @@
  *         timeout
  *     </dt>
  *     <dd>
- *         Specifies the request timeout in milliseconds. This is useful when you want to cancel
- *         requests that take longer than expected. 
+ *         Specifies the request timeout in milliseconds. This is useful when
+ *         you want to cancel requests that take longer than expected. 
  *     </dd>
  *     <dt>
  *         url
  *     </dt>
  *     <dd>
- *         Provides a URL endpoint to query.  The url scheme and host must be lower case.
- *         If you are using the default port, there must not be a port specified in the url.
- *         Querystring parameters must be defined in the query member and not part of the url string.
+ *         Provides a URL endpoint to query.  The url scheme and host must be
+ *         lower case.  If you are using the default port, there must not be a
+ *         port specified in the url.  Querystring parameters must be defined in
+ *         the query member and not part of the url string.
  *     </dd>
  * </dl>
  * @param {Function} callbackFunction The response object is the only parameter.

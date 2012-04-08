@@ -59,7 +59,7 @@
         {
             "file": "js/child-process.js",
             "line": 25,
-            "description": "Array of command line arguments.  Refer to Node.js child_process.spawn documentation.",
+            "description": "Array of command line arguments.  Refer to Node.js\nchild_process.spawn documentation.",
             "itemtype": "attribute",
             "name": "args",
             "default": "[]",
@@ -70,8 +70,8 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 36,
-            "description": "The command to execute.  Refer to Node.js child_process.spawn documentation.",
+            "line": 37,
+            "description": "The command to execute.  Refer to Node.js child_process.spawn\ndocumentation.",
             "itemtype": "attribute",
             "name": "command",
             "initonly": "",
@@ -81,8 +81,8 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 45,
-            "description": "Additional options.  Refer to Node.js child_process.spawn documentation.",
+            "line": 47,
+            "description": "Additional options.  Refer to Node.js child_process.spawn\ndocumentation.",
             "itemtype": "attribute",
             "name": "options",
             "default": "{}",
@@ -93,7 +93,7 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 56,
+            "line": 59,
             "description": "The PID of the child process.",
             "itemtype": "attribute",
             "name": "pid",
@@ -104,8 +104,8 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 65,
-            "description": "This will be true when the stdin of the child process is writable and its kernel buffer is not full.",
+            "line": 68,
+            "description": "This will be true when the stdin of the child process is writable and\nits kernel buffer is not full.",
             "itemtype": "attribute",
             "name": "ready",
             "default": "false",
@@ -116,8 +116,8 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 76,
-            "description": "Encoding may be one of 'ascii', 'base64', or 'utf8'.  If left undefined, the stderr event will emit a Buffer instead of a string.",
+            "line": 80,
+            "description": "Encoding may be one of 'ascii', 'base64', or 'utf8'.  If left\nundefined, the stderr event will emit a Buffer instead of a string.",
             "itemtype": "attribute",
             "name": "stderrEncoding",
             "initonly": "",
@@ -127,8 +127,8 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 85,
-            "description": "Encoding may be one of 'ascii', 'base64', or 'utf8'.  If left undefined, the stdout event will emit a Buffer instead of a string.",
+            "line": 90,
+            "description": "Encoding may be one of 'ascii', 'base64', or 'utf8'.  If left\nundefined, the stdout event will emit a Buffer instead of a string.",
             "itemtype": "attribute",
             "name": "stdoutEncoding",
             "initonly": "",
@@ -138,8 +138,8 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 100,
-            "description": "Fires when the stdin of the child process is writable again after having reported its kernel buffer was full.",
+            "line": 106,
+            "description": "Fires when the stdin of the child process is writable again after\nhaving reported its kernel buffer was full.",
             "itemtype": "event",
             "name": "drain",
             "preventable": "",
@@ -148,7 +148,7 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 111,
+            "line": 118,
             "description": "Fires when there is an error in any stream of the child process.",
             "itemtype": "event",
             "name": "error",
@@ -171,19 +171,19 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 120,
+            "line": 127,
             "description": "Fires when the child process exits.",
             "itemtype": "event",
             "name": "exit",
             "params": [
                 {
                     "name": "code",
-                    "description": "If the process terminated normally, code is the final exit code of the process, otherwise null.",
+                    "description": "If the process terminated normally,\ncode is the final exit code of the process, otherwise null.",
                     "type": "Number|null"
                 },
                 {
                     "name": "signal",
-                    "description": "If the process terminated due to receipt of a signal, signal is the string name of the signal, otherwise null.",
+                    "description": "If the process terminated due to\nreceipt of a signal, signal is the string name of the signal,\notherwise null.",
                     "type": "String|null"
                 }
             ],
@@ -193,7 +193,7 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 134,
+            "line": 144,
             "description": "Fired when stderr receives data.",
             "itemtype": "event",
             "name": "stderr",
@@ -209,7 +209,7 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 141,
+            "line": 151,
             "description": "Fired when stdout receives data.",
             "itemtype": "event",
             "name": "stdout",
@@ -225,7 +225,7 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 205,
+            "line": 215,
             "itemtype": "property",
             "name": "_childProcess",
             "access": "protected",
@@ -235,7 +235,7 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 211,
+            "line": 221,
             "itemtype": "property",
             "name": "_stderr",
             "access": "protected",
@@ -245,7 +245,7 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 217,
+            "line": 227,
             "itemtype": "property",
             "name": "_stdin",
             "access": "protected",
@@ -255,7 +255,7 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 223,
+            "line": 233,
             "itemtype": "property",
             "name": "_stdout",
             "access": "protected",
@@ -265,8 +265,8 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 232,
-            "description": "Sends a signal to the child process.  Refer to Node.js child.kill documentation.  Note that while the method is called kill, the signal delivered to the child process may not actually kill it.  kill really just sends a signal to a process.",
+            "line": 242,
+            "description": "Sends a signal to the child process.  Refer to Node.js child.kill\ndocumentation.  Note that while the method is called kill, the signal\ndelivered to the child process may not actually kill it.  kill really\njust sends a signal to a process.",
             "itemtype": "method",
             "name": "kill",
             "chainable": 1,
@@ -282,8 +282,8 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 247,
-            "description": "Writes data to the stdin of the child process.  If the stdin of the child process has reported its kernel buffer is full, the write will be queued until the drain event.",
+            "line": 260,
+            "description": "Writes data to the stdin of the child process.  If the stdin of the\nchild process has reported its kernel buffer is full, the write will\nbe queued until the drain event.",
             "itemtype": "method",
             "name": "write",
             "chainable": 1,
@@ -295,7 +295,7 @@
                 },
                 {
                     "name": "encoding",
-                    "description": "(optional) The encoding to use when data is a String value.  May be one of 'ascii', 'base64', or 'utf8'.  If undefined, 'utf8' is assumed.",
+                    "description": "(optional) The encoding to use when data is\na String value.  May be one of 'ascii', 'base64', or 'utf8'.  If\nundefined, 'utf8' is assumed.",
                     "type": "String"
                 }
             ],
@@ -304,7 +304,7 @@
         },
         {
             "file": "js/child-process.js",
-            "line": 270,
+            "line": 287,
             "itemtype": "method",
             "name": "_write",
             "params": [

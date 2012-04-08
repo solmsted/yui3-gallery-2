@@ -35,8 +35,9 @@
     }, {
         ATTRS: {
             /**
-             * Approximate delay in milliseconds to wait between the time the command function
-             * reports completion and when the completed status is updated.
+             * Approximate delay in milliseconds to wait between the time the
+             * command function reports completion and when the completed status
+             * is updated.
              * @attribute withhold
              * @default 0
              * @initonly

@@ -50,7 +50,7 @@
         {
             "file": "js/array-unnest.js",
             "line": 8,
-            "description": "Utility function that flattens nested arrays.\nThe original array is not modified. The returned array items are a shallow copy of the original array items.",
+            "description": "Utility function that flattens nested arrays.\nThe original array is not modified. The returned array items are a\nshallow copy of the original array items.",
             "itemtype": "method",
             "name": "unnest",
             "params": [
@@ -61,7 +61,7 @@
                 },
                 {
                     "name": "levels",
-                    "description": "Optional.  If defined, must be a non-negative integer.  Defaults to 1.",
+                    "description": "Optional.  If defined, must be a non-negative\ninteger.  Defaults to 1.",
                     "type": "Number"
                 }
             ],

@@ -50,7 +50,7 @@
         {
             "file": "js/delay.js",
             "line": 10,
-            "description": "Pass in a callback function and the amount of time to delay.  Y.delay will return a function that will wait an\namount of time, then call your callback function.  The arguments and execution context of this function will\nbe passed to the callback function.  This function returns an object with a cancel method which will prevent\nthe execution of the callback function once the delay timer has begun.  If the amount of time to delay is not\ngreater than 0, the original callback function is returned.",
+            "description": "Pass in a callback function and the amount of time to delay.  Y.delay\nwill return a function that will wait an amount of time, then call your\ncallback function.  The arguments and execution context of this function\nwill be passed to the callback function.  This function returns an object\nwith a cancel method which will prevent the execution of the callback\nfunction once the delay timer has begun.  If the amount of time to delay\nis not greater than 0, the original callback function is returned.",
             "itemtype": "method",
             "name": "delay",
             "params": [
@@ -61,7 +61,7 @@
                 },
                 {
                     "name": "delayAmount",
-                    "description": "The approximate amount of time to delay in milliseconds.",
+                    "description": "The approximate amount of time to delay in\nmilliseconds.",
                     "type": "Number"
                 }
             ],

@@ -23,7 +23,8 @@
     
     _class.ATTRS = {
         /**
-         * Array of command line arguments.  Refer to Node.js child_process.spawn documentation.
+         * Array of command line arguments.  Refer to Node.js
+         * child_process.spawn documentation.
          * @attribute args
          * @default []
          * @initOnly
@@ -34,7 +35,8 @@
             writeOnce: 'initOnly'
         },
         /**
-         * The command to execute.  Refer to Node.js child_process.spawn documentation.
+         * The command to execute.  Refer to Node.js child_process.spawn
+         * documentation.
          * @attribute command
          * @initOnly
          * @type String
@@ -43,7 +45,8 @@
             writeOnce: 'initOnly'
         },
         /**
-         * Additional options.  Refer to Node.js child_process.spawn documentation.
+         * Additional options.  Refer to Node.js child_process.spawn
+         * documentation.
          * @attribute options
          * @default {}
          * @initOnly
@@ -63,7 +66,8 @@
             readOnly: true
         },
         /**
-         * This will be true when the stdin of the child process is writable and its kernel buffer is not full.
+         * This will be true when the stdin of the child process is writable and
+         * its kernel buffer is not full.
          * @attribute ready
          * @default false
          * @readOnly
@@ -74,7 +78,8 @@
             value: false
         },
         /**
-         * Encoding may be one of 'ascii', 'base64', or 'utf8'.  If left undefined, the stderr event will emit a Buffer instead of a string.
+         * Encoding may be one of 'ascii', 'base64', or 'utf8'.  If left
+         * undefined, the stderr event will emit a Buffer instead of a string.
          * @attribute stderrEncoding
          * @initOnly
          * @type String
@@ -83,7 +88,8 @@
             writeOnce: 'initOnly'
         },
         /**
-         * Encoding may be one of 'ascii', 'base64', or 'utf8'.  If left undefined, the stdout event will emit a Buffer instead of a string.
+         * Encoding may be one of 'ascii', 'base64', or 'utf8'.  If left
+         * undefined, the stdout event will emit a Buffer instead of a string.
          * @attribute stdoutEncoding
          * @initOnly
          * @type String
@@ -98,7 +104,8 @@
     Y.extend(_class, Y.Base, {
         initializer: function () {
             /**
-             * Fires when the stdin of the child process is writable again after having reported its kernel buffer was full.
+             * Fires when the stdin of the child process is writable again after
+             * having reported its kernel buffer was full.
              * @event drain
              * @preventable
              */
@@ -120,8 +127,11 @@
             /**
              * Fires when the child process exits.
              * @event exit
-             * @param {Number|null} code If the process terminated normally, code is the final exit code of the process, otherwise null.
-             * @param {String|null} signal If the process terminated due to receipt of a signal, signal is the string name of the signal, otherwise null.
+             * @param {Number|null} code If the process terminated normally,
+             * code is the final exit code of the process, otherwise null.
+             * @param {String|null} signal If the process terminated due to
+             * receipt of a signal, signal is the string name of the signal,
+             * otherwise null.
              * @preventable destroy
              */
             this.publish('exit', {
@@ -230,7 +240,10 @@
             this._set('ready', true);
         },
         /**
-         * Sends a signal to the child process.  Refer to Node.js child.kill documentation.  Note that while the method is called kill, the signal delivered to the child process may not actually kill it.  kill really just sends a signal to a process.
+         * Sends a signal to the child process.  Refer to Node.js child.kill
+         * documentation.  Note that while the method is called kill, the signal
+         * delivered to the child process may not actually kill it.  kill really
+         * just sends a signal to a process.
          * @method kill
          * @chainable
          * @param {String} signal (optional) Defaults to 'SIGTERM'.
@@ -245,11 +258,15 @@
             return this;
         },
         /**
-         * Writes data to the stdin of the child process.  If the stdin of the child process has reported its kernel buffer is full, the write will be queued until the drain event.
+         * Writes data to the stdin of the child process.  If the stdin of the
+         * child process has reported its kernel buffer is full, the write will
+         * be queued until the drain event.
          * @method write
          * @chainable
          * @param {Buffer|String} data The data to write.
-         * @param {String} encoding (optional) The encoding to use when data is a String value.  May be one of 'ascii', 'base64', or 'utf8'.  If undefined, 'utf8' is assumed.
+         * @param {String} encoding (optional) The encoding to use when data is
+         * a String value.  May be one of 'ascii', 'base64', or 'utf8'.  If
+         * undefined, 'utf8' is assumed.
          */
         write: function (data, encoding) {
             if (this.get('ready')) {

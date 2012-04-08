@@ -80,7 +80,8 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 &#x2F;**
- * A little helper function for when you want to load more modules into an existing Y instance.
+ * A little helper function for when you want to load more modules into an
+ * existing Y instance.
  * @module gallery-lazy-load
  *&#x2F;
 
@@ -101,12 +102,14 @@
         _use = Y.use;
     
     &#x2F;**
-     * A little helper function for when you want to load more modules into an existing Y instance.
+     * A little helper function for when you want to load more modules into an
+     * existing Y instance.
      * @method lazyLoad
      * @for YUI
      * @param modules* {String} 1-n modules to bind (uses arguments array).
-     * @param *callback {Function} callback function executed when the instance has the required functionality.
-     * If included, it must be the last parameter.  This function receives two arguments:
+     * @param *callback {Function} callback function executed when the instance
+     * has the required functionality.  If included, it must be the last
+     * parameter.  This function receives two arguments:
      * &lt;dl&gt;
      *     &lt;dt&gt;
      *         errors
@@ -119,8 +122,9 @@
      *         attached
      *     &lt;&#x2F;dt&gt;
      *     &lt;dd&gt;
-     *         This is an object.  This object&#x27;s keys are the names of modules that were attached to this YUI
-     *         instance during this load.  (Virtual rollups aren&#x27;t listed here.)
+     *         This is an object.  This object&#x27;s keys are the names of modules
+     *         that were attached to this YUI instance during this load.
+     *         (Virtual rollups aren&#x27;t listed here.)
      *     &lt;&#x2F;dd&gt;
      * &lt;&#x2F;dl&gt;
      * @return {YUI} the YUI instance.

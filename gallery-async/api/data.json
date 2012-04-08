@@ -210,7 +210,7 @@
         {
             "file": "js/async.js",
             "line": 139,
-            "description": "Value indicating the run mode.  Possible modes are:\n<dl>\n    <dt>\n        all\n    </dt>\n    <dd>\n        This mode runs all commands.  The commands might be completed out of order.\n        The run completes once all commands have completed.  The run fails if any\n        command fails.\n    </dd>\n    <dt>\n        queue\n    </dt>\n    <dd>\n        This mode runs one command at a time.  It waits for the first command to complete\n        before moving on to the next one.  The run completes when the last command has completed.\n        The run fails if a command fails and the remaining commands are not run.\n    </dd>\n</dl>",
+            "description": "Value indicating the run mode.  Possible modes are:\n<dl>\n    <dt>\n        all\n    </dt>\n    <dd>\n        This mode runs all commands.  The commands might be\n        completed out of order.  The run completes once all\n        commands have completed.  The run fails if any command\n        fails.\n    </dd>\n    <dt>\n        queue\n    </dt>\n    <dd>\n        This mode runs one command at a time.  It waits for\n        the first command to complete before moving on to the\n        next one.  The run completes when the last command has\n        completed.  The run fails if a command fails and the\n        remaining commands are not run.\n    </dd>\n</dl>",
             "itemtype": "attribute",
             "name": "mode",
             "default": "'queue'",
@@ -221,8 +221,8 @@
         },
         {
             "file": "js/async.js",
-            "line": 168,
-            "description": "An array of AsyncCommands to run.  Functions will get converted to instances of AsyncCommand.",
+            "line": 171,
+            "description": "An array of AsyncCommands to run.  Functions will get\nconverted to instances of AsyncCommand.",
             "itemtype": "attribute",
             "name": "run",
             "default": "[]",
@@ -233,8 +233,8 @@
         },
         {
             "file": "js/async.js",
-            "line": 199,
-            "description": "Creates and runs an instance of Async in 'all' mode.  This method accepts an unlimited number of parameters.\nParameters can be command functions, instances of AsyncCommand, instances of Async, or arrays of any of the above.",
+            "line": 203,
+            "description": "Creates and runs an instance of Async in 'all' mode.  This method\naccepts an unlimited number of parameters.  Parameters can be\ncommand functions, instances of AsyncCommand, instances of Async,\nor arrays of any of the above.",
             "itemtype": "method",
             "name": "runAll",
             "return": {
@@ -247,8 +247,8 @@
         },
         {
             "file": "js/async.js",
-            "line": 209,
-            "description": "Creates and runs an instance of Async in 'queue' mode.  This method accepts an unlimited number of parameters.\nParameters can be command functions, instances of AsyncCommand, instances of Async, or arrays of any of the above.",
+            "line": 215,
+            "description": "Creates and runs an instance of Async in 'queue' mode.  This\nmethod accepts an unlimited number of parameters.  Parameters can\nbe command functions, instances of AsyncCommand, instances of\nAsync, or arrays of any of the above.",
             "itemtype": "method",
             "name": "runQueue",
             "return": {
@@ -273,7 +273,7 @@
                 },
                 {
                     "name": "failed",
-                    "description": "Indicates the failed status of the command.",
+                    "description": "Indicates the failed status of the\ncommand.",
                     "type": "Boolean"
                 },
                 {
@@ -286,7 +286,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 46,
+            "line": 47,
             "description": "Fired when the command function fails.",
             "itemtype": "event",
             "name": "failure",
@@ -304,7 +304,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 68,
+            "line": 69,
             "description": "Fired when the command function starts.",
             "itemtype": "event",
             "name": "start",
@@ -316,7 +316,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 82,
+            "line": 83,
             "description": "Fired when the command function succeeds.",
             "itemtype": "event",
             "name": "success",
@@ -334,7 +334,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 105,
+            "line": 106,
             "description": "Execute the command function.",
             "itemtype": "method",
             "name": "run",
@@ -344,8 +344,8 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 116,
-            "description": "Array of arguments to be passed to the command function.\nA special callback function is automatically added as the first argument.",
+            "line": 117,
+            "description": "Array of arguments to be passed to the command function.\nA special callback function is automatically added as the first\nargument.",
             "itemtype": "attribute",
             "name": "args",
             "default": "[]",
@@ -356,7 +356,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 137,
+            "line": 139,
             "description": "Boolean value indicating the completed status of the command.",
             "itemtype": "attribute",
             "name": "completed",
@@ -368,7 +368,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 148,
+            "line": 150,
             "description": "Execution context for the command function.",
             "itemtype": "attribute",
             "name": "ctx",
@@ -378,7 +378,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 157,
+            "line": 159,
             "description": "Error value passed to the failure event.",
             "itemtype": "attribute",
             "name": "error",
@@ -388,7 +388,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 166,
+            "line": 168,
             "description": "Boolean value indicating the failed status of the command.",
             "itemtype": "attribute",
             "name": "failed",
@@ -400,8 +400,8 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 177,
-            "description": "The command function to execute.  This function receives a special success callback function as\nthe first parameter.  The success callback function has a method parameter called fail.  One of \nthese callback functions must be called in order to complete the command.",
+            "line": 179,
+            "description": "The command function to execute.  This function receives a special\nsuccess callback function as the first parameter.  The success\ncallback function has a method parameter called fail.  One of\nthese callback functions must be called in order to complete the\ncommand.",
             "itemtype": "attribute",
             "name": "fn",
             "initonly": "",
@@ -411,7 +411,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 191,
+            "line": 195,
             "description": "Boolean value indicating the started status of the command.",
             "itemtype": "attribute",
             "name": "started",
@@ -423,7 +423,7 @@
         },
         {
             "file": "../gallery-async-command/js/async-command.js",
-            "line": 202,
+            "line": 206,
             "description": "Value passed to the success event.",
             "itemtype": "attribute",
             "name": "value",

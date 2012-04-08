@@ -100,9 +100,11 @@
      *         defaultImage
      *     &lt;&#x2F;dt&gt;
      *     &lt;dd&gt;
-     *         This could be a string url to an image to use when there is no matching gravatar image or it could be one of the following values:
-     *         &#x27;404&#x27;, &#x27;mm&#x27;, &#x27;identicon&#x27;, &#x27;monsterid&#x27;, &#x27;wavatar&#x27;, or &#x27;retro&#x27;
-     *         Refer to gravatar&#x27;s documentation: http:&#x2F;&#x2F;en.gravatar.com&#x2F;site&#x2F;implement&#x2F;images&#x2F;
+     *         This could be a string url to an image to use when there is no
+     *         matching gravatar image or it could be one of the following
+     *         values: &#x27;404&#x27;, &#x27;mm&#x27;, &#x27;identicon&#x27;, &#x27;monsterid&#x27;, &#x27;wavatar&#x27;, or
+     *         &#x27;retro&#x27;  Refer to gravatar&#x27;s documentation:
+     *         http:&#x2F;&#x2F;en.gravatar.com&#x2F;site&#x2F;implement&#x2F;images&#x2F;
      *     &lt;&#x2F;dd&gt;
      *     &lt;dt&gt;
      *         email
@@ -114,32 +116,38 @@
      *         force
      *     &lt;&#x2F;dt&gt;
      *     &lt;dd&gt;
-     *         If this is a truthy value, it will force the default image to load even if there is a matching gravatar image.
+     *         If this is a truthy value, it will force the default image to
+     *         load even if there is a matching gravatar image.
      *     &lt;&#x2F;dd&gt;
      *     &lt;dt&gt;
      *         rating
      *     &lt;&#x2F;dt&gt;
      *     &lt;dd&gt;
-     *         The maximum image rating that is allowed to load.  It could be one of the following values:
-     *         &#x27;g&#x27;, &#x27;pg&#x27;, &#x27;r&#x27;, &#x27;x&#x27;  Defaults to &#x27;g&#x27;.
-     *         Refer to gravatar&#x27;s documentation: http:&#x2F;&#x2F;en.gravatar.com&#x2F;site&#x2F;implement&#x2F;images&#x2F;
+     *         The maximum image rating that is allowed to load.  It could be
+     *         one of the following values:  &#x27;g&#x27;, &#x27;pg&#x27;, &#x27;r&#x27;, &#x27;x&#x27;  Defaults to
+     *         &#x27;g&#x27;.  Refer to gravatar&#x27;s documentation:
+     *         http:&#x2F;&#x2F;en.gravatar.com&#x2F;site&#x2F;implement&#x2F;images&#x2F;
      *     &lt;&#x2F;dd&gt;
      *     &lt;dt&gt;
      *         secure
      *     &lt;&#x2F;dt&gt;
      *     &lt;dd&gt;
-     *         If this is a truthy value, the url will use the secure https protocol.
+     *         If this is a truthy value, the url will use the secure https
+     *         protocol.
      *     &lt;&#x2F;dd&gt;
      *     &lt;dt&gt;
      *         size
      *     &lt;&#x2F;dt&gt;
      *     &lt;dd&gt;
-     *         An integer representing the height and width of the image in pixels.  Values from 1 to 512 inclusive are supported.
+     *         An integer representing the height and width of the image in
+     *         pixels.  Values from 1 to 512 inclusive are supported.
      *         Gravatar images are square.
      *     &lt;&#x2F;dd&gt;
      * &lt;&#x2F;dl&gt;
-     * @param {Function} callbackFunction This function receives the gravatar url as its only parameter.
-     * @param {Object} contextObject (optional) An object to provide as the execution context for the callback function.
+     * @param {Function} callbackFunction This function receives the gravatar
+     * url as its only parameter.
+     * @param {Object} contextObject (optional) An object to provide as the
+     * execution context for the callback function.
      *&#x2F;
     Y.gravatarUrl = function (options, callbackFunction, contextObject) {
         var defaultImage = options.defaultImage,

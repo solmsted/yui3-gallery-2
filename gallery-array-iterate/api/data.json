@@ -60,27 +60,27 @@
                 },
                 {
                     "name": "startIndex",
-                    "description": "(Optional) The first index to iterate.\nIf left undefined, iteration will either start at the beginning of the array if incrementBy\nis positive or at the end of the array if incrementBy is negative.",
+                    "description": "(Optional) The first index to iterate.\nIf left undefined, iteration will either start at the beginning of\nthe array if incrementBy is positive or at the end of the array if\nincrementBy is negative.",
                     "type": "Number"
                 },
                 {
                     "name": "incrementBy",
-                    "description": "the interval by which the array will be iterated. Must be a non-zero integer.\nNegative values cause the array to be iterated backwards.",
+                    "description": "the interval by which the array will be\niterated. Must be a non-zero integer. Negative values cause the array\nto be iterated backwards.",
                     "type": "Number"
                 },
                 {
                     "name": "iterationFunction",
-                    "description": "the function to call on each iteration. This function will receive three\narguments: value, index, and array. If this function returns a truthy value, iteration will be terminated.",
+                    "description": "the function to call on each\niteration. This function will receive three arguments: value, index,\nand array. If this function returns a truthy value, iteration will be\nterminated.",
                     "type": "Function"
                 },
                 {
                     "name": "contextObject",
-                    "description": "(Optional) the context that will become this in the iterationFunction",
+                    "description": "(Optional) the context that will become\nthis in the iterationFunction",
                     "type": "Object"
                 }
             ],
             "return": {
-                "description": "will return true if iteration was terminated early, otherwise it will return false.",
+                "description": "will return true if iteration was terminated\nearly, otherwise it will return false.",
                 "type": "Boolean"
             },
             "static": 1,

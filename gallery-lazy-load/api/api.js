@@ -10,7 +10,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "gallery-lazy-load",
             "name": "gallery-lazy-load",
-            "description": "A little helper function for when you want to load more modules into an existing Y instance."
+            "description": "A little helper function for when you want to load more modules into an\nexisting Y instance."
         }
     ]
 } };

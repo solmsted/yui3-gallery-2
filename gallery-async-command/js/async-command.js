@@ -33,7 +33,8 @@
             * @event complete
             * @fireonce
             * @param error Optional error value.
-            * @param {Boolean} failed Indicates the failed status of the command.
+            * @param {Boolean} failed Indicates the failed status of the
+            * command.
             * @param value Optional return value from the command function.
             */
             me.publish(_string_complete, {
@@ -115,7 +116,8 @@
         ATTRS: {
             /**
             * Array of arguments to be passed to the command function.
-            * A special callback function is automatically added as the first argument.
+            * A special callback function is automatically added as the first
+            * argument.
             * @attribute args
             * @default []
             * @initonly
@@ -175,9 +177,11 @@
                 value: _false
             },
             /**
-            * The command function to execute.  This function receives a special success callback function as
-            * the first parameter.  The success callback function has a method parameter called fail.  One of 
-            * these callback functions must be called in order to complete the command.
+            * The command function to execute.  This function receives a special
+            * success callback function as the first parameter.  The success
+            * callback function has a method parameter called fail.  One of
+            * these callback functions must be called in order to complete the
+            * command.
             * @attribute fn
             * @initonly
             * @type Function
