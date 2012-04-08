@@ -1,6 +1,6 @@
 /**
  * Iterate through an array.
- * @module gallery-async-pause
+ * @module gallery-array-iterate
  */
 (function (Y) {
     'use strict';

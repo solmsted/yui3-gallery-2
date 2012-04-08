@@ -7,7 +7,7 @@
         "js/array-iterate.js": {
             "name": "js/array-iterate.js",
             "modules": {
-                "gallery-async-pause": 1
+                "gallery-array-iterate": 1
             },
             "classes": {},
             "fors": {
@@ -17,8 +17,8 @@
         }
     },
     "modules": {
-        "gallery-async-pause": {
-            "name": "gallery-async-pause",
+        "gallery-array-iterate": {
+            "name": "gallery-array-iterate",
             "submodules": {},
             "classes": {
                 "Array": 1
@@ -42,7 +42,7 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "gallery-async-pause",
+            "module": "gallery-array-iterate",
             "namespace": ""
         }
     },
@@ -85,7 +85,7 @@
             },
             "static": 1,
             "class": "Array",
-            "module": "gallery-async-pause"
+            "module": "gallery-array-iterate"
         }
     ]
 }
