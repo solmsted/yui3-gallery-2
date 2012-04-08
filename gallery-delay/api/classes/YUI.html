@@ -184,7 +184,7 @@
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_delay.js.html#l10"><code>js&#x2F;delay.js:10</code></a></p>
+        <a href="../files&#x2F;js_delay.js.html#l14"><code>js&#x2F;delay.js:14</code></a></p>
 
         
 
@@ -198,7 +198,10 @@ callback function.  The arguments and execution context of this function
 will be passed to the callback function.  This function returns an object
 with a cancel method which will prevent the execution of the callback
 function once the delay timer has begun.  If the amount of time to delay
-is not greater than 0, the original callback function is returned.</p>
+is less than 0, the original callback function is returned.  If the
+amount of time to delay is 0 and the gallery-soon module is available,
+the delay will be as small as possible but your callback function will be
+guaranteed to be called in a future turn of the javascript event loop.</p>
     </div>
 
     

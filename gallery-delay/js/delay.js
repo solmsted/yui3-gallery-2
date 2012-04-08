@@ -5,7 +5,11 @@
 (function (Y) {
     'use strict';
     
-    var _later = Y.later;
+    var _Array = Y.Array,
+        
+        _bind = Y.bind,
+        _later = Y.later,
+        _soon = Y.soon;
     
     /**
      * Pass in a callback function and the amount of time to delay.  Y.delay
@@ -14,7 +18,10 @@
      * will be passed to the callback function.  This function returns an object
      * with a cancel method which will prevent the execution of the callback
      * function once the delay timer has begun.  If the amount of time to delay
-     * is not greater than 0, the original callback function is returned.
+     * is less than 0, the original callback function is returned.  If the
+     * amount of time to delay is 0 and the gallery-soon module is available,
+     * the delay will be as small as possible but your callback function will be
+     * guaranteed to be called in a future turn of the javascript event loop.
      * @for YUI
      * @method delay
      * @param {Function} callbackFunction The function to delay.
@@ -23,7 +30,17 @@
      * @return {Function}
      */
     Y.delay = function (callbackFunction, delayAmount) {
-        if (delayAmount > 0) {
+        if (!delayAmount && _soon) {
+            return function () {
+                var args = new _Array(arguments);
+                
+                args.shift(this, callbackFunction);
+                
+                return _soon(_bind.apply(args));
+            };
+        }
+        
+        if (delayAmount >= 0) {
             return function () {
                 return _later(delayAmount, this, callbackFunction, arguments);
             };
