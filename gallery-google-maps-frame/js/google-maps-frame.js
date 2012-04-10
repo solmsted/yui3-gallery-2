@@ -1,74 +1,130 @@
-'use strict';
+/**
+ * @module gallery-google-maps-frame
+ */
+(function (Y, moduleName) {
+    'use strict';
 
-var _loaded = false,
-
-    _class;
-
-_class = function (config) {
-    _class.superclass.constructor.call(this, config);
-};
-
-_class.ATTRS = {
-    container: {
-        writeOnce: 'initOnly'
-    },
-    domNode: {
-        readOnly: true
-    },
-    frame: {
-        readOnly: true
-    },
-    parameters: {
-        writeOnce: 'initOnly'
-    }
-};
-
-_class.NAME = 'GoogleMapsFrame';
-
-Y.extend(_class, Y.Base, {
-    initializer: function () {
-        this.publish('failure');
-        this.publish('load', {
-            fireOnce: true
-        });
-        this.publish('timeout');
-
-        var frame = new Y.Frame({
-            content: '<div id="map"></div>',
-            extracss: 'body, html, #map {height: 100%; width: 100%;}'
-        });
-
-        frame.on('ready', function () {
-            var iY = frame.getInstance(),
-                me = this;
-
-            iY.config.win.YUI = YUI;
-            iY.use('gallery-google-maps-loader', 'node', function (iY) {
-                var googleMapsLoader = iY.GoogleMapsLoader;
-
-                googleMapsLoader.on('failure', function () {
-                    this.fire('failure');
-                }, me);
-                googleMapsLoader.on('success', function () {
-                    _loaded = true;
-                    this.google = iY.config.win.google;
-                    this.fire('load');
-                }, me);
-                googleMapsLoader.on('timeout', function () {
-                    this.fire('timeout');
-                }, me);
-                googleMapsLoader.load(me.get('parameters'));
-
-                me._set('domNode', iY.Node.getDOMNode(iY.one('#map')));
-                me._set('frame', frame);
+    var _Base = Y.Base,
+        _Frame = Y.Frame;
+        
+    /**
+     * @class GoogleMapsFrame
+     * @constructor
+     * @extends Base
+     * @param {Object} config
+     */
+    Y.GoogleMapsFrame = _Base.create(moduleName, _Base, [], {
+        initializer: function () {
+            var me = this;
+            
+            /**
+             * Fired when Google Maps Loader fails.
+             * @event failure
+             */
+            me.publish('failure');
+            
+            /**
+             * Fired when Google Maps Loader succeeds.
+             * @event load
+             * @fireOnce
+             */
+            me.publish('load', {
+                fireOnce: true
             });
-        }, this);
+            
+            /**
+             * Fired when Google Maps Loader times out.
+             * @event timeout
+             */
+            me.publish('timeout');
 
-        frame.render(this.get('container'));
-    },
-    isLoaded: function () {
-        return _loaded;
-    }
-});
+            var frame = new _Frame({
+                content: '<div id="map"></div>',
+                extracss: 'body, html, #map {height: 100%; width: 100%;}'
+            });
 
-Y.GoogleMapsFrame = _class;
+            frame.on('ready', function () {
+                var iY = frame.getInstance();
+
+                iY.config.win.YUI = YUI;
+                iY.use('gallery-google-maps-loader', 'node', function (iY) {
+                    var googleMapsLoader = new iY.GoogleMapsLoader();
+
+                    googleMapsLoader.on('failure', function () {
+                        me.fire('failure');
+                    });
+                    
+                    googleMapsLoader.on('success', function () {
+                        me.google = iY.config.win.google;
+                        me._set('loaded', true);
+                        me.fire('load');
+                    });
+                    
+                    googleMapsLoader.on('timeout', function () {
+                        me.fire('timeout');
+                    });
+                    
+                    googleMapsLoader.load(me.get('parameters'));
+
+                    me._set('domNode', iY.Node.getDOMNode(iY.one('#map')));
+                    me._set('frame', frame);
+                });
+            });
+
+            frame.render(me.get('container'));
+        }
+    }, {
+        ATTRS: {
+            /**
+             * A selector string or node object which will contain the iframe.
+             * @attribute container
+             * @initOnly
+             * @type Node|String
+             */
+            container: {
+                value: null,
+                writeOnce: 'initOnly'
+            },
+            /**
+             * Reference to an empty div created inside the iframe. (This is not
+             * an instance of Node.)
+             * @attribute domNode
+             * @readOnly
+             */
+            domNode: {
+                readOnly: true,
+                value: null
+            },
+            /**
+             * The Y.Frame instance that created the iframe.
+             * @attribute frame
+             * @readOnly
+             */
+            frame: {
+                readOnly: true,
+                value: null
+            },
+            /**
+             * @attribute loaded
+             * @default false
+             * @readOnly
+             * @type Boolean
+             */
+            loaded: {
+                readOnly: true,
+                value: false
+            },
+            /**
+             * An optional parameters object passed to GoogleMapsLoader. (see
+             * gallery-google-maps-loader for information)
+             * @attribute parameters
+             * @initOnly
+             * @type Object
+             */
+            parameters: {
+                value: null,
+                writeOnce: 'initOnly'
+            }
+        }
+    });
+}(Y, arguments[1]));
