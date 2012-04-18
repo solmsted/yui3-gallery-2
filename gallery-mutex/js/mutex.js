@@ -101,7 +101,8 @@
                 
                 lock = _locks[resourceName],
                 locked = lock && lock.l,
-                queue = lock && lock.q;
+                queue = lock && lock.q,
+                queueDetails;
 
             if (timer) {
                 timer.cancel();
@@ -126,7 +127,10 @@
             }
 
             if (queue && queue.length) {
-                _Mutex._lock.apply(_Mutex, queue.shift());
+                do {
+                    queueDetails = queue.shift();
+                    _Mutex._lock.apply(_Mutex, queueDetails);
+                } while (queueDetails[0] === _string_shared && queue[0] && queue[0][0] === _string_shared);
             } else {
                 delete _locks[resourceName];
             }
