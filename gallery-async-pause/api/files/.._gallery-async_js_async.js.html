@@ -107,8 +107,11 @@
         
         _createAndRun,
         _each = _Array.each,
+        _instanceOf = Y.instanceOf,
         _isArray = _Lang.isArray,
         _isFunction = _Lang.isFunction,
+        _isString = _Lang.isString,
+        _map = _Array.map,
         _merge = Y.merge,
         _unnest = _Array.unnest,
     
@@ -208,10 +211,10 @@
                 * @initonly
                 * @type Object
                 *&#x2F;
-               config: {
-                   value: {},
-                   writeOnce: _string_initOnly
-               },
+                config: {
+                    value: {},
+                    writeOnce: _string_initOnly
+                },
                 &#x2F;**
                 * The inherited ctx attribute is protected.
                 * @attribute ctx
@@ -258,8 +261,9 @@
                     writeOnce: _string_initOnly
                 },
                 &#x2F;**
-                * An array of AsyncCommands to run.  Functions will get
-                * converted to instances of AsyncCommand.
+                * An array of AsyncCommands to run.  Command functions,
+                * AsyncCommand config objects, and named command strings will
+                * get converted to instances of AsyncCommand.
                 * @attribute run
                 * @default []
                 * @initonly
@@ -269,54 +273,105 @@
                     setter: function (run) {
                         var config = this.get(&#x27;config&#x27;);
                         
-                        if (!_isArray(run)) {
-                            run = [
-                                run
-                            ];
-                        }
-
-                        _each(run, function (item, index, run) {
+                        return _map(_isArray(run) ? run : [
+                            run
+                        ], function (item) {
+                            if (_instanceOf(item, _AsyncCommand)) {
+                                return item;
+                            }
+                            
+                            if (_isString(item)) {
+                                item = _class.commands[item] || {};
+                            }
+                            
                             if (_isFunction(item)) {
-                                run[index] = new _AsyncCommand(_merge(config, {
+                                return new _AsyncCommand(_merge(config, {
                                     fn: item
                                 }));
                             }
+                            
+                            return new _AsyncCommand(_merge(config, item));
                         });
-
-                        return run;
                     },
                     value: [],
                     writeOnce: _string_initOnly
                 }
             },
             &#x2F;**
+             * This is a static object that stores named command definitions for
+             * repeat use.  This object&#x27;s keys are the names of commands.  The
+             * values can either command functions or AsyncCommand config
+             * objects.
+             * @property commands
+             * @static
+             * @type Object
+             *&#x2F;
+            commands: {},
+            &#x2F;**
             * Creates and runs an instance of Async in &#x27;all&#x27; mode.  This method
-            * accepts an unlimited number of parameters.  Parameters can be
-            * command functions, instances of AsyncCommand, instances of Async,
-            * or arrays of any of the above.
+            * accepts an unlimited number of arguments.  Arguments can be
+            * command functions, AsyncCommand config objects, instances of
+            * AsyncCommand, instances of Async, or arrays containing any of the
+            * above.
             * @method runAll
             * @return {Async}
             * @static
             *&#x2F;
             runAll: function () {
-                return _createAndRun(&#x27;all&#x27;, _unnest(arguments));
+                return _createAndRun({}, &#x27;all&#x27;, _unnest(arguments));
+            },
+            &#x2F;**
+            * Creates and runs an instance of Async in &#x27;all&#x27; mode.  This method
+            * accepts an unlimited number of arguments.  The first argument is a
+            * config object passed to the AsyncCommand constructor when
+            * instantiating dynamically.  The rest of the arguments can be
+            * command functions, AsyncCommand config objects, instances of
+            * AsyncCommand, instances of Async, or arrays containing any of the
+            * above.
+            * @method runAllWithConfig
+            * @return {Async}
+            * @static
+            *&#x2F;
+            runAllWithConfig: function () {
+                var args = _Array(arguments);
+                
+                return _createAndRun(args.shift(), &#x27;all&#x27;, _unnest(args));
             },
             &#x2F;**
             * Creates and runs an instance of Async in &#x27;queue&#x27; mode.  This
             * method accepts an unlimited number of parameters.  Parameters can
-            * be command functions, instances of AsyncCommand, instances of
-            * Async, or arrays of any of the above.
+            * be command functions, AsyncCommand config objects, instances of
+            * AsyncCommand, instances of Async, or arrays containing any of the
+            * above.
             * @method runQueue
             * @return {Async}
             * @static
             *&#x2F;
             runQueue: function () {
-                return _createAndRun(&#x27;queue&#x27;, _unnest(arguments));
+                return _createAndRun({}, &#x27;queue&#x27;, _unnest(arguments));
+            },
+            &#x2F;**
+            * Creates and runs an instance of Async in &#x27;queue&#x27; mode.  This
+            * method accepts an unlimited number of parameters.  The first
+            * argument is a config object passed to the AsyncCommand constructor
+            * when instantiating dynamically.  The rest of the arguments can
+            * be command functions, AsyncCommand config objects, instances of
+            * AsyncCommand, instances of Async, or arrays containing any of the
+            * above.
+            * @method runQueue
+            * @return {Async}
+            * @static
+            *&#x2F;
+            runQueueWithConfig: function () {
+                var args = _Array(arguments);
+                
+                return _createAndRun(args.shift(), &#x27;queue&#x27;, _unnest(args));
             }
         });
     
-    _createAndRun = function (mode, run) {
+    _createAndRun = function (config, mode, run) {
         return new _class({
+            config: config,
             mode: mode,
             run: run
         }).run();

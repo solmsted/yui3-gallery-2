@@ -87,7 +87,7 @@
             "module": "gallery-async",
             "namespace": "",
             "file": "../gallery-async/js/async.js",
-            "line": 26,
+            "line": 29,
             "description": "Asynchronous command runner class.",
             "extends": "AsyncCommand",
             "params": [
@@ -274,7 +274,7 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 43,
+            "line": 46,
             "description": "Command function for all mode.",
             "itemtype": "method",
             "name": "_runAll",
@@ -297,7 +297,7 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 75,
+            "line": 78,
             "description": "Command function for queue mode.",
             "itemtype": "method",
             "name": "_runAll",
@@ -330,7 +330,7 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 106,
+            "line": 109,
             "description": "The inherited args attribute is protected.",
             "itemtype": "attribute",
             "name": "args",
@@ -344,7 +344,7 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 114,
+            "line": 117,
             "description": "A config object passed to the AsyncCommand constructor when\ninstantiating dynamically.",
             "itemtype": "attribute",
             "name": "config",
@@ -356,7 +356,7 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 126,
+            "line": 129,
             "description": "The inherited ctx attribute is protected.",
             "itemtype": "attribute",
             "name": "ctx",
@@ -368,7 +368,7 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 132,
+            "line": 135,
             "description": "The inherited fn attribute is protected.",
             "itemtype": "attribute",
             "name": "fn",
@@ -381,7 +381,7 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 139,
+            "line": 142,
             "description": "Value indicating the run mode.  Possible modes are:\n<dl>\n    <dt>\n        all\n    </dt>\n    <dd>\n        This mode runs all commands.  The commands might be\n        completed out of order.  The run completes once all\n        commands have completed.  The run fails if any command\n        fails.\n    </dd>\n    <dt>\n        queue\n    </dt>\n    <dd>\n        This mode runs one command at a time.  It waits for\n        the first command to complete before moving on to the\n        next one.  The run completes when the last command has\n        completed.  The run fails if a command fails and the\n        remaining commands are not run.\n    </dd>\n</dl>",
             "itemtype": "attribute",
             "name": "mode",
@@ -393,8 +393,8 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 171,
-            "description": "An array of AsyncCommands to run.  Functions will get\nconverted to instances of AsyncCommand.",
+            "line": 174,
+            "description": "An array of AsyncCommands to run.  Command functions,\nAsyncCommand config objects, and named command strings will\nget converted to instances of AsyncCommand.",
             "itemtype": "attribute",
             "name": "run",
             "default": "[]",
@@ -405,8 +405,19 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 203,
-            "description": "Creates and runs an instance of Async in 'all' mode.  This method\naccepts an unlimited number of parameters.  Parameters can be\ncommand functions, instances of AsyncCommand, instances of Async,\nor arrays of any of the above.",
+            "line": 211,
+            "description": "This is a static object that stores named command definitions for\nrepeat use.  This object's keys are the names of commands.  The\nvalues can either command functions or AsyncCommand config\nobjects.",
+            "itemtype": "property",
+            "name": "commands",
+            "static": 1,
+            "type": "Object",
+            "class": "Async",
+            "module": "gallery-async"
+        },
+        {
+            "file": "../gallery-async/js/async.js",
+            "line": 221,
+            "description": "Creates and runs an instance of Async in 'all' mode.  This method\naccepts an unlimited number of arguments.  Arguments can be\ncommand functions, AsyncCommand config objects, instances of\nAsyncCommand, instances of Async, or arrays containing any of the\nabove.",
             "itemtype": "method",
             "name": "runAll",
             "return": {
@@ -419,8 +430,36 @@
         },
         {
             "file": "../gallery-async/js/async.js",
-            "line": 215,
-            "description": "Creates and runs an instance of Async in 'queue' mode.  This\nmethod accepts an unlimited number of parameters.  Parameters can\nbe command functions, instances of AsyncCommand, instances of\nAsync, or arrays of any of the above.",
+            "line": 234,
+            "description": "Creates and runs an instance of Async in 'all' mode.  This method\naccepts an unlimited number of arguments.  The first argument is a\nconfig object passed to the AsyncCommand constructor when\ninstantiating dynamically.  The rest of the arguments can be\ncommand functions, AsyncCommand config objects, instances of\nAsyncCommand, instances of Async, or arrays containing any of the\nabove.",
+            "itemtype": "method",
+            "name": "runAllWithConfig",
+            "return": {
+                "description": "",
+                "type": "Async"
+            },
+            "static": 1,
+            "class": "Async",
+            "module": "gallery-async"
+        },
+        {
+            "file": "../gallery-async/js/async.js",
+            "line": 251,
+            "description": "Creates and runs an instance of Async in 'queue' mode.  This\nmethod accepts an unlimited number of parameters.  Parameters can\nbe command functions, AsyncCommand config objects, instances of\nAsyncCommand, instances of Async, or arrays containing any of the\nabove.",
+            "itemtype": "method",
+            "name": "runQueue",
+            "return": {
+                "description": "",
+                "type": "Async"
+            },
+            "static": 1,
+            "class": "Async",
+            "module": "gallery-async"
+        },
+        {
+            "file": "../gallery-async/js/async.js",
+            "line": 264,
+            "description": "Creates and runs an instance of Async in 'queue' mode.  This\nmethod accepts an unlimited number of parameters.  The first\nargument is a config object passed to the AsyncCommand constructor\nwhen instantiating dynamically.  The rest of the arguments can\nbe command functions, AsyncCommand config objects, instances of\nAsyncCommand, instances of Async, or arrays containing any of the\nabove.",
             "itemtype": "method",
             "name": "runQueue",
             "return": {
