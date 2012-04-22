@@ -1,0 +1,240 @@
+{
+    "project": {
+        "name": "Mutex"
+    },
+    "files": {
+        "js/mutex.js": {
+            "name": "js/mutex.js",
+            "modules": {
+                "gallery-mutex": 1
+            },
+            "classes": {
+                "Mutex": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "gallery-mutex": {
+            "name": "gallery-mutex",
+            "submodules": {},
+            "classes": {
+                "Mutex": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "js/mutex.js",
+            "line": 1
+        }
+    },
+    "classes": {
+        "Mutex": {
+            "name": "Mutex",
+            "shortname": "Mutex",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "gallery-mutex",
+            "namespace": "",
+            "file": "js/mutex.js",
+            "line": 10,
+            "description": "Most people believe that Since JavaScript does not provide a\nmulti-threaded shared memory environment, JavaScript is completely\nfree from concurrency issues.  This is true at a low level;\nJavaScript developers don't need to worry about race conditions\nbetween multiple processes or threads writing to the same memory\nlocation.  At a higher level, asynchronous operations still allow for\nsimilar problems to occur.\n\nImagine a function that does the following:\n<ol>\n    <li>\n        Check the value of a variable.\n    </li>\n    <li>\n        If the value is undefined, make a request to a server, receive\n        data, set  the value of the variable.\n    </li>\n    <li>\n        Pass the variable to a callback function.\n    </li>\n</ol>\n\nIt seems common for web applications to lazy load data like this as\nneeded.  Now imagine that there are several separate modules within a\nweb application which all require this data.  It's possible for the\nfirst module to call this function, the function sees that the value\nis undefined, and sends a request to a server.  Then before the\nrequest returns, the second module calls this function, the function\nsees that the value is undefined and sends a request to a server.\nThen before both of those requests return, the third module calls\nthis function, the function sees that the values is undefined and\nsends a request to a server.  In this case, three requests are made\nto a server for the same data.\n\nIt would be far better if the second and third calls to the function\njust waited for the first request to complete.  Y.Mutex makes it\neasier to accomplish this functionality.\n\nY.Mutex provides a concept of locking a resource.  Once an exclusive\nresource lock is obtained, other parts of an application which\nattempt to access the same resource, will have to wait until that\nresource is unlocked.\n\nThe function above could be rewritten as follows:\n<ol>\n    <li>\n        Obtain an exclusive lock for a variable.\n    </li>\n    <li>\n        Check the value of a variable.\n    </li>\n    <li>\n        If the value is undefined, make a request to a server,\n        receive data, set the value of the variable.\n    </li>\n    <li>\n        Unlock the variable.\n    </li>\n    <li>\n        Pass the variable to a callback function.\n    </li>\n</ol>\n\nThis way, second or third or more calls to the function, before the\nfirst request is complete, will always wait for the request to\ncomplete instead of sending multiple unnecessary requests.\n\nJust like locking in multi threaded applications, there are\ndisadvantages and dangers to locking.  There is a small amount of\noverhead added to every resource access, even when the chances for\nconcurrency issues are very small.  Once a lock is obtained, it must\nbe unlocked; so error handling and time outs are important to ensure\nthat the entire application doesn't break when something goes wrong.\nIt is possible to cause a deadlock when locking multiple resources at\nonce.\n\nOne advantage Y.Mutex has in JavaScript over other multi threaded\napplications, the locks are asynchronous.  The application is not\nblocked while waiting to acquire a lock.  Even if a deadlock occurs,\nother parts of the application are not affected.  Y.Mutex also\nprovides multiple ways to cancel a particular lock, so there are\nextra possibilities to recover from locking errors.\n\nY.Mutex offers exclusive locks and shared locks.  When a resource is\nlocked by an exclusive lock, Y.Mutex guarantees that no other locks\nwill be granted for the resource until the resource is unlocked.\nWhen a resource is locked by a shared lock, Y.Mutex allows the\nresource to be locked by multiple other shared locks at the same\ntime.  When a resource is locked by multiple shared locks, an\nexclusive lock can not be obtained until all of the shared locks have\nbeen unlocked.  Shared locks are generally used when just reading\nvalues.  Exclusive locks are generally used when reading and writing\nvalues.\n\nY.Mutex provides a way to deal with asynchronous concurrency issues,\nbut it does not prevent them.  If code from part of an application\nuses Y.Mutex to lock a resource, there is nothing stopping code from\nanother part of the application from ignoring the lock and accessing\nthe resource directly.",
+            "static": 1
+        }
+    },
+    "classitems": [
+        {
+            "file": "js/mutex.js",
+            "line": 121,
+            "description": "Obtains an exclusive lock on a resource.",
+            "itemtype": "method",
+            "name": "exclusive",
+            "params": [
+                {
+                    "name": "resourceName",
+                    "description": "The name of the resource to lock.",
+                    "type": "String"
+                },
+                {
+                    "name": "callbackFunction",
+                    "description": "The function that gets called when\nthe lock is obtained.  It is guaranteed not to be called\nsynchronously.  It is guaranteed not to be called more than once.  It\nis not guaranteed to ever be called.  The callback function is passed\none argument, the unlock function which must be called to release the\nlock.",
+                    "type": "Function"
+                },
+                {
+                    "name": "timeout",
+                    "description": "Optional.  The Approximate time in\nmilliseconds to wait after the callback function has been called.\nOnce the timeout has expired, if the callback function hasn't yet\ncalled the unlock function, the lock will be automatically released.\nThis does not halt, stop, or prevent anything that the callback\nfunction might still be doing asynchronously; it just releases the\nlock.  Using timeout is one way to reduce the possibility of\ndeadlocks, but it comes with the risk of allowing concurrent access\nto the resource.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "cancelObject An object with a cancel method.  When\nthe cancel method is called, if the callback function hasn't yet\ncalled the unlock function, the lock will be automatically released.\nThis does not halt, stop, or prevent anything that the callback\nfunction might still be doing asynchronously; it just releases the\nlock.  Using the cancel method is one way to reduce the possibiliy of\ndeadlocks, but it comes with the risk of allowing concurrent access\nto the resource.  The cancelObject also has a mode property.",
+                "type": "Object"
+            },
+            "static": 1,
+            "class": "Mutex",
+            "module": "gallery-mutex"
+        },
+        {
+            "file": "js/mutex.js",
+            "line": 153,
+            "description": "Obtains an shared lock on a resource.",
+            "itemtype": "method",
+            "name": "exclusive",
+            "params": [
+                {
+                    "name": "resourceName",
+                    "description": "The name of the resource to lock.",
+                    "type": "String"
+                },
+                {
+                    "name": "callbackFunction",
+                    "description": "The function that gets called when\nthe lock is obtained.  It is guaranteed not to be called\nsynchronously.  It is guaranteed not to be called more than once.  It\nis not guaranteed to ever be called.  The callback function is passed\none argument, the unlock function which must be called to release the\nlock.",
+                    "type": "Function"
+                },
+                {
+                    "name": "timeout",
+                    "description": "Optional.  The Approximate time in\nmilliseconds to wait after the callback function has been called.\nOnce the timeout has expired, if the callback function hasn't yet\ncalled the unlock function, the lock will be automatically released.\nThis does not halt, stop, or prevent anything that the callback\nfunction might still be doing asynchronously; it just releases the\nlock.  Using timeout is one way to reduce the possibility of\ndeadlocks, but it comes with the risk of allowing concurrent access\nto the resource.",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "cancelObject An object with a cancel method.  When\nthe cancel method is called, if the callback function hasn't yet\ncalled the unlock function, the lock will be automatically released.\nThis does not halt, stop, or prevent anything that the callback\nfunction might still be doing asynchronously; it just releases the\nlock.  Using the cancel method is one way to reduce the possibiliy of\ndeadlocks, but it comes with the risk of allowing concurrent access\nto the resource.  The cancelObject also has a mode property.",
+                "type": "Object"
+            },
+            "static": 1,
+            "class": "Mutex",
+            "module": "gallery-mutex"
+        },
+        {
+            "file": "js/mutex.js",
+            "line": 185,
+            "description": "Immediately grants a lock on a resource.",
+            "itemtype": "method",
+            "name": "_lock",
+            "params": [
+                {
+                    "name": "mode",
+                    "description": "Either 'exclusive' or 'shared'.",
+                    "type": "String"
+                },
+                {
+                    "name": "guid",
+                    "description": "The lock's internal id.",
+                    "type": "String"
+                },
+                {
+                    "name": "resourceName",
+                    "description": "The name of the resource to lock.",
+                    "type": "String"
+                },
+                {
+                    "name": "callbackFunction",
+                    "description": "The function that gets called when\nthe lock is obtained.  It is guaranteed not to be called\nsynchronously.  It is guaranteed not to be called more than once.  It\nis not guaranteed to ever be called.  The callback function is passed\none argument, the unlock function which must be called to release the\nlock.",
+                    "type": "Function"
+                },
+                {
+                    "name": "timeout",
+                    "description": "Optional.  The Approximate time in\nmilliseconds to wait after the callback function has been called.\nOnce the timeout has expired, if the callback function hasn't yet\ncalled the unlock function, the lock will be automatically released.\nThis does not halt, stop, or prevent anything that the callback\nfunction might still be doing asynchronously; it just releases the\nlock.  Using timeout is one way to reduce the possibility of\ndeadlocks, but it comes with the risk of allowing concurrent access\nto the resource.",
+                    "type": "Number"
+                }
+            ],
+            "access": "protected",
+            "tagname": "",
+            "return": {
+                "description": "timerObject An object that will asynchronously later\nbe given a timer property.",
+                "type": "Object"
+            },
+            "static": 1,
+            "class": "Mutex",
+            "module": "gallery-mutex"
+        },
+        {
+            "file": "js/mutex.js",
+            "line": 249,
+            "description": "An object containing the state of currently held and queued locks.",
+            "itemtype": "property",
+            "name": "_locks",
+            "access": "protected",
+            "tagname": "",
+            "static": 1,
+            "class": "Mutex",
+            "module": "gallery-mutex"
+        },
+        {
+            "file": "js/mutex.js",
+            "line": 256,
+            "description": "Wait in queue to obtain a lock on a resource.",
+            "itemtype": "method",
+            "name": "_queue",
+            "params": [
+                {
+                    "name": "mode",
+                    "description": "Either 'exclusive' or 'shared'.",
+                    "type": "String"
+                },
+                {
+                    "name": "resourceName",
+                    "description": "The name of the resource to lock.",
+                    "type": "String"
+                },
+                {
+                    "name": "callbackFunction",
+                    "description": "The function that gets called when\nthe lock is obtained.  It is guaranteed not to be called\nsynchronously.  It is guaranteed not to be called more than once.  It\nis not guaranteed to ever be called.  The callback function is passed\none argument, the unlock function which must be called to release the\nlock.",
+                    "type": "Function"
+                },
+                {
+                    "name": "timeout",
+                    "description": "Optional.  The Approximate time in\nmilliseconds to wait after the callback function has been called.\nOnce the timeout has expired, if the callback function hasn't yet\ncalled the unlock function, the lock will be automatically released.\nThis does not halt, stop, or prevent anything that the callback\nfunction might still be doing asynchronously; it just releases the\nlock.  Using timeout is one way to reduce the possibility of\ndeadlocks, but it comes with the risk of allowing concurrent access\nto the resource.",
+                    "type": "Number"
+                }
+            ],
+            "access": "protected",
+            "tagname": "",
+            "return": {
+                "description": "cancelObject An object with a cancel method.  When\nthe cancel method is called, if the callback function hasn't yet\ncalled the unlock function, the lock will be automatically released.\nThis does not halt, stop, or prevent anything that the callback\nfunction might still be doing asynchronously; it just releases the\nlock.  Using the cancel method is one way to reduce the possibiliy of\ndeadlocks, but it comes with the risk of allowing concurrent access\nto the resource.  The cancelObject also has mode property.",
+                "type": "Object"
+            },
+            "static": 1,
+            "class": "Mutex",
+            "module": "gallery-mutex"
+        },
+        {
+            "file": "js/mutex.js",
+            "line": 327,
+            "description": "Unlocks a currently held lock on a resource and processes the next\nlock in queue as needed.",
+            "itemtype": "method",
+            "name": "_unlock",
+            "params": [
+                {
+                    "name": "guid",
+                    "description": "The lock's internal id.  If this is not the id\nof a lock currently held on this resource, this method will do\nnothing.",
+                    "type": "String"
+                },
+                {
+                    "name": "mode",
+                    "description": "Either 'exclusive' or 'shared'.",
+                    "type": "String"
+                },
+                {
+                    "name": "resourceName",
+                    "description": "The name of the locked resource.",
+                    "type": "String"
+                },
+                {
+                    "name": "timer",
+                    "description": "Optional.  The lock's timout timer to cancel.",
+                    "type": "Object"
+                }
+            ],
+            "access": "protected",
+            "tagname": "",
+            "static": 1,
+            "class": "Mutex",
+            "module": "gallery-mutex"
+        }
+    ]
+}
