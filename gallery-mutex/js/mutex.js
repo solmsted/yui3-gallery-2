@@ -144,7 +144,7 @@
          * function might still be doing asynchronously; it just releases the
          * lock.  Using the cancel method is one way to reduce the possibiliy of
          * deadlocks, but it comes with the risk of allowing concurrent access
-         * to the resource.
+         * to the resource.  The cancelObject also has a mode property.
          * @static
          */
         exclusive: function (resourceName, callbackFunction, timeout) {
@@ -176,7 +176,7 @@
          * function might still be doing asynchronously; it just releases the
          * lock.  Using the cancel method is one way to reduce the possibiliy of
          * deadlocks, but it comes with the risk of allowing concurrent access
-         * to the resource.
+         * to the resource.  The cancelObject also has a mode property.
          * @static
          */
         shared: function (resourceName, callbackFunction, timeout) {
@@ -281,7 +281,7 @@
          * function might still be doing asynchronously; it just releases the
          * lock.  Using the cancel method is one way to reduce the possibiliy of
          * deadlocks, but it comes with the risk of allowing concurrent access
-         * to the resource.
+         * to the resource.  The cancelObject also has mode property.
          * @static
          */
         _queue: function (mode, resourceName, callbackFunction, timeout) {
@@ -320,7 +320,8 @@
             return {
                 cancel: function () {
                     _Mutex._unlock(guid, mode, resourceName, timerWrapper && timerWrapper.timer);
-                }
+                },
+                mode: mode
             };
         },
         /**
