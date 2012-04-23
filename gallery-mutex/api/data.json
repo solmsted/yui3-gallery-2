@@ -81,7 +81,7 @@
         {
             "file": "js/mutex.js",
             "line": 153,
-            "description": "Obtains an shared lock on a resource.",
+            "description": "Obtains a shared lock on a resource.",
             "itemtype": "method",
             "name": "exclusive",
             "params": [
