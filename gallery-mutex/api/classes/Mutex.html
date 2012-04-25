@@ -83,7 +83,7 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files&#x2F;js_mutex.js.html#l10"><code>js&#x2F;mutex.js:10</code></a>
+            Defined in: <a href="../files&#x2F;js_mutex.js.html#l7"><code>js&#x2F;mutex.js:7</code></a>
         </div>
     
 
@@ -108,8 +108,17 @@ similar problems to occur.</p>
         Check the value of a variable.
     </li>
     <li>
-        If the value is undefined, make a request to a server, receive
-        data, set  the value of the variable.
+        If the value is undefined:
+        <ol>
+            <li>
+                Make a request to a server.
+            </li>
+            <li>
+                Receive data.
+            <li>
+                Set the value of the variable.
+            </li>
+        </ol>
     </li>
     <li>
         Pass the variable to a callback function.
@@ -124,9 +133,9 @@ is undefined, and sends a request to a server.  Then before the
 request returns, the second module calls this function, the function
 sees that the value is undefined and sends a request to a server.
 Then before both of those requests return, the third module calls
-this function, the function sees that the values is undefined and
-sends a request to a server.  In this case, three requests are made
-to a server for the same data.</p>
+this function, the function sees that the value is undefined and sends
+a request to a server.  In this case, three requests are made to a server
+for the same data.</p>
 
 <p>It would be far better if the second and third calls to the function
 just waited for the first request to complete.  Y.Mutex makes it
@@ -144,11 +153,20 @@ resource is unlocked.</p>
         Obtain an exclusive lock for a variable.
     </li>
     <li>
-        Check the value of a variable.
+        Check the value of the variable.
     </li>
     <li>
-        If the value is undefined, make a request to a server,
-        receive data, set the value of the variable.
+        If the value is undefined:
+        <ol>
+            <li>
+                Make a request to a server.
+            </li>
+            <li>
+                Receive data.
+            <li>
+                Set the value of the variable.
+            </li>
+        </ol>
     </li>
     <li>
         Unlock the variable.
@@ -178,22 +196,24 @@ other parts of the application are not affected.  Y.Mutex also
 provides multiple ways to cancel a particular lock, so there are
 extra possibilities to recover from locking errors.</p>
 
-<p>Y.Mutex offers exclusive locks and shared locks.  When a resource is
-locked by an exclusive lock, Y.Mutex guarantees that no other locks
-will be granted for the resource until the resource is unlocked.
-When a resource is locked by a shared lock, Y.Mutex allows the
-resource to be locked by multiple other shared locks at the same
-time.  When a resource is locked by multiple shared locks, an
+<p>Y.Mutex offers exclusive locks, shared locks, and upgradable locks.
+When a resource is locked by an exclusive lock, Y.Mutex guarantees
+that no other locks will be granted for the resource until the
+resource is unlocked.  When a resource is locked by a shared lock,
+Y.Mutex allows the resource to be locked by an unlimited number of
+other shared locks at the same time and/or one single upgradable
+lock.  When a resource is locked by multiple shared locks, an
 exclusive lock can not be obtained until all of the shared locks have
-been unlocked.  Shared locks are generally used when just reading
-values.  Exclusive locks are generally used when reading and writing
-values.</p>
+been unlocked.  An upgradable lock can be upgraded to act as an
+exclusive lock.  Shared locks are generally used when just reading
+values.  Exclusive locks are generally used when writing values.</p>
 
 <p>Y.Mutex provides a way to deal with asynchronous concurrency issues,
 but it does not prevent them.  If code from part of an application
 uses Y.Mutex to lock a resource, there is nothing stopping code from
 another part of the application from ignoring the lock and accessing
-the resource directly.</p>
+the resource directly.  Y.Mutex does not handle real multi threaded or
+multi process concurrency issues.</p>
 </div>
 
 
@@ -223,7 +243,7 @@ the resource directly.</p>
                     <ul class="index-list methods">
                         
                             <li class="index-item method protected">
-                                <a href="#method__lock">_lock</a>
+                                <a href="#method__cancelTimer">_cancelTimer</a>
 
                                 
                                     <span class="flag static">static</span>
@@ -231,7 +251,7 @@ the resource directly.</p>
                             </li>
                         
                             <li class="index-item method protected">
-                                <a href="#method__queue">_queue</a>
+                                <a href="#method__lockExclusive">_lockExclusive</a>
 
                                 
                                     <span class="flag static">static</span>
@@ -239,7 +259,47 @@ the resource directly.</p>
                             </li>
                         
                             <li class="index-item method protected">
-                                <a href="#method__unlock">_unlock</a>
+                                <a href="#method__lockQueue">_lockQueue</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                            </li>
+                        
+                            <li class="index-item method protected">
+                                <a href="#method__lockShared">_lockShared</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                            </li>
+                        
+                            <li class="index-item method protected">
+                                <a href="#method__lockUpgradable">_lockUpgradable</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                            </li>
+                        
+                            <li class="index-item method protected">
+                                <a href="#method__unlockExclusive">_unlockExclusive</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                            </li>
+                        
+                            <li class="index-item method protected">
+                                <a href="#method__unlockShared">_unlockShared</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                            </li>
+                        
+                            <li class="index-item method protected">
+                                <a href="#method__unlockUpgradable">_unlockUpgradable</a>
 
                                 
                                     <span class="flag static">static</span>
@@ -255,7 +315,15 @@ the resource directly.</p>
                             </li>
                         
                             <li class="index-item method">
-                                <a href="#method_exclusive">exclusive</a>
+                                <a href="#method_shared">shared</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_upgradable">upgradable</a>
 
                                 
                                     <span class="flag static">static</span>
@@ -294,8 +362,8 @@ the resource directly.</p>
                 <h2 class="off-left">Methods</h2>
 
                 
-                    <div id="method__lock" class="method item protected">
-    <h3 class="name"><code>_lock</code></h3>
+                    <div id="method__cancelTimer" class="method item protected">
+    <h3 class="name"><code>_cancelTimer</code></h3>
 
     
         <div class="args">
@@ -303,9 +371,108 @@ the resource directly.</p>
             
                 <li class="arg">
                     
-                        <code>mode</code>
+                        <code>guid</code>
                     
                 </li>
+            
+                <li class="arg">
+                    
+                        <code>resourceName</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>Defined in
+            
+        
+        <a href="../files&#x2F;js_mutex.js.html#l375"><code>js&#x2F;mutex.js:375</code></a></p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Cancels the time out timer on a currently held lock.</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">guid</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The lock's internal id.  If this is not the id
+of a lock currently held on this resource, with a time out, this
+method will do nothing.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">resourceName</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The name of the locked resource.</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__lockExclusive" class="method item protected">
+    <h3 class="name"><code>_lockExclusive</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
             
                 <li class="arg">
                     
@@ -331,14 +498,16 @@ the resource directly.</p>
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code>unlock</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-        </span>
     
 
     
@@ -362,7 +531,7 @@ the resource directly.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_mutex.js.html#l185"><code>js&#x2F;mutex.js:185</code></a></p>
+        <a href="../files&#x2F;js_mutex.js.html#l400"><code>js&#x2F;mutex.js:400</code></a></p>
 
         
 
@@ -370,7 +539,7 @@ the resource directly.</p>
     </div>
 
     <div class="description">
-        <p>Immediately grants a lock on a resource.</p>
+        <p>Immediately grants an exclusive lock on a resource.</p>
     </div>
 
     
@@ -378,21 +547,6 @@ the resource directly.</p>
             <h4>Parameters:</h4>
 
             <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">mode</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Either 'exclusive' or 'shared'.</p>
-                    </div>
-
-                    
-                </li>
             
                 <li class="param">
                     
@@ -453,15 +607,29 @@ lock.</p>
                     
 
                     <div class="param-description">
-                        <p>Optional.  The Approximate time in
-milliseconds to wait after the callback function has been called.
-Once the timeout has expired, if the callback function hasn't yet
-called the unlock function, the lock will be automatically released.
-This does not halt, stop, or prevent anything that the callback
-function might still be doing asynchronously; it just releases the
-lock.  Using timeout is one way to reduce the possibility of
-deadlocks, but it comes with the risk of allowing concurrent access
-to the resource.</p>
+                        <p>The approximate time in milliseconds to wait
+after the callback function has been called.  Once the timeout has
+expired, if the callback function hasn't yet called the unlock
+function, the lock will be automatically released.  This does not
+halt, stop, or prevent anything that the callback function might
+still be doing asynchronously; it just releases the lock.  Using
+timeout is one way to reduce the possibility of deadlocks, but it
+comes with the risk of allowing concurrent access to the resource.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">unlock</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The function that will unlock this lock.</p>
                     </div>
 
                     
@@ -472,27 +640,13 @@ to the resource.</p>
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
-                    
-                    timerObject An object that will asynchronously later
-be given a timer property.
-                
-            </div>
-        </div>
-    
 
     
 </div>
 
                 
-                    <div id="method__queue" class="method item protected">
-    <h3 class="name"><code>_queue</code></h3>
+                    <div id="method__lockQueue" class="method item protected">
+    <h3 class="name"><code>_lockQueue</code></h3>
 
     
         <div class="args">
@@ -500,25 +654,7 @@ be given a timer property.
             
                 <li class="arg">
                     
-                        <code>mode</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
                         <code>resourceName</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>callbackFunction</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>timeout</code>
                     
                 </li>
             
@@ -526,10 +662,6 @@ be given a timer property.
         </div>
     
 
-    
-        <span class="returns-inline">
-            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-        </span>
     
 
     
@@ -553,7 +685,7 @@ be given a timer property.
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_mutex.js.html#l256"><code>js&#x2F;mutex.js:256</code></a></p>
+        <a href="../files&#x2F;js_mutex.js.html#l450"><code>js&#x2F;mutex.js:450</code></a></p>
 
         
 
@@ -561,7 +693,8 @@ be given a timer property.
     </div>
 
     <div class="description">
-        <p>Wait in queue to obtain a lock on a resource.</p>
+        <p>Immediately grants locks on a resource as needed, based upon
+currently held locks and the queue of locks waiting to be granted.</p>
     </div>
 
     
@@ -572,14 +705,120 @@ be given a timer property.
             
                 <li class="param">
                     
-                        <code class="param-name">mode</code>
+                        <code class="param-name">resourceName</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Either 'exclusive' or 'shared'.</p>
+                        <p>The name of the resource to lock.</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__lockShared" class="method item protected">
+    <h3 class="name"><code>_lockShared</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>guid</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>resourceName</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>callbackFunction</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>timeout</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>unlock</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>Defined in
+            
+        
+        <a href="../files&#x2F;js_mutex.js.html#l532"><code>js&#x2F;mutex.js:532</code></a></p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Immediately grants a shared lock on a resource.</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">guid</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The lock's internal id.</p>
                     </div>
 
                     
@@ -629,15 +868,29 @@ lock.</p>
                     
 
                     <div class="param-description">
-                        <p>Optional.  The Approximate time in
-milliseconds to wait after the callback function has been called.
-Once the timeout has expired, if the callback function hasn't yet
-called the unlock function, the lock will be automatically released.
-This does not halt, stop, or prevent anything that the callback
-function might still be doing asynchronously; it just releases the
-lock.  Using timeout is one way to reduce the possibility of
-deadlocks, but it comes with the risk of allowing concurrent access
-to the resource.</p>
+                        <p>The approximate time in milliseconds to wait
+after the callback function has been called.  Once the timeout has
+expired, if the callback function hasn't yet called the unlock
+function, the lock will be automatically released.  This does not
+halt, stop, or prevent anything that the callback function might
+still be doing asynchronously; it just releases the lock.  Using
+timeout is one way to reduce the possibility of deadlocks, but it
+comes with the risk of allowing concurrent access to the resource.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">unlock</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The function that will unlock this lock.</p>
                     </div>
 
                     
@@ -648,33 +901,13 @@ to the resource.</p>
     
 
     
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
-                    
-                    cancelObject An object with a cancel method.  When
-the cancel method is called, if the callback function hasn't yet
-called the unlock function, the lock will be automatically released.
-This does not halt, stop, or prevent anything that the callback
-function might still be doing asynchronously; it just releases the
-lock.  Using the cancel method is one way to reduce the possibiliy of
-deadlocks, but it comes with the risk of allowing concurrent access
-to the resource.  The cancelObject also has mode property.
-                
-            </div>
-        </div>
-    
 
     
 </div>
 
                 
-                    <div id="method__unlock" class="method item protected">
-    <h3 class="name"><code>_unlock</code></h3>
+                    <div id="method__lockUpgradable" class="method item protected">
+    <h3 class="name"><code>_lockUpgradable</code></h3>
 
     
         <div class="args">
@@ -688,19 +921,25 @@ to the resource.  The cancelObject also has mode property.
             
                 <li class="arg">
                     
-                        <code>mode</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
                         <code>resourceName</code>
                     
                 </li>
             
                 <li class="arg">
                     
-                        <code>timer</code>
+                        <code>callbackFunction</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>timeout</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>unlock</code>
                     
                 </li>
             
@@ -731,7 +970,7 @@ to the resource.  The cancelObject also has mode property.
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_mutex.js.html#l327"><code>js&#x2F;mutex.js:327</code></a></p>
+        <a href="../files&#x2F;js_mutex.js.html#l590"><code>js&#x2F;mutex.js:590</code></a></p>
 
         
 
@@ -739,8 +978,182 @@ to the resource.  The cancelObject also has mode property.
     </div>
 
     <div class="description">
-        <p>Unlocks a currently held lock on a resource and processes the next
-lock in queue as needed.</p>
+        <p>Immediately grants an upgradable lock on a resource.</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">guid</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The lock's internal id.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">resourceName</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The name of the resource to lock.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">callbackFunction</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The function that gets called when
+the lock is obtained.  It is guaranteed not to be called
+synchronously.  It is guaranteed not to be called more than once.  It
+is not guaranteed to ever be called.  The callback function is passed
+two arguments.  The first argument is the unlock function which must
+be called to release the lock.  The second argument is the exclusive
+function which may be called to switch the upgradable lock to
+exclusive mode.  The exclusive function accepts a callback function
+as its only argument.  This callback function gets called once
+exclusivity is achieved.  It is guaranteed not to be called
+synchronously.  It is guaranteed not to be called more than once.  It
+is not guaranteed ever to be called.  The callback function is passed
+one argument, the shared function which may be called to switch the
+upgradable lock back to shared mode.  The shared function accepts a
+callback function as its only argument.  This callback function gets
+called once exclusivity is revoked.  It is guaranteed not to be
+called synchronously.  It is guaranteed not to be called more than
+once.  It is not guaranteed ever to be called.  The callback function
+is passed one argument, the exclusive function which may be called to
+switch the upgradable lock to exclusive mode.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">timeout</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The approximate time in milliseconds to wait
+after the callback function has been called.  Once the timeout has
+expired, if the callback function hasn't yet called the unlock
+function, the lock will be automatically released.  This does not
+halt, stop, or prevent anything that the callback function might
+still be doing asynchronously; it just releases the lock.  Using
+timeout is one way to reduce the possibility of deadlocks, but it
+comes with the risk of allowing concurrent access to the resource.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">unlock</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The function that will unlock this lock.</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__unlockExclusive" class="method item protected">
+    <h3 class="name"><code>_unlockExclusive</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>guid</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>resourceName</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>Defined in
+            
+        
+        <a href="../files&#x2F;js_mutex.js.html#l705"><code>js&#x2F;mutex.js:705</code></a></p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Unlocks a currently held exclusive lock on a resource and processes
+the next locks in queue as needed.</p>
     </div>
 
     
@@ -759,23 +1172,8 @@ lock in queue as needed.</p>
 
                     <div class="param-description">
                         <p>The lock's internal id.  If this is not the id
-of a lock currently held on this resource, this method will do
-nothing.</p>
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">mode</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Either 'exclusive' or 'shared'.</p>
+of an exclusive lock currently held on this resource, this method
+will do nothing.</p>
                     </div>
 
                     
@@ -796,16 +1194,213 @@ nothing.</p>
                     
                 </li>
             
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__unlockShared" class="method item protected">
+    <h3 class="name"><code>_unlockShared</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>guid</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>resourceName</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>Defined in
+            
+        
+        <a href="../files&#x2F;js_mutex.js.html#l729"><code>js&#x2F;mutex.js:729</code></a></p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Unlocks a currently held shared lock on a resource and processes the
+next locks in queue as needed.</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
                 <li class="param">
                     
-                        <code class="param-name">timer</code>
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        <code class="param-name">guid</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Optional.  The lock's timout timer to cancel.</p>
+                        <p>The lock's internal id.  If this is not the id
+of a shared lock currently held on this resource, this method will do
+nothing.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">resourceName</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The name of the locked resource.</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__unlockUpgradable" class="method item protected">
+    <h3 class="name"><code>_unlockUpgradable</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>guid</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>resourceName</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag protected">protected</span>
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>Defined in
+            
+        
+        <a href="../files&#x2F;js_mutex.js.html#l758"><code>js&#x2F;mutex.js:758</code></a></p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Unlocks a currently held upgradable lock on a resource and processes
+the next locks in queue as needed.</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">guid</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The lock's internal id.  If this is not the id
+of an upgradable lock currently held on this resource, this method
+will do nothing.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">resourceName</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The name of the locked resource.</p>
                     </div>
 
                     
@@ -875,7 +1470,7 @@ nothing.</p>
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_mutex.js.html#l121"><code>js&#x2F;mutex.js:121</code></a></p>
+        <a href="../files&#x2F;js_mutex.js.html#l137"><code>js&#x2F;mutex.js:137</code></a></p>
 
         
 
@@ -936,7 +1531,7 @@ lock.</p>
                     
 
                     <div class="param-description">
-                        <p>Optional.  The Approximate time in
+                        <p>Optional.  The approximate time in
 milliseconds to wait after the callback function has been called.
 Once the timeout has expired, if the callback function hasn't yet
 called the unlock function, the lock will be automatically released.
@@ -970,7 +1565,8 @@ This does not halt, stop, or prevent anything that the callback
 function might still be doing asynchronously; it just releases the
 lock.  Using the cancel method is one way to reduce the possibiliy of
 deadlocks, but it comes with the risk of allowing concurrent access
-to the resource.  The cancelObject also has a mode property.
+to the resource.  The cancelObject also has a mode property set to
+'exclusive'.
                 
             </div>
         </div>
@@ -980,8 +1576,8 @@ to the resource.  The cancelObject also has a mode property.
 </div>
 
                 
-                    <div id="method_exclusive" class="method item">
-    <h3 class="name"><code>exclusive</code></h3>
+                    <div id="method_shared" class="method item">
+    <h3 class="name"><code>shared</code></h3>
 
     
         <div class="args">
@@ -1034,7 +1630,7 @@ to the resource.  The cancelObject also has a mode property.
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_mutex.js.html#l153"><code>js&#x2F;mutex.js:153</code></a></p>
+        <a href="../files&#x2F;js_mutex.js.html#l209"><code>js&#x2F;mutex.js:209</code></a></p>
 
         
 
@@ -1095,7 +1691,7 @@ lock.</p>
                     
 
                     <div class="param-description">
-                        <p>Optional.  The Approximate time in
+                        <p>Optional.  The approximate time in
 milliseconds to wait after the callback function has been called.
 Once the timeout has expired, if the callback function hasn't yet
 called the unlock function, the lock will be automatically released.
@@ -1129,7 +1725,190 @@ This does not halt, stop, or prevent anything that the callback
 function might still be doing asynchronously; it just releases the
 lock.  Using the cancel method is one way to reduce the possibiliy of
 deadlocks, but it comes with the risk of allowing concurrent access
-to the resource.  The cancelObject also has a mode property.
+to the resource.  The cancelObject also has a mode property set to
+'shared'.
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method_upgradable" class="method item">
+    <h3 class="name"><code>upgradable</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>resourceName</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>callbackFunction</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>timeout</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+        </span>
+    
+
+    
+
+    
+
+    
+
+    
+        <span class="flag static">static</span>
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>Defined in
+            
+        
+        <a href="../files&#x2F;js_mutex.js.html#l281"><code>js&#x2F;mutex.js:281</code></a></p>
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Obtains an upgradable lock on a resource.  When an upgradable lock is
+obtained, it begins in shared mode and it allows other shared locks
+to be granted for the resource.  An upgradable lock can at any time
+be upgraded to exclusive mode.  When upgraded to exclusive mode, new
+shared locks will not be granted and the upgradable lock will wait
+until all existing shared locks are unlocked.  Then it will resume,
+exclusively holding the only lock on the resource.  It can then at
+any time return to shared mode allowing more shared locks to be
+granted.</p>
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">resourceName</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The name of the resource to lock.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">callbackFunction</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>The function that gets called when
+the lock is obtained.  It is guaranteed not to be called
+synchronously.  It is guaranteed not to be called more than once.  It
+is not guaranteed to ever be called.  The callback function is passed
+two arguments.  The first argument is the unlock function which must
+be called to release the lock.  The second argument is the exclusive
+function which may be called to switch the upgradable lock to
+exclusive mode.  The exclusive function accepts a callback function
+as its only argument.  This callback function gets called once
+exclusivity is achieved.  It is guaranteed not to be called
+synchronously.  It is guaranteed not to be called more than once.  It
+is not guaranteed ever to be called.  The callback function is passed
+one argument, the shared function which may be called to switch the
+upgradable lock back to shared mode.  The shared function accepts a
+callback function as its only argument.  This callback function gets
+called once exclusivity is revoked.  It is guaranteed not to be
+called synchronously.  It is guaranteed not to be called more than
+once.  It is not guaranteed ever to be called.  The callback function
+is passed one argument, the exclusive function which may be called to
+switch the upgradable lock to exclusive mode.</p>
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">timeout</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Optional.  The approximate time in
+milliseconds to wait after the callback function has been called.
+Once the timeout has expired, if the callback function hasn't yet
+called the unlock function, the lock will be automatically released.
+This does not halt, stop, or prevent anything that the callback
+function might still be doing asynchronously; it just releases the
+lock.  Using timeout is one way to reduce the possibility of
+deadlocks, but it comes with the risk of allowing concurrent access
+to the resource.</p>
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                    
+                    cancelObject An object with a cancel method.  When
+the cancel method is called, if the callback function hasn't yet
+called the unlock function, the lock will be automatically released.
+This does not halt, stop, or prevent anything that the callback
+function might still be doing asynchronously; it just releases the
+lock.  Using the cancel method is one way to reduce the possibiliy of
+deadlocks, but it comes with the risk of allowing concurrent access
+to the resource.  The cancelObject also has a mode property set to
+'upgradable'.
                 
             </div>
         </div>
@@ -1170,7 +1949,7 @@ to the resource.  The cancelObject also has a mode property.
                 <p>Defined in
             
         
-        <a href="../files&#x2F;js_mutex.js.html#l249"><code>js&#x2F;mutex.js:249</code></a></p>
+        <a href="../files&#x2F;js_mutex.js.html#l525"><code>js&#x2F;mutex.js:525</code></a></p>
 
         
 
