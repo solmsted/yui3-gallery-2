@@ -398,14 +398,20 @@
                             });
                         });
                     } else {
-                        _exclusive(function () {
-                            _fs.unlink(path, function (error) {
-                                if (error) {
-                                    fail(error);
-                                } else {
-                                    success();
-                                }
-                            });
+                        _Fs.exists(path, function (exists) {
+                            if (exists) {
+                                _exclusive(function () {
+                                    _fs.unlink(path, function (error) {
+                                        if (error) {
+                                            fail(error);
+                                        } else {
+                                            success();
+                                        }
+                                    });
+                                });
+                            } else {
+                                success();
+                            }
                         });
                     }
                 });
