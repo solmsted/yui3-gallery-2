@@ -132,12 +132,22 @@
             callbackFunction = callbackFunction || _noop;
             path = _Fs.resolvePath(path);
             
-            var _unlock;
+            var _exclusive,
+                _unlock;
             
             _Async.runQueue(function (success) {
-                _exclusive(path, function (unlock) {
+                _upgradable(path, function (unlock, exclusive) {
+                    _exclusive = exclusive;
                     _unlock = unlock;
                     success();
+                });
+            }, function (success) {
+                _Fs.exists(path, function (exists) {
+                    if (exists) {
+                        success.fail();
+                    } else {
+                        _exclusive(success);
+                    }
                 });
             }, function (success) {
                 var parentPath = _Fs.directoryName(path);
@@ -172,12 +182,22 @@
             callbackFunction = callbackFunction || _noop;
             path = _Fs.resolvePath(path);
             
-            var _unlock;
+            var _exclusive,
+                _unlock;
             
             _Async.runQueue(function (success) {
-                _exclusive(path, function (unlock) {
+                _upgradable(path, function (unlock, exclusive) {
+                    _exclusive = exclusive,
                     _unlock = unlock;
                     success();
+                });
+            }, function (success) {
+                _Fs.exists(path, function (exists) {
+                    if (exists) {
+                        success.fail();
+                    } else {
+                        _exclusive(success);
+                    }
                 });
             }, function (success) {
                 var parentPath = _Fs.directoryName(path);
