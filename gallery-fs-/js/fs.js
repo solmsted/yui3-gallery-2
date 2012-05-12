@@ -357,7 +357,7 @@
                 } else {
                     var writeStream = _fs.createWriteStream(path, options);
                     writeStream.once('close', _unlock);
-                    callbackFunction(writeStream);
+                    callbackFunction(null, writeStream);
                 }
             });
         },
