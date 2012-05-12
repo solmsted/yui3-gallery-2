@@ -324,7 +324,7 @@
                 callbackFunction(eventFacade.error);
             });
         },
-        createWriteableStream: function (path, options, callbackFunction) {
+        createWritableStream: function (path, options, callbackFunction) {
             path = _Fs.resolvePath(path);
             
             var _unlock;
