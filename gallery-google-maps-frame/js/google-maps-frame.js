@@ -40,15 +40,36 @@
 
             var frame = new _Frame({
                 content: '<div id="map"></div>',
-                extracss: 'body, html, #map {height: 100%; width: 100%;}'
+                extracss: 'body, html, #map {height: 100%; width: 100%;}',
+                use: []
             });
 
             frame.on('ready', function () {
                 var iY = frame.getInstance();
 
                 iY.config.win.YUI = YUI;
+                iY.Get.jsOptions.doc = iY.config.doc;
+                
                 iY.use('gallery-google-maps-loader', 'node', function (iY) {
-                    var googleMapsLoader = new iY.GoogleMapsLoader();
+                    var googleMapsLoader,
+                        source = me.get('source'),
+                        timeout = me.get('timeout');
+                    
+                    if (source !== null) {
+                        googleMapsLoader = {
+                            source: source
+                        };
+                        
+                        if (timeout !== null) {
+                            googleMapsLoader.timeout = timeout;
+                        }
+                    } else if (timeout !== null) {
+                        googleMapsLoader = {
+                            timeout: timeout
+                        }
+                    }
+                    
+                    googleMapsLoader = new iY.GoogleMapsLoader(googleMapsLoader);
 
                     googleMapsLoader.on('failure', function () {
                         me.fire('failure');
@@ -66,7 +87,7 @@
                     
                     googleMapsLoader.load(me.get('parameters'));
 
-                    me._set('domNode', iY.Node.getDOMNode(iY.one('#map')));
+                    me._set('domNode', iY.one('#map').getDOMNode());
                     me._set('frame', frame);
                 });
             });
@@ -115,8 +136,28 @@
                 value: false
             },
             /**
+             * The location of the Google Maps JavaScrpt API.  If left as null,
+             * uses the default value of GoogleMapsLoader.
+             * @attribute source
+             * @default null
+             * @type String
+             */
+            source: {
+                value: null
+            },
+            /**
+             * The timeout in milliseconds used by JSONP.  If left null, uses
+             * the default value of GoogleMapsLoader.
+             * @attribute timeout
+             * @default null
+             * @type Number
+             */
+            timeout: {
+                value: null
+            },
+            /**
              * An optional parameters object passed to GoogleMapsLoader. (see
-             * gallery-google-maps-loader for information)
+             * gallery-google-maps-loader's load method for information)
              * @attribute parameters
              * @initOnly
              * @type Object
