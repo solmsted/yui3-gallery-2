@@ -4,18 +4,16 @@
         "description": "Add pause/resume functionality to Async."
     },
     "files": {
-        "js/async-pause.js": {
-            "name": "js/async-pause.js",
+        "../gallery-async-command/js/async-command.js": {
+            "name": "../gallery-async-command/js/async-command.js",
             "modules": {
-                "gallery-async-pause": 1
+                "gallery-async-command": 1
             },
             "classes": {
-                "Plugin.AsyncPause": 1
+                "AsyncCommand": 1
             },
             "fors": {},
-            "namespaces": {
-                "Plugin": 1
-            }
+            "namespaces": {}
         },
         "../gallery-async/js/async.js": {
             "name": "../gallery-async/js/async.js",
@@ -28,19 +26,45 @@
             "fors": {},
             "namespaces": {}
         },
-        "../gallery-async-command/js/async-command.js": {
-            "name": "../gallery-async-command/js/async-command.js",
+        "js/async-pause.js": {
+            "name": "js/async-pause.js",
             "modules": {
-                "gallery-async-command": 1
+                "gallery-async-pause": 1
             },
+            "classes": {
+                "Plugin.AsyncPause": 1
+            },
+            "fors": {},
+            "namespaces": {
+                "Plugin": 1
+            }
+        }
+    },
+    "modules": {
+        "gallery-async-command": {
+            "name": "gallery-async-command",
+            "submodules": {},
             "classes": {
                 "AsyncCommand": 1
             },
             "fors": {},
-            "namespaces": {}
-        }
-    },
-    "modules": {
+            "namespaces": {},
+            "tag": "module",
+            "file": "../gallery-async-command/js/async-command.js",
+            "line": 21
+        },
+        "gallery-async": {
+            "name": "gallery-async",
+            "submodules": {},
+            "classes": {
+                "Async": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "../gallery-async/js/async.js",
+            "line": 29
+        },
         "gallery-async-pause": {
             "name": "gallery-async-pause",
             "submodules": {},
@@ -53,48 +77,24 @@
             },
             "tag": "module",
             "file": "js/async-pause.js",
-            "line": 1
-        },
-        "gallery-async": {
-            "name": "gallery-async",
-            "submodules": {},
-            "classes": {
-                "Async": 1
-            },
-            "fors": {},
-            "namespaces": {},
-            "tag": "module",
-            "file": "../gallery-async/js/async.js",
-            "line": 1
-        },
-        "gallery-async-command": {
-            "name": "gallery-async-command",
-            "submodules": {},
-            "classes": {
-                "AsyncCommand": 1
-            },
-            "fors": {},
-            "namespaces": {},
-            "tag": "module",
-            "file": "../gallery-async-command/js/async-command.js",
-            "line": 1
+            "line": 18
         }
     },
     "classes": {
-        "Plugin.AsyncPause": {
-            "name": "Plugin.AsyncPause",
-            "shortname": "Plugin.AsyncPause",
+        "AsyncCommand": {
+            "name": "AsyncCommand",
+            "shortname": "AsyncCommand",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "gallery-async-pause",
-            "namespace": "Plugin",
-            "file": "js/async-pause.js",
-            "line": 18,
-            "description": "Asynchronous command runner pause plugin.",
-            "extends": "Plugin.Base",
+            "module": "gallery-async-command",
+            "namespace": "",
+            "file": "../gallery-async-command/js/async-command.js",
+            "line": 21,
+            "description": "Asynchronous command class.",
+            "extends": "Base",
             "params": [
                 {
                     "name": "config",
@@ -125,20 +125,20 @@
                 }
             ]
         },
-        "AsyncCommand": {
-            "name": "AsyncCommand",
-            "shortname": "AsyncCommand",
+        "Plugin.AsyncPause": {
+            "name": "Plugin.AsyncPause",
+            "shortname": "Plugin.AsyncPause",
             "classitems": [],
             "plugins": [],
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "gallery-async-command",
-            "namespace": "",
-            "file": "../gallery-async-command/js/async-command.js",
-            "line": 21,
-            "description": "Asynchronous command class.",
-            "extends": "Base",
+            "module": "gallery-async-pause",
+            "namespace": "Plugin",
+            "file": "js/async-pause.js",
+            "line": 18,
+            "description": "Asynchronous command runner pause plugin.",
+            "extends": "Plugin.Base",
             "params": [
                 {
                     "name": "config",
@@ -150,67 +150,176 @@
     },
     "classitems": [
         {
-            "file": "js/async-pause.js",
-            "line": 40,
-            "description": "Pause the run.  Does not stop a command that is currently running,\nthe run will pause before the next command runs.",
-            "itemtype": "method",
-            "name": "pause",
-            "chainable": 1,
-            "class": "Plugin.AsyncPause",
-            "module": "gallery-async-pause",
-            "namespace": "Plugin"
+            "file": "../gallery-async-command/js/async-command.js",
+            "line": 31,
+            "description": "Fired when the command function completes.",
+            "itemtype": "event",
+            "name": "complete",
+            "fireonce": "",
+            "params": [
+                {
+                    "name": "error",
+                    "description": "Optional error value."
+                },
+                {
+                    "name": "failed",
+                    "description": "Indicates the failed status of the\ncommand.",
+                    "type": "Boolean"
+                },
+                {
+                    "name": "value",
+                    "description": "Optional return value from the command function."
+                }
+            ],
+            "class": "AsyncCommand",
+            "module": "gallery-async-command"
         },
         {
-            "file": "js/async-pause.js",
-            "line": 49,
-            "description": "Resumes a paused run.  If a command is currently running, the paused\nstate may not be updated immediately.  Resume does nothing if the run\nis not paused or not started yet or already complete.",
-            "itemtype": "method",
-            "name": "resume",
-            "chainable": 1,
-            "class": "Plugin.AsyncPause",
-            "module": "gallery-async-pause",
-            "namespace": "Plugin"
+            "file": "../gallery-async-command/js/async-command.js",
+            "line": 47,
+            "description": "Fired when the command function fails.",
+            "itemtype": "event",
+            "name": "failure",
+            "fireonce": "",
+            "params": [
+                {
+                    "name": "error",
+                    "description": "Optional error value."
+                }
+            ],
+            "access": "protected",
+            "tagname": "",
+            "class": "AsyncCommand",
+            "module": "gallery-async-command"
         },
         {
-            "file": "js/async-pause.js",
-            "line": 103,
-            "description": "Boolean value indicating the paused status of the run.",
+            "file": "../gallery-async-command/js/async-command.js",
+            "line": 69,
+            "description": "Fired when the command function starts.",
+            "itemtype": "event",
+            "name": "start",
+            "fireonce": "",
+            "access": "protected",
+            "tagname": "",
+            "class": "AsyncCommand",
+            "module": "gallery-async-command"
+        },
+        {
+            "file": "../gallery-async-command/js/async-command.js",
+            "line": 83,
+            "description": "Fired when the command function succeeds.",
+            "itemtype": "event",
+            "name": "success",
+            "fireonce": "",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "Optional return value from the command function."
+                }
+            ],
+            "access": "protected",
+            "tagname": "",
+            "class": "AsyncCommand",
+            "module": "gallery-async-command"
+        },
+        {
+            "file": "../gallery-async-command/js/async-command.js",
+            "line": 106,
+            "description": "Execute the command function.",
+            "itemtype": "method",
+            "name": "run",
+            "chainable": 1,
+            "class": "AsyncCommand",
+            "module": "gallery-async-command"
+        },
+        {
+            "file": "../gallery-async-command/js/async-command.js",
+            "line": 117,
+            "description": "Array of arguments to be passed to the command function.\nA special callback function is automatically added as the first\nargument.",
             "itemtype": "attribute",
-            "name": "paused",
+            "name": "args",
+            "default": "[]",
+            "initonly": "",
+            "type": "Array",
+            "class": "AsyncCommand",
+            "module": "gallery-async-command"
+        },
+        {
+            "file": "../gallery-async-command/js/async-command.js",
+            "line": 139,
+            "description": "Boolean value indicating the completed status of the command.",
+            "itemtype": "attribute",
+            "name": "completed",
             "default": "false",
             "readonly": "",
             "type": "Boolean",
-            "class": "Plugin.AsyncPause",
-            "module": "gallery-async-pause",
-            "namespace": "Plugin"
+            "class": "AsyncCommand",
+            "module": "gallery-async-command"
         },
         {
-            "file": "js/async-pause.js",
-            "line": 114,
-            "description": "Paused _runQueue arguments.",
+            "file": "../gallery-async-command/js/async-command.js",
+            "line": 150,
+            "description": "Execution context for the command function.",
             "itemtype": "attribute",
-            "name": "_args",
-            "access": "protected",
-            "tagname": "",
-            "readonly": "",
-            "type": "Array",
-            "class": "Plugin.AsyncPause",
-            "module": "gallery-async-pause",
-            "namespace": "Plugin"
+            "name": "ctx",
+            "initonly": "",
+            "class": "AsyncCommand",
+            "module": "gallery-async-command"
         },
         {
-            "file": "js/async-pause.js",
-            "line": 125,
-            "description": "Boolean value indicating the resumed status of the run.",
+            "file": "../gallery-async-command/js/async-command.js",
+            "line": 159,
+            "description": "Error value passed to the failure event.",
             "itemtype": "attribute",
-            "name": "_resumed",
-            "access": "protected",
-            "tagname": "",
+            "name": "error",
             "readonly": "",
-            "type": "Array",
-            "class": "Plugin.AsyncPause",
-            "module": "gallery-async-pause",
-            "namespace": "Plugin"
+            "class": "AsyncCommand",
+            "module": "gallery-async-command"
+        },
+        {
+            "file": "../gallery-async-command/js/async-command.js",
+            "line": 168,
+            "description": "Boolean value indicating the failed status of the command.",
+            "itemtype": "attribute",
+            "name": "failed",
+            "default": "false",
+            "readonly": "",
+            "type": "Boolean",
+            "class": "AsyncCommand",
+            "module": "gallery-async-command"
+        },
+        {
+            "file": "../gallery-async-command/js/async-command.js",
+            "line": 179,
+            "description": "The command function to execute.  This function receives a special\nsuccess callback function as the first parameter.  The success\ncallback function has a method parameter called fail.  One of\nthese callback functions must be called in order to complete the\ncommand.",
+            "itemtype": "attribute",
+            "name": "fn",
+            "initonly": "",
+            "type": "Function",
+            "class": "AsyncCommand",
+            "module": "gallery-async-command"
+        },
+        {
+            "file": "../gallery-async-command/js/async-command.js",
+            "line": 195,
+            "description": "Boolean value indicating the started status of the command.",
+            "itemtype": "attribute",
+            "name": "started",
+            "default": "false",
+            "readonly": "",
+            "type": "Boolean",
+            "class": "AsyncCommand",
+            "module": "gallery-async-command"
+        },
+        {
+            "file": "../gallery-async-command/js/async-command.js",
+            "line": 206,
+            "description": "Value passed to the success event.",
+            "itemtype": "attribute",
+            "name": "value",
+            "readonly": "",
+            "class": "AsyncCommand",
+            "module": "gallery-async-command"
         },
         {
             "file": "../gallery-async/js/async.js",
@@ -401,7 +510,7 @@
             "line": 264,
             "description": "Creates and runs an instance of Async in 'queue' mode.  This\nmethod accepts an unlimited number of parameters.  The first\nargument is a config object passed to the AsyncCommand constructor\nwhen instantiating dynamically.  The rest of the arguments can\nbe command functions, AsyncCommand config objects, instances of\nAsyncCommand, instances of Async, or arrays containing any of the\nabove.",
             "itemtype": "method",
-            "name": "runQueue",
+            "name": "runQueueWithConfig",
             "return": {
                 "description": "",
                 "type": "Async"
@@ -411,176 +520,67 @@
             "module": "gallery-async"
         },
         {
-            "file": "../gallery-async-command/js/async-command.js",
-            "line": 31,
-            "description": "Fired when the command function completes.",
-            "itemtype": "event",
-            "name": "complete",
-            "fireonce": "",
-            "params": [
-                {
-                    "name": "error",
-                    "description": "Optional error value."
-                },
-                {
-                    "name": "failed",
-                    "description": "Indicates the failed status of the\ncommand.",
-                    "type": "Boolean"
-                },
-                {
-                    "name": "value",
-                    "description": "Optional return value from the command function."
-                }
-            ],
-            "class": "AsyncCommand",
-            "module": "gallery-async-command"
-        },
-        {
-            "file": "../gallery-async-command/js/async-command.js",
-            "line": 47,
-            "description": "Fired when the command function fails.",
-            "itemtype": "event",
-            "name": "failure",
-            "fireonce": "",
-            "params": [
-                {
-                    "name": "error",
-                    "description": "Optional error value."
-                }
-            ],
-            "access": "protected",
-            "tagname": "",
-            "class": "AsyncCommand",
-            "module": "gallery-async-command"
-        },
-        {
-            "file": "../gallery-async-command/js/async-command.js",
-            "line": 69,
-            "description": "Fired when the command function starts.",
-            "itemtype": "event",
-            "name": "start",
-            "fireonce": "",
-            "access": "protected",
-            "tagname": "",
-            "class": "AsyncCommand",
-            "module": "gallery-async-command"
-        },
-        {
-            "file": "../gallery-async-command/js/async-command.js",
-            "line": 83,
-            "description": "Fired when the command function succeeds.",
-            "itemtype": "event",
-            "name": "success",
-            "fireonce": "",
-            "params": [
-                {
-                    "name": "value",
-                    "description": "Optional return value from the command function."
-                }
-            ],
-            "access": "protected",
-            "tagname": "",
-            "class": "AsyncCommand",
-            "module": "gallery-async-command"
-        },
-        {
-            "file": "../gallery-async-command/js/async-command.js",
-            "line": 106,
-            "description": "Execute the command function.",
+            "file": "js/async-pause.js",
+            "line": 40,
+            "description": "Pause the run.  Does not stop a command that is currently running,\nthe run will pause before the next command runs.",
             "itemtype": "method",
-            "name": "run",
+            "name": "pause",
             "chainable": 1,
-            "class": "AsyncCommand",
-            "module": "gallery-async-command"
+            "class": "Plugin.AsyncPause",
+            "module": "gallery-async-pause",
+            "namespace": "Plugin"
         },
         {
-            "file": "../gallery-async-command/js/async-command.js",
-            "line": 117,
-            "description": "Array of arguments to be passed to the command function.\nA special callback function is automatically added as the first\nargument.",
+            "file": "js/async-pause.js",
+            "line": 49,
+            "description": "Resumes a paused run.  If a command is currently running, the paused\nstate may not be updated immediately.  Resume does nothing if the run\nis not paused or not started yet or already complete.",
+            "itemtype": "method",
+            "name": "resume",
+            "chainable": 1,
+            "class": "Plugin.AsyncPause",
+            "module": "gallery-async-pause",
+            "namespace": "Plugin"
+        },
+        {
+            "file": "js/async-pause.js",
+            "line": 103,
+            "description": "Boolean value indicating the paused status of the run.",
             "itemtype": "attribute",
-            "name": "args",
-            "default": "[]",
-            "initonly": "",
+            "name": "paused",
+            "default": "false",
+            "readonly": "",
+            "type": "Boolean",
+            "class": "Plugin.AsyncPause",
+            "module": "gallery-async-pause",
+            "namespace": "Plugin"
+        },
+        {
+            "file": "js/async-pause.js",
+            "line": 114,
+            "description": "Paused _runQueue arguments.",
+            "itemtype": "attribute",
+            "name": "_args",
+            "access": "protected",
+            "tagname": "",
+            "readonly": "",
             "type": "Array",
-            "class": "AsyncCommand",
-            "module": "gallery-async-command"
+            "class": "Plugin.AsyncPause",
+            "module": "gallery-async-pause",
+            "namespace": "Plugin"
         },
         {
-            "file": "../gallery-async-command/js/async-command.js",
-            "line": 139,
-            "description": "Boolean value indicating the completed status of the command.",
+            "file": "js/async-pause.js",
+            "line": 125,
+            "description": "Boolean value indicating the resumed status of the run.",
             "itemtype": "attribute",
-            "name": "completed",
-            "default": "false",
+            "name": "_resumed",
+            "access": "protected",
+            "tagname": "",
             "readonly": "",
-            "type": "Boolean",
-            "class": "AsyncCommand",
-            "module": "gallery-async-command"
-        },
-        {
-            "file": "../gallery-async-command/js/async-command.js",
-            "line": 150,
-            "description": "Execution context for the command function.",
-            "itemtype": "attribute",
-            "name": "ctx",
-            "initonly": "",
-            "class": "AsyncCommand",
-            "module": "gallery-async-command"
-        },
-        {
-            "file": "../gallery-async-command/js/async-command.js",
-            "line": 159,
-            "description": "Error value passed to the failure event.",
-            "itemtype": "attribute",
-            "name": "error",
-            "readonly": "",
-            "class": "AsyncCommand",
-            "module": "gallery-async-command"
-        },
-        {
-            "file": "../gallery-async-command/js/async-command.js",
-            "line": 168,
-            "description": "Boolean value indicating the failed status of the command.",
-            "itemtype": "attribute",
-            "name": "failed",
-            "default": "false",
-            "readonly": "",
-            "type": "Boolean",
-            "class": "AsyncCommand",
-            "module": "gallery-async-command"
-        },
-        {
-            "file": "../gallery-async-command/js/async-command.js",
-            "line": 179,
-            "description": "The command function to execute.  This function receives a special\nsuccess callback function as the first parameter.  The success\ncallback function has a method parameter called fail.  One of\nthese callback functions must be called in order to complete the\ncommand.",
-            "itemtype": "attribute",
-            "name": "fn",
-            "initonly": "",
-            "type": "Function",
-            "class": "AsyncCommand",
-            "module": "gallery-async-command"
-        },
-        {
-            "file": "../gallery-async-command/js/async-command.js",
-            "line": 195,
-            "description": "Boolean value indicating the started status of the command.",
-            "itemtype": "attribute",
-            "name": "started",
-            "default": "false",
-            "readonly": "",
-            "type": "Boolean",
-            "class": "AsyncCommand",
-            "module": "gallery-async-command"
-        },
-        {
-            "file": "../gallery-async-command/js/async-command.js",
-            "line": 206,
-            "description": "Value passed to the success event.",
-            "itemtype": "attribute",
-            "name": "value",
-            "readonly": "",
-            "class": "AsyncCommand",
-            "module": "gallery-async-command"
+            "type": "Array",
+            "class": "Plugin.AsyncPause",
+            "module": "gallery-async-pause",
+            "namespace": "Plugin"
         }
     ]
 }

@@ -3,20 +3,23 @@
 <head>
     <meta charset="utf-8">
     <title>Async - Async Command Clone Plugin</title>
-    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.4.0&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
+    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.5.1&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
-    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.4.0&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
+    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.5.1&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
 </head>
 <body class="yui3-skin-sam">
 
 <div id="doc">
     <div id="hd" class="yui3-g header">
         <div class="yui3-u-3-4">
-            <h1><img src="..&#x2F;assets/css/logo.png"></h1>
+            
+                <h1><img src="..&#x2F;assets/css/logo.png" title="Async Command Clone Plugin"></h1>
+            
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: undefined</em>
+            <em>API Docs for: </em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -78,12 +81,18 @@
             <input type="checkbox" id="api-show-private">
             Private
         </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
     </div>
 
 
             <div class="apidocs">
-                <div id="docs-main" class="content">
-                    <h1>Async Class</h1>
+                <div id="docs-main">
+                    <div class="content">
+                        <h1>Async Class</h1>
 <div class="box meta">
     
 
@@ -95,8 +104,14 @@
 
     
         <div class="foundat">
-            Defined in: <a href="../files&#x2F;.._gallery-async_js_async.js.html#l29"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:29</code></a>
+            Defined in: <a href="..&#x2F;files&#x2F;.._gallery-async_js_async.js.html#l29"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:29</code></a>
         </div>
+    
+
+    
+        
+            Module: <a href="../modules/gallery-async.html">gallery-async</a>
+        
     
 
     
@@ -136,23 +151,26 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
+                    <ul class="index-list methods extends">
                         
                             <li class="index-item method protected">
                                 <a href="#method__runAll">_runAll</a>
 
+                                
                                 
                             </li>
                         
                             <li class="index-item method protected">
                                 <a href="#method__runAll">_runAll</a>
 
+                                
                                 
                             </li>
                         
                             <li class="index-item method inherited">
                                 <a href="#method_run">run</a>
 
+                                
                                 
                             </li>
                         
@@ -162,6 +180,7 @@
                                 
                                     <span class="flag static">static</span>
                                 
+                                
                             </li>
                         
                             <li class="index-item method">
@@ -170,13 +189,6 @@
                                 
                                     <span class="flag static">static</span>
                                 
-                            </li>
-                        
-                            <li class="index-item method">
-                                <a href="#method_runQueue">runQueue</a>
-
-                                
-                                    <span class="flag static">static</span>
                                 
                             </li>
                         
@@ -185,6 +197,16 @@
 
                                 
                                     <span class="flag static">static</span>
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method">
+                                <a href="#method_runQueueWithConfig">runQueueWithConfig</a>
+
+                                
+                                    <span class="flag static">static</span>
+                                
                                 
                             </li>
                         
@@ -196,13 +218,14 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
                         
                             <li class="index-item property">
                                 <a href="#property_commands">commands</a>
 
                                 
                                     <span class="flag static">static</span>
+                                
                                 
                             </li>
                         
@@ -214,7 +237,7 @@
                 <div class="index-section attrs">
                     <h3>Attributes</h3>
 
-                    <ul class="index-list attrs">
+                    <ul class="index-list attrs extends">
                         
                             <li class="index-item attr protected inherited">
                                 <a href="#attr_args">args</a>
@@ -268,11 +291,12 @@
                 <div class="index-section events">
                     <h3>Events</h3>
 
-                    <ul class="index-list events">
+                    <ul class="index-list events extends">
                         
                             <li class="index-item event inherited">
                                 <a href="#event_complete">complete</a>
 
+                                
                                 
                             </li>
                         
@@ -280,17 +304,20 @@
                                 <a href="#event_failure">failure</a>
 
                                 
+                                
                             </li>
                         
                             <li class="index-item event protected inherited">
                                 <a href="#event_start">start</a>
 
                                 
+                                
                             </li>
                         
                             <li class="index-item event protected inherited">
                                 <a href="#event_success">success</a>
 
+                                
                                 
                             </li>
                         
@@ -341,14 +368,23 @@
 
     
 
+    
+
     <div class="meta">
         
             
                 
-                <p>Defined in
+                <p>
+                
+                Defined in
+                
             
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l46"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:46</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async_js_async.js.html#l46"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:46</code></a>
+        
+        </p>
+
 
         
 
@@ -454,14 +490,23 @@
 
     
 
+    
+
     <div class="meta">
         
             
                 
-                <p>Defined in
+                <p>
+                
+                Defined in
+                
             
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l78"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:78</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async_js_async.js.html#l78"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:78</code></a>
+        
+        </p>
+
 
         
 
@@ -569,14 +614,20 @@
         <span class="flag chainable">chainable</span>
     
 
+    
+
     <div class="meta">
         
             
                 <p>Inherited from
-                <a href="AsyncCommand.html#method_run">AsyncCommand</a>:
+                <a href="..&#x2F;classes&#x2F;AsyncCommand.html#method_run">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;.._gallery-async-command_js_async-command.js.html#l106"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:106</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async-command_js_async-command.js.html#l106"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:106</code></a>
+        
+        </p>
+
 
         
 
@@ -620,14 +671,23 @@
 
     
 
+    
+
     <div class="meta">
         
             
                 
-                <p>Defined in
+                <p>
+                
+                Defined in
+                
             
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l221"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:221</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async_js_async.js.html#l221"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:221</code></a>
+        
+        </p>
+
 
         
 
@@ -687,14 +747,23 @@ above.</p>
 
     
 
+    
+
     <div class="meta">
         
             
                 
-                <p>Defined in
+                <p>
+                
+                Defined in
+                
             
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l234"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:234</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async_js_async.js.html#l234"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:234</code></a>
+        
+        </p>
+
 
         
 
@@ -756,14 +825,23 @@ above.</p>
 
     
 
+    
+
     <div class="meta">
         
             
                 
-                <p>Defined in
+                <p>
+                
+                Defined in
+                
             
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l251"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:251</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async_js_async.js.html#l251"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:251</code></a>
+        
+        </p>
+
 
         
 
@@ -798,8 +876,8 @@ above.</p>
 </div>
 
                 
-                    <div id="method_runQueue" class="method item">
-    <h3 class="name"><code>runQueue</code></h3>
+                    <div id="method_runQueueWithConfig" class="method item">
+    <h3 class="name"><code>runQueueWithConfig</code></h3>
 
     
         <span class="paren">()</span>
@@ -823,14 +901,23 @@ above.</p>
 
     
 
+    
+
     <div class="meta">
         
             
                 
-                <p>Defined in
+                <p>
+                
+                Defined in
+                
             
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l264"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:264</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async_js_async.js.html#l264"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:264</code></a>
+        
+        </p>
+
 
         
 
@@ -893,10 +980,16 @@ above.</p>
         
             
                 
-                <p>Defined in
+                <p>
+                
+                Defined in
+                
             
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l211"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:211</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async_js_async.js.html#l211"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:211</code></a>
+        
+        </p>
 
         
 
@@ -941,15 +1034,24 @@ objects.</p>
 
     
 
+    
+
+    
+
     <div class="meta">
         
             <p>Inherited from
-            <a href="AsyncCommand.html#attr_args">
+            <a href="..&#x2F;classes&#x2F;AsyncCommand.html#attr_args">
                 AsyncCommand
             </a>
+            
             but overwritten in
+            
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l109"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:109</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async_js_async.js.html#l109"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:109</code></a>
+        
+        </p>
 
         
 
@@ -1034,14 +1136,21 @@ objects.</p>
 
     
 
+    
+
+    
+
     <div class="meta">
         
             
                 <p>Inherited from
-                <a href="AsyncCommand.html#attr_completed">AsyncCommand</a>:
+                <a href="..&#x2F;classes&#x2F;AsyncCommand.html#attr_completed">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;.._gallery-async-command_js_async-command.js.html#l139"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:139</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async-command_js_async-command.js.html#l139"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:139</code></a>
+        
+        </p>
 
         
 
@@ -1126,14 +1235,24 @@ objects.</p>
 
     
 
+    
+
+    
+
     <div class="meta">
         
             
                 
-                <p>Defined in
+                <p>
+                
+                Defined in
+                
             
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l117"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:117</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async_js_async.js.html#l117"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:117</code></a>
+        
+        </p>
 
         
 
@@ -1221,15 +1340,24 @@ instantiating dynamically.</p>
 
     
 
+    
+
+    
+
     <div class="meta">
         
             <p>Inherited from
-            <a href="AsyncCommand.html#attr_ctx">
+            <a href="..&#x2F;classes&#x2F;AsyncCommand.html#attr_ctx">
                 AsyncCommand
             </a>
+            
             but overwritten in
+            
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l129"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:129</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async_js_async.js.html#l129"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:129</code></a>
+        
+        </p>
 
         
 
@@ -1312,14 +1440,21 @@ instantiating dynamically.</p>
 
     
 
+    
+
+    
+
     <div class="meta">
         
             
                 <p>Inherited from
-                <a href="AsyncCommand.html#attr_error">AsyncCommand</a>:
+                <a href="..&#x2F;classes&#x2F;AsyncCommand.html#attr_error">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;.._gallery-async-command_js_async-command.js.html#l159"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:159</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async-command_js_async-command.js.html#l159"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:159</code></a>
+        
+        </p>
 
         
 
@@ -1402,14 +1537,21 @@ instantiating dynamically.</p>
 
     
 
+    
+
+    
+
     <div class="meta">
         
             
                 <p>Inherited from
-                <a href="AsyncCommand.html#attr_failed">AsyncCommand</a>:
+                <a href="..&#x2F;classes&#x2F;AsyncCommand.html#attr_failed">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;.._gallery-async-command_js_async-command.js.html#l168"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:168</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async-command_js_async-command.js.html#l168"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:168</code></a>
+        
+        </p>
 
         
 
@@ -1496,15 +1638,24 @@ instantiating dynamically.</p>
 
     
 
+    
+
+    
+
     <div class="meta">
         
             <p>Inherited from
-            <a href="AsyncCommand.html#attr_fn">
+            <a href="..&#x2F;classes&#x2F;AsyncCommand.html#attr_fn">
                 AsyncCommand
             </a>
+            
             but overwritten in
+            
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l135"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:135</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async_js_async.js.html#l135"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:135</code></a>
+        
+        </p>
 
         
 
@@ -1587,14 +1738,24 @@ instantiating dynamically.</p>
 
     
 
+    
+
+    
+
     <div class="meta">
         
             
                 
-                <p>Defined in
+                <p>
+                
+                Defined in
+                
             
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l142"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:142</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async_js_async.js.html#l142"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:142</code></a>
+        
+        </p>
 
         
 
@@ -1701,14 +1862,24 @@ instantiating dynamically.</p>
 
     
 
+    
+
+    
+
     <div class="meta">
         
             
                 
-                <p>Defined in
+                <p>
+                
+                Defined in
+                
             
         
-        <a href="../files&#x2F;.._gallery-async_js_async.js.html#l174"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:174</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async_js_async.js.html#l174"><code>..&#x2F;gallery-async&#x2F;js&#x2F;async.js:174</code></a>
+        
+        </p>
 
         
 
@@ -1795,14 +1966,21 @@ get converted to instances of AsyncCommand.</p>
 
     
 
+    
+
+    
+
     <div class="meta">
         
             
                 <p>Inherited from
-                <a href="AsyncCommand.html#attr_started">AsyncCommand</a>:
+                <a href="..&#x2F;classes&#x2F;AsyncCommand.html#attr_started">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;.._gallery-async-command_js_async-command.js.html#l195"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:195</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async-command_js_async-command.js.html#l195"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:195</code></a>
+        
+        </p>
 
         
 
@@ -1887,14 +2065,21 @@ get converted to instances of AsyncCommand.</p>
 
     
 
+    
+
+    
+
     <div class="meta">
         
             
                 <p>Inherited from
-                <a href="AsyncCommand.html#attr_value">AsyncCommand</a>:
+                <a href="..&#x2F;classes&#x2F;AsyncCommand.html#attr_value">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;.._gallery-async-command_js_async-command.js.html#l206"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:206</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async-command_js_async-command.js.html#l206"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:206</code></a>
+        
+        </p>
 
         
 
@@ -1988,10 +2173,13 @@ get converted to instances of AsyncCommand.</p>
         
             
                 <p>Inherited from
-                <a href="AsyncCommand.html#event_complete">AsyncCommand</a>:
+                <a href="..&#x2F;classes&#x2F;AsyncCommand.html#event_complete">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;.._gallery-async-command_js_async-command.js.html#l31"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:31</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async-command_js_async-command.js.html#l31"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:31</code></a>
+        
+        </p>
 
         
 
@@ -2081,10 +2269,13 @@ command.</p>
         
             
                 <p>Inherited from
-                <a href="AsyncCommand.html#event_failure">AsyncCommand</a>:
+                <a href="..&#x2F;classes&#x2F;AsyncCommand.html#event_failure">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;.._gallery-async-command_js_async-command.js.html#l47"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:47</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async-command_js_async-command.js.html#l47"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:47</code></a>
+        
+        </p>
 
         
 
@@ -2143,10 +2334,13 @@ command.</p>
         
             
                 <p>Inherited from
-                <a href="AsyncCommand.html#event_start">AsyncCommand</a>:
+                <a href="..&#x2F;classes&#x2F;AsyncCommand.html#event_start">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;.._gallery-async-command_js_async-command.js.html#l69"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:69</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async-command_js_async-command.js.html#l69"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:69</code></a>
+        
+        </p>
 
         
 
@@ -2182,10 +2376,13 @@ command.</p>
         
             
                 <p>Inherited from
-                <a href="AsyncCommand.html#event_success">AsyncCommand</a>:
+                <a href="..&#x2F;classes&#x2F;AsyncCommand.html#event_success">AsyncCommand</a>:
             
         
-        <a href="../files&#x2F;.._gallery-async-command_js_async-command.js.html#l83"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:83</code></a></p>
+        
+        <a href="..&#x2F;files&#x2F;.._gallery-async-command_js_async-command.js.html#l83"><code>..&#x2F;gallery-async-command&#x2F;js&#x2F;async-command.js:83</code></a>
+        
+        </p>
 
         
 
@@ -2231,6 +2428,7 @@ command.</p>
     </div>
 </div>
 
+                    </div>
                 </div>
             </div>
         </div>
@@ -2239,10 +2437,7 @@ command.</p>
 <script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
 <script>prettyPrint();</script>
 <script src="..&#x2F;assets/js/yui-prettify.js"></script>
-<!--script src="..&#x2F;assets/js/tabs.js"></script-->
 <script src="..&#x2F;assets/../api.js"></script>
-
-
 <script src="..&#x2F;assets/js/api-filter.js"></script>
 <script src="..&#x2F;assets/js/api-list.js"></script>
 <script src="..&#x2F;assets/js/api-search.js"></script>

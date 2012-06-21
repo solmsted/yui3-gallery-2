@@ -4,6 +4,17 @@
         "description": "Fail an Async Command if it doesn't succeed within an amount of time."
     },
     "files": {
+        "../gallery-async-command/js/async-command.js": {
+            "name": "../gallery-async-command/js/async-command.js",
+            "modules": {
+                "gallery-async-command": 1
+            },
+            "classes": {
+                "AsyncCommand": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "js/async-command-timeout.js": {
             "name": "js/async-command-timeout.js",
             "modules": {
@@ -16,20 +27,21 @@
             "namespaces": {
                 "Plugin": 1
             }
-        },
-        "../gallery-async-command/js/async-command.js": {
-            "name": "../gallery-async-command/js/async-command.js",
-            "modules": {
-                "gallery-async-command": 1
-            },
+        }
+    },
+    "modules": {
+        "gallery-async-command": {
+            "name": "gallery-async-command",
+            "submodules": {},
             "classes": {
                 "AsyncCommand": 1
             },
             "fors": {},
-            "namespaces": {}
-        }
-    },
-    "modules": {
+            "namespaces": {},
+            "tag": "module",
+            "file": "../gallery-async-command/js/async-command.js",
+            "line": 21
+        },
         "gallery-async-command-timeout": {
             "name": "gallery-async-command-timeout",
             "submodules": {},
@@ -42,44 +54,10 @@
             },
             "tag": "module",
             "file": "js/async-command-timeout.js",
-            "line": 1
-        },
-        "gallery-async-command": {
-            "name": "gallery-async-command",
-            "submodules": {},
-            "classes": {
-                "AsyncCommand": 1
-            },
-            "fors": {},
-            "namespaces": {},
-            "tag": "module",
-            "file": "../gallery-async-command/js/async-command.js",
-            "line": 1
+            "line": 14
         }
     },
     "classes": {
-        "Plugin.AsyncCommandTimeout": {
-            "name": "Plugin.AsyncCommandTimeout",
-            "shortname": "Plugin.AsyncCommandTimeout",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "gallery-async-command-timeout",
-            "namespace": "Plugin",
-            "file": "js/async-command-timeout.js",
-            "line": 14,
-            "description": "Asynchronous command timeout plugin.",
-            "extends": "Plugin.Base",
-            "params": [
-                {
-                    "name": "config",
-                    "description": "Configuration Object.",
-                    "type": "Object"
-                }
-            ]
-        },
         "AsyncCommand": {
             "name": "AsyncCommand",
             "shortname": "AsyncCommand",
@@ -101,22 +79,31 @@
                     "type": "Object"
                 }
             ]
+        },
+        "Plugin.AsyncCommandTimeout": {
+            "name": "Plugin.AsyncCommandTimeout",
+            "shortname": "Plugin.AsyncCommandTimeout",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "gallery-async-command-timeout",
+            "namespace": "Plugin",
+            "file": "js/async-command-timeout.js",
+            "line": 14,
+            "description": "Asynchronous command timeout plugin.",
+            "extends": "Plugin.Base",
+            "params": [
+                {
+                    "name": "config",
+                    "description": "Configuration Object.",
+                    "type": "Object"
+                }
+            ]
         }
     },
     "classitems": [
-        {
-            "file": "js/async-command-timeout.js",
-            "line": 63,
-            "description": "Approximate timeout in milliseconds to wait for success before\nthe command automatically fails.  Must be a non-negative integer.\nA value of 0 disables the timeout.",
-            "itemtype": "attribute",
-            "name": "timeout",
-            "default": "0",
-            "initonly": "",
-            "type": "Number",
-            "class": "Plugin.AsyncCommandTimeout",
-            "module": "gallery-async-command-timeout",
-            "namespace": "Plugin"
-        },
         {
             "file": "../gallery-async-command/js/async-command.js",
             "line": 31,
@@ -288,6 +275,19 @@
             "readonly": "",
             "class": "AsyncCommand",
             "module": "gallery-async-command"
+        },
+        {
+            "file": "js/async-command-timeout.js",
+            "line": 63,
+            "description": "Approximate timeout in milliseconds to wait for success before\nthe command automatically fails.  Must be a non-negative integer.\nA value of 0 disables the timeout.",
+            "itemtype": "attribute",
+            "name": "timeout",
+            "default": "0",
+            "initonly": "",
+            "type": "Number",
+            "class": "Plugin.AsyncCommandTimeout",
+            "module": "gallery-async-command-timeout",
+            "namespace": "Plugin"
         }
     ]
 }

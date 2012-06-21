@@ -269,7 +269,7 @@
             * be command functions, AsyncCommand config objects, instances of
             * AsyncCommand, instances of Async, or arrays containing any of the
             * above.
-            * @method runQueue
+            * @method runQueueWithConfig
             * @return {Async}
             * @static
             */
