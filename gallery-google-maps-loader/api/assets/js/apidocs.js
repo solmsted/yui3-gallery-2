@@ -15,7 +15,6 @@ Y.each(parts, function(v, k) {
         case 'modules':
         case 'files':
             baseNum = k;
-            url.push('');
             break;
         default:
             if (k < baseNum) {
@@ -25,7 +24,7 @@ Y.each(parts, function(v, k) {
     }
 });
 
-url = url.join('/');
+url = url.join('/') + '/';
 
 
 var win = Y.config.win,
@@ -120,6 +119,10 @@ controller.afterLoad =  function () {
     prettyPrint();
 
     bd.removeClass('loading');
+
+    // Tell Chartbeat about the virtual pageview. Yes, pSUPERFLY is the real
+    // Chartbeat class name.
+    pSUPERFLY.virtualPage(controller.getPath(), Y.config.doc.title);
 };
 
 controller.checkVisibility = function (tab) {
