@@ -58,7 +58,7 @@
          * may include the optional blackValue and/or whiteValue properties.  If
          * undefined, blackValue will default to 0 and whiteValue will default
          * to 255 when mode is set to 'i' or 1 otherwise.
-         * 
+         *
          * @attribute channels
          * @default [
          *     {maximum: 255, minimum: 0, mode:'i'},
@@ -131,9 +131,9 @@
         clear: function () {
             var me = this,
                 pixelData = [];
-            
+
             pixelData.length = me._pixelData.length;
-            
+
             me._pixelData = pixelData;
 
             return me;
@@ -234,7 +234,7 @@
                 me = this,
                 pixelChannels = pixelParameters.pch,
                 pixelCount = me.get('pixelCount'),
-            
+
                 channels = Y.clone(me.get('channels')),
                 dimensions = me.get('dimensions').slice(),
                 getAt = _getGetAtFunction.apply(me, dimensions),
@@ -367,7 +367,7 @@
             me._set('pixelCount', pixelCount);
 
             pixelData.length = pixelCount * channels.length;
-            
+
             this._pixelData = pixelData;
         },
         /**

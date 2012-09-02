@@ -4,13 +4,13 @@
  */
 (function (Y) {
     'use strict';
-    
+
     var _Array = Y.Array,
-        
+
         _bind = Y.bind,
         _later = Y.later,
         _soon = Y.soon;
-    
+
     /**
      * Pass in a callback function and the amount of time to delay.  Y.delay
      * will return a function that will wait an amount of time, then call your
@@ -33,19 +33,19 @@
         if (!delayAmount && _soon) {
             return function () {
                 var args = new _Array(arguments);
-                
+
                 args.shift(this, callbackFunction);
-                
+
                 return _soon(_bind.apply(args));
             };
         }
-        
+
         if (delayAmount >= 0) {
             return function () {
                 return _later(delayAmount, this, callbackFunction, arguments);
             };
         }
-        
+
         return callbackFunction;
     };
 }(Y));

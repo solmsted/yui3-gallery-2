@@ -10,7 +10,7 @@
  */
 (function (Y) {
     'use strict';
-    
+
     var _string__empty = '',
         _string_0 = '0',
         _string_1 = '1',
@@ -33,7 +33,7 @@
         _string_utf8 = 'utf8',
         _string_value = 'value',
         _string_version = 'version',
-        
+
         _alignmentPatternLocations = [[
             18
         ], [
@@ -2926,14 +2926,14 @@
             158308,
             161089
         ],
-        
+
         _Array = Array,
         _String = String,
         _YArray = Y.Array,
         _YAsync = Y.Async,
         _YBase = Y.Base,
         _YLang = Y.Lang,
-        
+
         _abs = Math.abs,
         _ceil = Math.ceil,
         _each = Y.each,
@@ -2950,7 +2950,7 @@
         _parseInt = parseInt,
         _reduce = _YArray.reduce,
         _soon = Y.soon,
-        
+
         _cachedIndexOf = Y.cached(_indexOf),
         _maskFunctions = [
             function (x, y) {
@@ -2986,7 +2986,7 @@
             _maskFunctions[6],
             _maskFunctions[7]
         ],
-        
+
         /**
          * This class shouldn't be used directly.  It is intended as an
          * interface to implement a specific data encoding mode.
@@ -3040,7 +3040,7 @@
              */
             Type: _dataTypes
         }),
-        
+
         /**
          * This class provides utility methods for generating QR Codes.
          * @class GeneratorBase
@@ -3079,43 +3079,43 @@
                 var maskRowRun = [],
                     i,
                     y = quietZoneSize,
-                    
+
                     maskRowFunction = function (success) {
                         _soon(function () {
                             var index,
                                 value,
                                 x = size - quietZoneSize - 1;
-                                
+
                             // Iterate through the columns within this row.
                             while (x >= quietZoneSize) {
                                 index = x + y * size;
                                 value = dataMatrix[index];
-                                
+
                                 if (!_isUndefined(value)) {
                                     // Write an inverted value to matrix if maskFunction returns true.
                                     matrix[index] = maskFunction(x - quietZoneSize, y - quietZoneSize) ? !value : value;
                                 }
-                                
+
                                 x -= 1;
                             }
-                            
+
                             y += 1;
                             success();
                         });
                     };
-                    
+
                 // Prepare to iterate through the rows of the matrix.
                 for (i = size - quietZoneSize - 1; i >= y; i -= 1) {
                     maskRowRun.push(maskRowFunction);
                 }
-                
+
                 // Iterate through the rows of the matrix.
                 _YAsync.runQueue(maskRowRun).on(_string_complete, function () {
                     _soon(function () {
                         callbackFunction(matrix);
                     });
                 });
-                
+
                 return this;
             },
             /**
@@ -3143,7 +3143,7 @@
                     startY = centerY - 2,
                     x,
                     y;
-                    
+
                 // Iterate through the positions occupied by the alignment pattern.
                 for (x = startX; x <= endX; x += 1) {
                     for (y = startY; y <= endY; y += 1) {
@@ -3154,7 +3154,7 @@
                         }
                     }
                 }
-                
+
                 return this;
             },
             /**
@@ -3183,7 +3183,7 @@
                     startY = centerY - 3,
                     x,
                     y;
-                    
+
                 // Iterate through the positions occupied by the finder pattern.
                 for (x = startX - 1; x <= endX + 1; x += 1) {
                     for (y = startY - 1; y <= endY + 1; y += 1) {
@@ -3194,7 +3194,7 @@
                         }
                     }
                 }
-                
+
                 return this;
             },
             /**
@@ -3226,27 +3226,27 @@
                     x1 = size - quietZoneSize - 1,
                     y0 = quietZoneSize,
                     y1 = quietZoneSize + 8;
-                
+
                 if (micro) {
                     // Skip the timing pattern.
                     y0 += 1;
                 }
-                
+
                 // Iterate through the binary string once.
                 for (i = 0; i < 15; i += 1) {
                     value = binaryString.charAt(14 - i) === _string_1;
-                    
+
                     index = x0 + y0 * size;
                     if (overwrite || _isUndefined(matrix[index])) {
                         matrix[index] = value;
                     }
-                    
+
                     if (!micro) {
                         index = x1 + y1 * size;
                         if (overwrite || _isUndefined(matrix[index])) {
                             matrix[index] = value;
                         }
-                    
+
                         if (i < 7) {
                             y0 += 1;
 
@@ -3285,7 +3285,7 @@
                         x0 -= 1;
                     }
                 }
-                
+
                 return true;
             },
             /**
@@ -3306,7 +3306,7 @@
                     index,
                     x,
                     y;
-                    
+
                 // Iterate through columns.
                 for (x = 0; x < size; x += 1) {
                     // Write top padding.
@@ -3316,7 +3316,7 @@
                             matrix[index] = false;
                         }
                     }
-                    
+
                     // Write left and right padding.
                     if (x < quietZoneSize || x >= farQuietZoneCoordinate) {
                         for (y = quietZoneSize; y < farQuietZoneCoordinate; y += 1) {
@@ -3326,7 +3326,7 @@
                             }
                         }
                     }
-                    
+
                     // Write bottom padding.
                     for (y = farQuietZoneCoordinate; y < size; y += 1) {
                         index = x + y * size;
@@ -3335,7 +3335,7 @@
                         }
                     }
                 }
-                
+
                 return this;
             },
             /**
@@ -3354,7 +3354,7 @@
             drawTimingPattern: function (matrix, coordinate, size, overwrite) {
                 var i,
                     index;
-                
+
                 // TODO: Skip the quiet zone and finder pattern.
                 for (i = 0; i < size; i += 1) {
                     // Write the vertical timing patter.
@@ -3362,14 +3362,14 @@
                     if (overwrite || _isUndefined(matrix[index])) {
                         matrix[index] = !(i % 2);
                     }
-                    
+
                     // Write the horizontal timing pattern.
                     index = i + coordinate * size;
                     if (overwrite || _isUndefined(matrix[index])) {
                         matrix[index] = !(i % 2);
                     }
                 }
-                
+
                 return this;
             },
             /**
@@ -3398,21 +3398,21 @@
                     x1 = quietZoneSize,
                     y0 = quietZoneSize,
                     y1 = size - quietZoneSize - 11;
-                    
+
                 // Iterate through the binary string once.
                 for (i = 17; i >= 0; i -= 1) {
                     value = binaryString.charAt(i) === _string_1;
-                    
+
                     index = x0 + y0 * size;
                     if (overwrite || _isUndefined(matrix[index])) {
                         matrix[index] = value;
                     }
-                    
+
                     index = x1 + y1 * size;
                     if (overwrite || _isUndefined(matrix[index])) {
                         matrix[index] = value;
                     }
-                    
+
                     if (i % 3) {
                         x0 += 1;
                         y1 += 1;
@@ -3423,7 +3423,7 @@
                         y1 -= 2;
                     }
                 }
-                
+
                 return this;
             },
             /**
@@ -3446,7 +3446,7 @@
                     evaluationRun = [],
                     score = 0,
                     total = 0,
-                
+
                     evaluationFunction = function (success) {
                         _soon(function () {
                             var consecutiveHorizontalCount = 0,
@@ -3469,12 +3469,12 @@
                                 previousVerticalValue,
                                 value,
                                 verticalPatternIndex = 0;
-                            
+
                             // Iterate through a row and column.
                             for (otherCoordinate = size - quietZoneSize - 1; otherCoordinate >= quietZoneSize; otherCoordinate -= 1) {
                                 index = otherCoordinate + coordinate * size;
                                 value = matrix[index];
-                                
+
                                 // Count consecutive similar values within the row.
                                 if (value === previousHorizontalValue) {
                                     consecutiveHorizontalCount += 1;
@@ -3483,11 +3483,11 @@
                                     consecutiveHorizontalCount = 0;
                                     previousHorizontalValue = value;
                                 }
-                                
+
                                 // Look for patterns that match the finder pattern and quiet zone region within the row.
                                 if (value === pattern[horizontalPatternIndex]) {
                                     horizontalPatternIndex += 1;
-                                    
+
                                     if (horizontalPatternIndex === 7 && (otherCoordinate >= quietZoneSize + 4 && !(matrix[index - 1] || matrix[index - 2] || matrix[index - 3] || matrix[index - 4])) || (otherCoordinate < size - quietZoneSize - 10 && !(matrix[index + 7] || matrix[index + 8] || matrix[index + 9] || matrix[index + 10]))) {
                                         // For each of these patterns that exist, add 40 points.
                                         score += 40;
@@ -3495,21 +3495,21 @@
                                 } else {
                                     horizontalPatternIndex = 0;
                                 }
-                                
+
                                 // Search for blocks of similar values.
                                 if (coordinate > quietZoneSize && otherCoordinate > quietZoneSize && matrix[index - 1] === value && matrix[index - size] === value && matrix[index - size - 1] === value) {
                                     // For each 2x2 block that exists, add 3 points.
                                     score += 3;
                                 }
-                                
+
                                 // Count the number of dark values.
                                 if (value) {
                                     total += 1;
                                 }
-                                
+
                                 index = coordinate + otherCoordinate * size;
                                 value = matrix[index];
-                                
+
                                 // Count consecutive similar values within the column.
                                 if (value === previousVerticalValue) {
                                     consecutiveVerticalCount += 1;
@@ -3518,11 +3518,11 @@
                                     consecutiveVerticalCount = 0;
                                     previousVerticalValue = value;
                                 }
-                                
+
                                 // Look for patterns that match the finder pattern and quiet zone region within the colomn.
                                 if (value === pattern[verticalPatternIndex]) {
                                     verticalPatternIndex += 1;
-                                    
+
                                     if (verticalPatternIndex === 7 && (otherCoordinate >= quietZoneSize + 4 && !(matrix[index - size] || matrix[index - 2 * size] || matrix[index - 3 * size] || matrix[index - 4 * size])) || (otherCoordinate < size - quietZoneSize - 10 && !(matrix[index + 7 * size] || matrix[index + 8 * size] || matrix[index + 9 * size] || matrix[index + 10 * size]))) {
                                         // For each of these patterns that exist, add 40 points.
                                         score += 40;
@@ -3531,37 +3531,37 @@
                                     verticalPatternIndex = 0;
                                 }
                             }
-                            
+
                             maximumConsecutiveHorizontalCount = _max(consecutiveHorizontalCount, maximumConsecutiveHorizontalCount);
-                            
+
                             // If 5 consecutive values in a row are the same, add 3 points.
                             if (maximumConsecutiveHorizontalCount >= 5) {
                                 // Add 1 point for each similar consecutive value beyond 5.
                                 score += 3 + maximumConsecutiveHorizontalCount - 5;
                             }
-                            
+
                             maximumConsecutiveVerticalCount = _max(consecutiveVerticalCount, maximumConsecutiveVerticalCount);
-                            
+
                             // If 5 consecutive values in a column are the same, add 3 points.
                             if (maximumConsecutiveVerticalCount >= 5) {
                                 // Add 1 point for each similar consecutive value beyond 5.
                                 score += 3 + maximumConsecutiveVerticalCount - 5;
                             }
-                            
+
                             coordinate -= 1;
                             success();
                         });
                     };
-                
+
                 _YAsync.runQueue(function (success) {
                     _soon(function () {
                         var i;
-                        
+
                         // Prepare to iterate through the rows and columns of the matrix.
                         for (i = coordinate; i >= quietZoneSize; i -= 1) {
                             evaluationRun.push(evaluationFunction);
                         }
-                        
+
                         success();
                     });
                 }, function (success) {
@@ -3575,7 +3575,7 @@
                         callbackFunction(score + 2 * _abs(_floor(100 * total / ((size - quietZoneSize) * (size - quietZoneSize)) - 50)));
                     });
                 });
-                
+
                 return this;
             },
             /**
@@ -3601,25 +3601,25 @@
                         coordinate = size - quietZoneSize - 1,
                         otherCoordinate,
                         rightScore;
-                        
+
                     // Iterate through edge values.
                     for (otherCoordinate = quietZoneSize + 1; otherCoordinate <= coordinate; otherCoordinate += 1) {
                         if (matrix[coordinate + otherCoordinate * size]) {
                             rightScore += 1;
                         }
-                        
+
                         if (matrix[otherCoordinate + coordinate * size]) {
                             bottomScore += 1;
                         }
                     }
-                    
+
                     if (bottomScore < rightScore) {
                         callbackFunction(bottomScore * 16 + rightScore);
                     } else {
                         callbackFunction(rightScore * 16 + bottomScore);
                     }
                 });
-                
+
                 return this;
             },
             /**
@@ -3644,14 +3644,14 @@
                     errorCorrectionBlockLength,
                     me = this,
                     missingCodewordCount,
-                    
+
                     blockIterationFunction = function (dataBlockLength) {
                         return function (dataCodeword, index, dataCodewords) {
                             blockRun.push(function (success) {
                                 _soon(function () {
                                     // Split the dataCodewords array into smaller blocks.
                                     var dataBlock = dataCodewords.slice(index, index + dataBlockLength);
-                                    
+
                                     me.generateErrorCorrectionBlock(dataBlock, errorCorrectionBlockLength, function (errorCorrectionBlock) {
                                         success([
                                             dataBlock,
@@ -3662,7 +3662,7 @@
                             });
                         };
                     },
-                    
+
                     interleaveCodewordsFunction = function (blocksIndex, codewordIndex) {
                         blockRun.push(function (success) {
                             _soon(function () {
@@ -3672,7 +3672,7 @@
                             });
                         });
                     };
-                
+
                 _YAsync.runQueue(function (success) {
                     _soon(function () {
                         var codewordCount,
@@ -3691,7 +3691,7 @@
                             } else if (errorCorrection === _string_H) {
                                 errorCorrection = _string_Q;
                             }
-                            
+
                             // Append Micro QR Code terminator.
                             binaryString += _Array(2 + 2 * +version.charAt(1)).join(_string_0);
                         } else {
@@ -3699,11 +3699,11 @@
                             if (errorCorrection === _string_E) {
                                 errorCorrection = _string_L;
                             }
-                            
+
                             // Append QR Code terminator.
                             binaryString += '0000';
                         }
-                        
+
                         me._set(_string_errorCorrection, errorCorrection);
 
                         remainder = binaryString.length % 8;
@@ -3740,15 +3740,15 @@
                     _soon(function () {
                         // Add padding codewords to fill up available space.
                         var i;
-                        
+
                         for (i = 0; i < missingCodewordCount; i += 1) {
                             binaryString += (i % 2) ? '00010001' : '11101100';
                         }
-                        
+
                         // Split the binary string into an array of codewords.
                         dataCodewords = binaryString.match(/.{1,8}/g);
                         binaryString = _string__empty;
-                        
+
                         success();
                     });
                 }, function (success) {
@@ -3778,23 +3778,23 @@
                 }, function (success) {
                     _soon(function () {
                         var i;
-                        
+
                         // Get ready to interleave data block codewords.
                         for (i = 0; i < dataBlockLength; i += 1) {
                             interleaveCodewordsFunction(0, i);
                         }
-                        
+
                         success();
                     });
                 }, function (success) {
                     _soon(function () {
                         var i;
-                        
+
                         // Get ready to interleave error correction block codewords.
                         for (i = 0; i < errorCorrectionBlockLength; i += 1) {
                             interleaveCodewordsFunction(1, i);
                         }
-                        
+
                         success();
                     });
                 }, function (success) {
@@ -3814,7 +3814,7 @@
                         }
                     });
                 });
-                
+
                 return me;
             },
             /**
@@ -3831,7 +3831,7 @@
             generate: function (callbackFunction) {
                 var data,
                     me = this;
-                
+
                 _YAsync.runQueue(function (success) {
                     _soon(function () {
                         // Get the initial data.
@@ -3872,7 +3872,7 @@
                         }
                     });
                 });
-                
+
                 return me;
             },
             /**
@@ -3900,25 +3900,25 @@
                     drawColumnRun = [],
                     i,
                     x = size - quietZoneSize - 1,
-                    
+
                     codeword = codewords.shift(),
                     codewordIndex = 0,
-                    
+
                     drawCodewordBit = function (index) {
                         if (codewordIndex > 7) {
                             codeword = codewords.shift();
                             codewordIndex = 0;
                         }
-                        
+
                         dataMatrix[index] = codeword && codeword.charAt(codewordIndex) === _string_1 || false;
                         codewordIndex += 1;
                     },
-                    
+
                     drawColumnFunction = function (success) {
                         _soon(function () {
                             var index,
                                 y;
-                                
+
                             // Iterate through rows in the current direction.
                             for (y = direction ? size - quietZoneSize - 1 : quietZoneSize; direction && y >= quietZoneSize || !direction && y < size - quietZoneSize; y += (direction ? -1 : 1)) {
                                 // Write to the right column first if available.
@@ -3926,41 +3926,41 @@
                                 if (_isUndefined(matrix[index])) {
                                     drawCodewordBit(index);
                                 }
-                                
+
                                 // Write to the left column if available.
                                 index -= 1;
                                 if (_isUndefined(matrix[index])) {
                                     drawCodewordBit(index);
                                 }
                             }
-                            
+
                             // Change directions at the end of the column.
                             direction = !direction;
                             x -= 2;
-                            
+
                             // Skip the vertical timing pattern.
                             if (x === coordinate) {
                                 x -= 1;
                             }
-                            
+
                             success();
                         });
                     };
-                    
+
                 binaryString = _string__empty;
-                
+
                 // Prepare to iterate through columns, two at a time.
                 for (i = quietZoneSize; i <= x; i += 2) {
                     drawColumnRun.push(drawColumnFunction);
                 }
-                
+
                 // Iterate through columns, two at a time.
                 _YAsync.runQueue(drawColumnRun).on(_string_complete, function () {
                     _soon(function () {
                         callbackFunction(dataMatrix);
                     });
                 });
-                
+
                 return this;
             },
             /**
@@ -3982,12 +3982,12 @@
                     errorCorrectionBlock,
                     generatorAlphaIndicies = _generatorAlphaIndicies[errorCorrectionBlockLength],
                     polynomialAlphaIndicies,
-                    
+
                     coefficientIterationFunction = function (success) {
                         _soon(function () {
                             // Remove the first coefficient.
                             var leadingPolynomialAlphaIndex = polynomialAlphaIndicies.shift();
-                            
+
                             if (leadingPolynomialAlphaIndex) {
                                 // Iterate the generator and process the remaining polynomial coefficients.
                                 _each(generatorAlphaIndicies, function (generatorAlphaIndex, index) {
@@ -3995,11 +3995,11 @@
                                     polynomialAlphaIndicies[index] = alphaIndex === -1 ? null : alphaIndex;
                                 });
                             }
-                            
+
                             success();
                         });
                     };
-                    
+
                 _YAsync.runQueue(function (success) {
                     _soon(function () {
                         // Create the polynomial.
@@ -4007,19 +4007,19 @@
                             var alphaIndex = _cachedIndexOf(_alpha, _parseInt(binaryCodeword, 2));
                             return alphaIndex === -1 ? null : alphaIndex;
                         }).concat(_Array(errorCorrectionBlockLength));
-                        
+
                         success();
                     });
                 }, function (success) {
                     _soon(function () {
                         var dataBlockLength = dataBlock.length,
                             i;
-                        
+
                         // Prepare to process the polynomial with the generator.
                         for (i = 0; i < dataBlockLength; i += 1) {
                             coefficientRun.push(coefficientIterationFunction);
                         }
-                        
+
                         success();
                     });
                 }, function (success) {
@@ -4040,7 +4040,7 @@
                         callbackFunction(errorCorrectionBlock);
                     });
                 });
-                
+
                 return this;
             },
             /**
@@ -4058,14 +4058,14 @@
                 var me = this,
                     size = me.getSize(),
                     version = _String(me.get(_string_version)),
-                    
+
                     formatInformation,
                     initialDataMatrix,
                     mask = me.get('mask'),
                     matrix = _Array(size * size),
                     micro = version.charAt(0) === _string_M,
                     quietZoneSize = micro ? 2 : 4;
-                    
+
                 _YAsync.runQueue(function (success) {
                     _soon(function () {
                         // Write the quiet zone region.
@@ -4108,7 +4108,7 @@
                 }, function (success) {
                     _soon(function () {
                         var alignmentPatternRun = [];
-                        
+
                         // Prepare to write the alignment patterns.
                         _each(me.getAlignmentPatternCoordinates(quietZoneSize), function (alignmentPatternCoordinates) {
                             alignmentPatternRun.push(function (success) {
@@ -4118,7 +4118,7 @@
                                 });
                             });
                         });
-                        
+
                         // Write the alignment patterns
                         _YAsync.runAll(alignmentPatternRun).on(_string_complete, success);
                     });
@@ -4164,7 +4164,7 @@
                             };
                         })).on(_string_complete, function (eventFacade) {
                             var matrices = eventFacade.value;
-                            
+
                             // Evaluate each matrix candidate.
                             _YAsync.runAll(_map(matrices, function (matrix) {
                                 return function (success) {
@@ -4188,35 +4188,35 @@
                                 var bestIndex,
                                     errorCorrection = me.get(_string_errorCorrection),
                                     values = eventFacade.value;
-                                 
+
                                 if (micro) {
                                     // For Micro QR Codes, points are awarded for positive features.
                                     // Accept the matrix with the highest score.
                                     bestIndex = _indexOf(values, _max.apply(Math, values));
-                                    
+
                                     // The error correction mode becomes part of the format information.
                                     // Each version has a different way of encoding the error correction mode.
                                     switch (version) {
-                                        case _string_M1:
-                                            formatInformation = 0;
-                                            break;
-                                        case 'M2':
-                                            formatInformation = 1;
-                                            break;
-                                        case _string_M3:
-                                            formatInformation = 3;
-                                            break;
-                                        case _string_M4:
-                                            formatInformation = 5;
-                                            break;
+                                    case _string_M1:
+                                        formatInformation = 0;
+                                        break;
+                                    case 'M2':
+                                        formatInformation = 1;
+                                        break;
+                                    case _string_M3:
+                                        formatInformation = 3;
+                                        break;
+                                    case _string_M4:
+                                        formatInformation = 5;
+                                        break;
                                     }
-                                    
+
                                     if (errorCorrection === _string_M) {
                                         formatInformation += 1;
                                     } else if (errorCorrection === _string_Q) {
                                         formatInformation += 2;
                                     }
-                                    
+
                                     // The error correction mode and the index of the mask used in the best matrix
                                     // are combined to form the 15 bit format information codeword.
                                     formatInformation = _numberToBinaryString(_microFormatInformation[_parseInt(_numberToBinaryString(formatInformation, 3) + _numberToBinaryString(bestIndex, 2), 2)], 15);
@@ -4224,28 +4224,28 @@
                                     // For QR Codes, penalty points are given for negative features.
                                     // Accept the matrix with the lowest score.
                                     bestIndex = _indexOf(values, _min.apply(Math, values));
-                                    
+
                                     // The error correction mode becomes part of the format information.
                                     switch (errorCorrection) {
-                                        case _string_H:
-                                            formatInformation = _string_10;
-                                            break;
-                                        case _string_L:
-                                            formatInformation = '01';
-                                            break;
-                                        case _string_M:
-                                            formatInformation = '00';
-                                            break;
-                                        case _string_Q:
-                                            formatInformation = '11';
-                                            break;
+                                    case _string_H:
+                                        formatInformation = _string_10;
+                                        break;
+                                    case _string_L:
+                                        formatInformation = '01';
+                                        break;
+                                    case _string_M:
+                                        formatInformation = '00';
+                                        break;
+                                    case _string_Q:
+                                        formatInformation = '11';
+                                        break;
                                     }
-                                    
+
                                     // The error correction mode and the index of the mask used in the best matrix
                                     // are combined to form the 15 bit format information codeword.
                                     formatInformation = _numberToBinaryString(_formatInformation[_parseInt(formatInformation + _numberToBinaryString(bestIndex, 3), 2)], 15);
                                 }
-                                
+
                                 matrix = matrices[bestIndex];
                                 success();
                             });
@@ -4262,7 +4262,7 @@
                         callbackFunction(matrix, size);
                     });
                 });
-                
+
                 return me;
             },
             /**
@@ -4275,13 +4275,13 @@
              */
             getAlignmentPatternCoordinates: function (quietZoneSize) {
                 var version = _String(this.get(_string_version)),
-                
+
                     alignmentPatternCoordinates = [],
                     alignmentPatternLocation = [
                         6
                     ].concat(_alignmentPatternLocations[+version - 2]),
                     alignmentPatternLocationLengthMinusOne = alignmentPatternLocation.length - 1;
-                
+
                 if (version.charAt(0) === _string_M || version === _string_1) {
                     return [];
                 }
@@ -4312,7 +4312,7 @@
             getBinaryString: function (callbackFunction) {
                 var me = this,
                     version = me.get(_string_version);
-                
+
                 _YAsync.runAll(_map(me.get('data'), function (data) {
                     return function (success) {
                         _soon(function () {
@@ -4324,7 +4324,7 @@
                         callbackFunction(eventFacade.value.join(_string__empty));
                     });
                 });
-                
+
                 return me;
             },
             /**
@@ -4360,7 +4360,7 @@
                                 value
                             ];
                         }
-                        
+
                         return value;
                     },
                     value: [],
@@ -4387,7 +4387,7 @@
                         if (value === _string_E || value === _string_H || value === _string_L || value === _string_M || value === _string_Q) {
                             return true;
                         }
-                        
+
                         return false;
                     },
                     value: _string_M,
@@ -4434,7 +4434,7 @@
                 }
             }
         }),
-        
+
         /**
          * This class encodes a value in alphanumeric mode.  Alphanumeric mode
          * encodes strings containing only numeric characters, capital-letter
@@ -4457,7 +4457,7 @@
              */
             toBinaryString: function (version) {
                 version = _String(version);
-                
+
                 var characterCountIndicatorBitLength,
                     characters = [
                         ' ',
@@ -4477,35 +4477,35 @@
                         var character = value.charAt(0),
                             characterIndex = _indexOf(characters, character),
                             characterValue;
-                            
+
                         // Assign a value to the first character.
                         if (characterIndex === -1) {
                             characterValue = _parseInt(character, 36);
                         } else {
                             characterValue = characterIndex + 36;
                         }
-                        
+
                         // If the last chunk only contains one character, append its value as a 6 bit binary string.
                         if (value.length === 1) {
                             return binaryString + _numberToBinaryString(characterValue, 6);
                         }
-                        
+
                         characterValue *= 45;
-                        
+
                         // Assign a value to the second character.
                         character = value.charAt(1);
                         characterIndex = _indexOf(characters, character);
-                        
+
                         if (characterIndex === -1) {
                             characterValue += _parseInt(character, 36);
                         } else {
                             characterValue += characterIndex + 36;
                         }
-                        
+
                         // Append the sum of the two character values as an 11 bit binary string.
                         return binaryString + _numberToBinaryString(characterValue, 11);
                     });
-                
+
                 // The mode indicator value and the bit length of the character count indicator depend on the version.
                 if (version.charAt(0) === _string_M) {
                     version = +version.charAt(1);
@@ -4513,7 +4513,7 @@
                     modeIndicator = _Array(version - 1).join(0) + _string_1;
                 } else {
                     version = +version;
-                    
+
                     if (version <= 9) {
                         characterCountIndicatorBitLength = 9;
                     } else if (version <= 26) {
@@ -4521,10 +4521,10 @@
                     } else {
                         characterCountIndicatorBitLength = 13;
                     }
-                    
+
                     modeIndicator = '0010';
                 }
-                
+
                 return modeIndicator + _numberToBinaryString(value.length, characterCountIndicatorBitLength) + valueBinaryString;
             }
         }, {
@@ -4553,7 +4553,7 @@
                 }
             }
         }),
-        
+
         /**
          * This class encodes a value in byte mode.  Byte mode encodes strings
          * as raw binary data.
@@ -4573,7 +4573,7 @@
              */
             toBinaryString: function (version) {
                 version = _String(version);
-                
+
                 var characterCountIndicatorBitLength,
                     characterWidth = this.get('characterWidth'),
                     i,
@@ -4581,11 +4581,11 @@
                     modeIndicator,
                     value = this.get(_string_value),
                     valueBinaryString = _string__empty;
-                    
+
                 for (i = 0, length = value.length; i < length; i += 1) {
                     valueBinaryString += _numberToBinaryString(value.charCodeAt(i), characterWidth);
                 }
-                
+
                 // The mode indicator value and the bit length of the character count indicator depend on the version.
                 if (version.charAt(0) === _string_M) {
                     version = +version.charAt(1);
@@ -4593,16 +4593,16 @@
                     modeIndicator = _Array(version - 2).join(0) + _string_10;
                 } else {
                     version = +version;
-                    
+
                     if (version <= 9) {
                         characterCountIndicatorBitLength = 8;
                     } else {
                         characterCountIndicatorBitLength = 16;
                     }
-                    
+
                     modeIndicator = '0100';
                 }
-                
+
                 return modeIndicator + _numberToBinaryString(valueBinaryString.length / 8, characterCountIndicatorBitLength) + valueBinaryString;
             }
         }, {
@@ -4639,7 +4639,7 @@
                 }
             }
         }),
-        
+
         /**
          * This class encodes a value in numeric mode.  Numeric mode encodes
          * strings containing only numeric characters.
@@ -4660,7 +4660,7 @@
              */
             toBinaryString: function (version) {
                 version = _String(version);
-                
+
                 var characterCountIndicatorBitLength,
                     modeIndicator,
                     value = this.get(_string_value),
@@ -4671,7 +4671,7 @@
                         // Concatenate the binary strings.
                         return binaryString + _numberToBinaryString(value, value.length >= 3 ? 10 : (value.length <= 1 ? 4 : 7));
                     });
-                
+
                 // The mode indicator value and the bit length of the character count indicator depend on the version.
                 if (version.charAt(0) === _string_M) {
                     version = +version.charAt(1);
@@ -4679,7 +4679,7 @@
                     modeIndicator = _Array(version).join(0);
                 } else {
                     version = +version;
-                    
+
                     if (version <= 9) {
                         characterCountIndicatorBitLength = 10;
                     } else if (version <= 26) {
@@ -4687,10 +4687,10 @@
                     } else {
                         characterCountIndicatorBitLength = 14;
                     }
-                    
+
                     modeIndicator = '0001';
                 }
-                
+
                 return modeIndicator + _numberToBinaryString(value.length, characterCountIndicatorBitLength) + valueBinaryString;
             }
         }, {
@@ -4719,7 +4719,7 @@
                 }
             }
         }),
-        
+
         /**
          * This class sets the extended channel interpretation mode indicator
          * for the ucs2 character set.  While this is a Data object, it does not
@@ -4774,7 +4774,7 @@
                 }
             }
         }),
-        
+
         /**
          * This class sets the extended channel interpretation mode indicator
          * for the utf8 character set.  While this is a Data object, it does not
@@ -4827,7 +4827,7 @@
                 }
             }
         });
-    
+
     /**
      * Converts a decimal non-negative integer to a string containing '1' and
      * '0' characters.  If the number does not fit within the given length, null
@@ -4842,15 +4842,15 @@
      */
     _numberToBinaryString = function (number, length) {
         number = (+number).toString(2);
-        
+
         var numberLength = number.length;
         if (numberLength > length) {
             return null;
         }
-        
+
         return _Array(length - numberLength + 1).join(0) + number;
     };
-    
+
     _mix(Y.namespace('QrCode'), {
         AlphanumericData: _AlphanumericData,
         ByteData: _ByteData,

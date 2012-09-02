@@ -5,7 +5,7 @@
 
 (function (Y) {
     'use strict';
-    
+
     var _base64Decode = Y.Base64.decode,
         _execute = Y.YQL.execute,
         _getResult = _execute.getResult,
@@ -13,7 +13,7 @@
         _hmac,
         _bind = Y.bind,
         _toHex;
-    
+
     _hash = function (hash, b64, string, callbackFunction, params, opts) {
         _execute('response.object = y.crypto.encode' + hash + '("' + String(string || '').replace(/"/g, '\\"') + '");', function (result) {
             if (b64) {
@@ -23,7 +23,7 @@
             }
         }, params, opts);
     };
-    
+
     _hmac = function (hash, b64, string, secret, callbackFunction, params, opts) {
         _execute('response.object = y.crypto.encode' + hash + '("' + String(secret || '').replace(/"/g, '\\"') + '", "' + String(string || '').replace(/"/g, '\\"') + '");', function (result) {
             if (b64) {
@@ -33,7 +33,7 @@
             }
         }, params, opts);
     };
-    
+
     _toHex = function (string) {
         var hex = '',
             i,
@@ -49,10 +49,10 @@
 
             hex += value;
         }
-        
+
         return hex;
     };
-    
+
     /**
      * @class YQLCrypto
      * @static
@@ -64,7 +64,7 @@
          * documentation is here:
          * http://developer.yahoo.com/yql/guide/yql-javascript-objects.html
          * @method execute
-         * @param {String} code Javascript code to execute on the YQL server. 
+         * @param {String} code Javascript code to execute on the YQL server.
          * @param {Function} callbackFunction Passes through to Y.YQL.
          * @param {Object} params (optional) Passes through to Y.YQL.
          * @param {Object} opts (optional) Passes through to Y.YQL.

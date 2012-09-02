@@ -97,11 +97,11 @@
  *&#x2F;
 (function (Y, moduleName) {
     &#x27;use strict&#x27;;
-    
+
     var _string_timeout = &#x27;timeout&#x27;,
-        
+
         _Plugin = Y.Plugin,
-        
+
         _invoke = Y.Array.invoke,
         _later = Y.later;
 
@@ -115,9 +115,9 @@
     _Plugin.AsyncCommandTimeout = Y.Base.create(moduleName, _Plugin.Base, [], {
         destructor: function () {
             var me = this;
-            
+
             _invoke(me._subs, &#x27;detach&#x27;);
-            
+
             if (me._timer) {
                 me._timer.cancel();
                 delete me._timer;
@@ -127,11 +127,11 @@
             var me = this,
                 host = me.get(&#x27;host&#x27;),
                 timeout = me.get(_string_timeout);
-            
+
             if (!timeout) {
                 return;
             }
-            
+
             me._subs = [
                 host.on(&#x27;start&#x27;, function () {
                     me._timer = _later(timeout, host, host.fire, [

@@ -3,16 +3,16 @@
  */
 (function (Y, moduleName) {
     'use strict';
-    
+
     var _string__empty = '',
         _string__fullStop = '.',
         _string_alphabet = 'alphabet',
         _string_lookup = 'lookup',
         _string_minusSign = 'minusSign',
         _string_radixPoint = 'radixPoint',
-        
+
         _Base = Y.Base,
-    
+
         _each = Y.each,
         _floor = Math.floor,
         _pow = Math.pow;
@@ -33,31 +33,31 @@
          */
         from: function (any) {
             any = any.split(this.get(_string_radixPoint));
-            
+
             var base = this.get(_string_alphabet).length,
                 fractionalPart = any[1],
                 integerPart = any[0].split(_string__empty),
                 lookup = this.get(_string_lookup),
                 negative = false,
                 value = 0;
-                
+
             if (integerPart[0] === this.get(_string_minusSign)) {
                 negative = true;
                 integerPart.shift();
             }
-            
+
             _each(integerPart.reverse(), function (character, index) {
                 value += _pow(base, index) * lookup[character];
             });
-            
+
             if (fractionalPart) {
                 value = parseFloat(String(value) + _string__fullStop + String(this.from(fractionalPart)).split(_string__empty).reverse().join(_string__empty));
             }
-            
+
             if (negative) {
                 value = -value;
             }
-            
+
             return value;
         },
         /**
@@ -68,35 +68,35 @@
          */
         to: function (value) {
             value = +value;
-            
+
             var alphabet = this.get(_string_alphabet),
                 base = alphabet.length,
                 fractionalPart,
                 integerPart,
                 any = _string__empty,
                 negative = false;
-                
+
             if (value < 0) {
                 negative = true;
                 value = -value;
             }
-            
+
             integerPart = _floor(value);
             fractionalPart = String(value).split(_string__fullStop)[1];
-            
+
             do {
                 any = alphabet.charAt(integerPart % base) + any;
                 integerPart = _floor(integerPart / base);
             } while (integerPart);
-            
+
             if (fractionalPart) {
                 any += this.get(_string_radixPoint) + this.to(fractionalPart.split(_string__empty).reverse().join(_string__empty));
             }
-            
+
             if (negative) {
                 any = this.get(_string_minusSign) + any;
             }
-                
+
             return any;
         }
     }, {

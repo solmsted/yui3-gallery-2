@@ -1,6 +1,6 @@
 (function (Y) {
     'use strict';
-    
+
     var _defaultMode = parseInt(755, 8),
         _fs = require('fs'),
         _linkStatusCache = {},
@@ -8,22 +8,22 @@
         _process = process,
         _statusCache = {},
         _util = require('util'),
-        
+
         _Async = Y.Async,
         _Fs = Y.namespace('Fs'),
         _Mutex = Y.Mutex,
-        
+
         _exclusive = _Mutex.exclusive,
         _map = Y.Array.map,
         _noop = function () {},
         _shared = _Mutex.shared,
         _upgradable = _Mutex.upgradable;
-        
+
     Y.mix(_Fs, {
         baseName: _path.basename,
         clearStatusCache: function (path) {
             path = _Fs.resolvePath(path);
-            
+
             delete _linkStatusCache[path];
             delete _statusCache[path];
         },
@@ -31,7 +31,7 @@
             callbackFunction = callbackFunction || _noop;
             fromPath = _Fs.resolvePath(fromPath);
             toPath = _Fs.resolvePath(toPath);
-            
+
             _shared(fromPath, function (unlock) {
                 _Fs.getType(fromPath, function (error, type) {
                     if (error) {
@@ -39,91 +39,91 @@
                         callbackFunction(error);
                         return;
                     }
-                    
+
                     switch (type) {
-                        case 'directory':
-                            _Fs.createDirectory(toPath, function (error) {
-                                if (error) {
-                                    unlock();
-                                    callbackFunction(error);
-                                    return;
-                                }
-                                
-                                _Fs.listDirectory(fromPath, function (error, fileNames) {
-                                    unlock();
-                                    
-                                    if (error) {
-                                        callbackFunction(error);
-                                        return;
-                                    }
-                                    
-                                    _Async.runAll(_map(fileNames, function (fileName) {
-                                        return function (success) {
-                                            _Fs.copy(_Fs.resolvePath(fromPath, fileName), _Fs.resolvePath(toPath, fileName), function (error) {
-                                                if (error) {
-                                                    success.fail(error);
-                                                } else {
-                                                    success();
-                                                }
-                                            });
-                                        };
-                                    })).on('complete', function (eventFacade) {
-                                        callbackFunction(eventFacade.error);
-                                    });
-                                });
-                            });
-                            return;
-                        case 'file':
-                            _Async.runAll(function (success) {
-                                _Fs.createReadableStream(fromPath, {}, function (error, readableStream) {
-                                    if (error) {
-                                        success.fail(error);
-                                    } else {
-                                        success(readableStream);
-                                    }
-                                });
-                            }, function (success) {
-                                _Fs.createWritableStream(toPath, {}, function (error, readableStream) {
-                                    if (error) {
-                                        success.fail(error);
-                                    } else {
-                                        success(readableStream);
-                                    }
-                                });
-                            }).on('complete', function (eventFacade) {
-                                if (eventFacade.failed) {
-                                    unlock();
-                                    callbackFunction(eventFacade.error);
-                                    return;
-                                }
-                                
-                                var value = eventFacade.value,
-                                    toFileStream = value[1];
-                                    
-                                toFileStream.once('open', function () {
-                                    _util.pump(value[0], toFileStream, function (error) {
-                                        unlock();
-                                        callbackFunction(error);
-                                    });
-                                });
-                            });
-                            return;
-                        case 'symbolic link':
-                            _Fs.getPathFromLink(fromPath, function (error, resolvedPath) {
+                    case 'directory':
+                        _Fs.createDirectory(toPath, function (error) {
+                            if (error) {
                                 unlock();
-                                
+                                callbackFunction(error);
+                                return;
+                            }
+
+                            _Fs.listDirectory(fromPath, function (error, fileNames) {
+                                unlock();
+
                                 if (error) {
                                     callbackFunction(error);
                                     return;
                                 }
-                                
-                                _Fs.createSymbolicLink(_Fs.resolvePath(_Fs.directoryName(fromPath), resolvedPath), toPath, function (error) {
+
+                                _Async.runAll(_map(fileNames, function (fileName) {
+                                    return function (success) {
+                                        _Fs.copy(_Fs.resolvePath(fromPath, fileName), _Fs.resolvePath(toPath, fileName), function (error) {
+                                            if (error) {
+                                                success.fail(error);
+                                            } else {
+                                                success();
+                                            }
+                                        });
+                                    };
+                                })).on('complete', function (eventFacade) {
+                                    callbackFunction(eventFacade.error);
+                                });
+                            });
+                        });
+                        return;
+                    case 'file':
+                        _Async.runAll(function (success) {
+                            _Fs.createReadableStream(fromPath, {}, function (error, readableStream) {
+                                if (error) {
+                                    success.fail(error);
+                                } else {
+                                    success(readableStream);
+                                }
+                            });
+                        }, function (success) {
+                            _Fs.createWritableStream(toPath, {}, function (error, readableStream) {
+                                if (error) {
+                                    success.fail(error);
+                                } else {
+                                    success(readableStream);
+                                }
+                            });
+                        }).on('complete', function (eventFacade) {
+                            if (eventFacade.failed) {
+                                unlock();
+                                callbackFunction(eventFacade.error);
+                                return;
+                            }
+
+                            var value = eventFacade.value,
+                                toFileStream = value[1];
+
+                            toFileStream.once('open', function () {
+                                _util.pump(value[0], toFileStream, function (error) {
+                                    unlock();
                                     callbackFunction(error);
                                 });
                             });
-                            return;
+                        });
+                        return;
+                    case 'symbolic link':
+                        _Fs.getPathFromLink(fromPath, function (error, resolvedPath) {
+                            unlock();
+
+                            if (error) {
+                                callbackFunction(error);
+                                return;
+                            }
+
+                            _Fs.createSymbolicLink(_Fs.resolvePath(_Fs.directoryName(fromPath), resolvedPath), toPath, function (error) {
+                                callbackFunction(error);
+                            });
+                        });
+                        return;
                     }
-                    
+
                     callbackFunction('Copy hasn\'t been implemented for ' + type + '.');
                 });
             });
@@ -131,10 +131,10 @@
         createDirectory: function (path, callbackFunction) {
             callbackFunction = callbackFunction || _noop;
             path = _Fs.resolvePath(path);
-            
+
             var _exclusive,
                 _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _upgradable(path, function (unlock, exclusive) {
                     _exclusive = exclusive;
@@ -151,7 +151,7 @@
                 });
             }, function (success) {
                 var parentPath = _Fs.directoryName(path);
-                
+
                 _Fs.exists(parentPath, function (exists) {
                     if (exists) {
                         success();
@@ -181,13 +181,13 @@
         createFile: function (path, callbackFunction) {
             callbackFunction = callbackFunction || _noop;
             path = _Fs.resolvePath(path);
-            
+
             var _exclusive,
                 _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _upgradable(path, function (unlock, exclusive) {
-                    _exclusive = exclusive,
+                    _exclusive = exclusive;
                     _unlock = unlock;
                     success();
                 });
@@ -201,7 +201,7 @@
                 });
             }, function (success) {
                 var parentPath = _Fs.directoryName(path);
-                
+
                 _Fs.exists(parentPath, function (exists) {
                     if (exists) {
                         success();
@@ -230,9 +230,9 @@
         },
         createReadableStream: function (path, options, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             var _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _shared(path, function (unlock) {
                     _unlock = unlock;
@@ -261,11 +261,11 @@
             callbackFunction = callbackFunction || _noop;
             linkTo = _Fs.resolvePath(linkTo);
             path = _Fs.resolvePath(path);
-            
+
             var type,
                 unlock0,
                 unlock1;
-            
+
             _Async.runQueue(function (success) {
                 _shared(linkTo, function (unlock) {
                     unlock0 = unlock;
@@ -295,7 +295,7 @@
                 });
             }, function (success) {
                 var parentPath = _Fs.directoryName(path);
-                
+
                 _Fs.exists(parentPath, function (exists) {
                     if (exists) {
                         success();
@@ -320,15 +320,15 @@
             }).on('complete', function (eventFacade) {
                 unlock0();
                 unlock1();
-                
+
                 callbackFunction(eventFacade.error);
             });
         },
         createWritableStream: function (path, options, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             var _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _exclusive(path, function (unlock) {
                     _unlock = unlock;
@@ -336,7 +336,7 @@
                 });
             }, function (success) {
                 var parentPath = _Fs.directoryName(path);
-                
+
                 _Fs.exists(parentPath, function (exists) {
                     if (exists) {
                         success();
@@ -364,10 +364,10 @@
         'delete': function (path, callbackFunction) {
             callbackFunction = callbackFunction || _noop;
             path = _Fs.resolvePath(path);
-            
+
             var _exclusive,
                 _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _upgradable(path, function (unlock, exclusive) {
                     _exclusive = exclusive;
@@ -376,20 +376,20 @@
                 });
             }, function (success) {
                 var fail = success.fail;
-                
+
                 _Fs.isDirectory(path, function (error, isDirectory) {
                     if (error) {
                         fail(error);
                         return;
                     }
-                    
+
                     if (isDirectory) {
                         _Fs.listDirectory(path, function (error, fileNames) {
                             if (error) {
                                 fail(error);
                                 return;
                             }
-                            
+
                             _Async.runAll(_map(fileNames, function (fileName) {
                                 return function (success) {
                                     _Fs['delete'](_Fs.resolvePath(path, fileName), function (error) {
@@ -405,7 +405,7 @@
                                     fail(eventFacade.error);
                                     return;
                                 }
-                                
+
                                 _exclusive(function () {
                                     _fs.rmdir(path, function (error) {
                                         if (error) {
@@ -437,14 +437,14 @@
                 });
             }).on('complete', function (eventFacade) {
                 _unlock();
-                
+
                 callbackFunction(eventFacade.error);
             });
         },
         directoryName: _path.dirname,
         exists: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             _shared(path, function (unlock) {
                 _path.exists(path, function (exists) {
                     unlock();
@@ -455,9 +455,9 @@
         extension: _path.extname,
         find: function (searchPath, fileName, callbackFunction) {
             searchPath = _Fs.resolvePath(searchPath);
-            
+
             var _found = [];
-                
+
             _shared(searchPath, function (unlock) {
                 _Fs.isDirectory(searchPath, function (error, isDirectory) {
                     if (error) {
@@ -465,25 +465,25 @@
                         callbackFunction(error);
                         return;
                     }
-                    
+
                     if (!isDirectory) {
                         unlock();
-                        
+
                         if (fileName === _Fs.baseName(searchPath)) {
                             _found.push(searchPath);
                         }
-                        
+
                         callbackFunction(null, _found);
                         return;
                     }
-                    
+
                     _Fs.listDirectory(searchPath, function (error, searchFileNames) {
                         if (error) {
                             unlock();
                             callbackFunction(error);
                             return;
                         }
-                        
+
                         _Async.runAll(_map(searchFileNames, function (searchFileName) {
                             return function (success) {
                                 _Fs.find(searchPath + '/' + searchFileName, fileName, function (error, found) {
@@ -497,7 +497,7 @@
                             };
                         })).on('complete', function (eventFacade) {
                             unlock();
-                            
+
                             if (eventFacade.failed) {
                                 callbackFunction(eventFacade.error);
                             } else {
@@ -510,11 +510,11 @@
         },
         getAccessTime: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             _shared(path, function (unlock) {
                 _Fs._getStatus(path, function (error, status) {
                     unlock();
-                    
+
                     if (error) {
                         callbackFunction(error);
                     } else {
@@ -525,11 +525,11 @@
         },
         getChangeTime: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             _shared(path, function (unlock) {
                 _Fs._getStatus(path, function (error, status) {
                     unlock();
-                    
+
                     if (error) {
                         callbackFunction(error);
                     } else {
@@ -540,11 +540,11 @@
         },
         getContent: function (path, encoding, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             _shared(path, function (unlock) {
                 _fs.readFile(path, encoding, function (error, content) {
                     unlock();
-                    
+
                     if (error) {
                         callbackFunction(error);
                     } else {
@@ -558,11 +558,11 @@
         },
         getGroupId: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             _shared(path, function (unlock) {
                 _Fs._getStatus(path, function (error, status) {
                     unlock();
-                    
+
                     if (error) {
                         callbackFunction(error);
                     } else {
@@ -573,11 +573,11 @@
         },
         getInodeNumber: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             _shared(path, function (unlock) {
                 _Fs._getStatus(path, function (error, status) {
                     unlock();
-                    
+
                     if (error) {
                         callbackFunction(error);
                     } else {
@@ -588,11 +588,11 @@
         },
         getMode: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             _shared(path, function (unlock) {
                 _Fs._getStatus(path, function (error, status) {
                     unlock();
-                    
+
                     if (error) {
                         callbackFunction(error);
                     } else {
@@ -603,11 +603,11 @@
         },
         getModificationTime: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             _shared(path, function (unlock) {
                 _Fs._getStatus(path, function (error, status) {
                     unlock();
-                    
+
                     if (error) {
                         callbackFunction(error);
                     } else {
@@ -618,11 +618,11 @@
         },
         getOwnerId: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             _shared(path, function (unlock) {
                 _Fs._getStatus(path, function (error, status) {
                     unlock();
-                    
+
                     if (error) {
                         callbackFunction(error);
                     } else {
@@ -633,7 +633,7 @@
         },
         getPathFromLink: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             _shared(path, function (unlock) {
                 _fs.readlink(path, function (error, resolvedPath) {
                     unlock();
@@ -643,11 +643,11 @@
         },
         getSize: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             _shared(path, function (unlock) {
                 _Fs._getStatus(path, function (error, status) {
                     unlock();
-                    
+
                     if (error) {
                         callbackFunction(error);
                     } else {
@@ -658,7 +658,7 @@
         },
         getType: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             _shared(path, function (unlock) {
                 _Async.runAll(function (success) {
                     _Fs.isBlockDevice(path, function (error, isBlockDevice) {
@@ -750,10 +750,10 @@
         },
         isBlockDevice: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             var _status,
                 _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _shared(path, function (unlock) {
                     _unlock = unlock;
@@ -778,7 +778,7 @@
                 });
             }).on('complete', function (eventFacade) {
                 _unlock();
-                
+
                 if (eventFacade.failed) {
                     callbackFunction(eventFacade.error, false);
                 } else {
@@ -788,10 +788,10 @@
         },
         isCharacterDevice: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             var _status,
                 _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _shared(path, function (unlock) {
                     _unlock = unlock;
@@ -816,7 +816,7 @@
                 });
             }).on('complete', function (eventFacade) {
                 _unlock();
-                
+
                 if (eventFacade.failed) {
                     callbackFunction(eventFacade.error, false);
                 } else {
@@ -826,10 +826,10 @@
         },
         isDirectory: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             var _status,
                 _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _shared(path, function (unlock) {
                     _unlock = unlock;
@@ -854,7 +854,7 @@
                 });
             }).on('complete', function (eventFacade) {
                 _unlock();
-                
+
                 if (eventFacade.failed) {
                     callbackFunction(eventFacade.error, false);
                 } else {
@@ -864,19 +864,19 @@
         },
         isExecutable: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             _shared(path, function (unlock) {
                 _Fs._getStatus(path, function (error, status) {
                     unlock();
-                    
+
                     if (error) {
                         callbackFunction(error);
                         return;
                     }
-                    
+
                     var index,
                         mode = status.mode.toString(8).substr(-3);
-                    
+
                     if (_process.getuid() === status.uid) {
                         index = 0;
                     } else if (_process.getgid() === status.gid) {
@@ -884,17 +884,17 @@
                     } else {
                         index = 2;
                     }
-                    
+
                     callbackFunction(null, +(mode.charAt(index)) % 2);
                 });
             });
         },
         isFile: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             var _status,
                 _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _shared(path, function (unlock) {
                     _unlock = unlock;
@@ -919,7 +919,7 @@
                 });
             }).on('complete', function (eventFacade) {
                 _unlock();
-                
+
                 if (eventFacade.failed) {
                     callbackFunction(eventFacade.error, false);
                 } else {
@@ -929,10 +929,10 @@
         },
         isNamedPipe: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             var _status,
                 _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _shared(path, function (unlock) {
                     _unlock = unlock;
@@ -957,7 +957,7 @@
                 });
             }).on('complete', function (eventFacade) {
                 _unlock();
-                
+
                 if (eventFacade.failed) {
                     callbackFunction(eventFacade.error, false);
                 } else {
@@ -967,19 +967,19 @@
         },
         isReadable: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             _shared(path, function (unlock) {
                 _Fs._getStatus(path, function (error, status) {
                     unlock();
-                    
+
                     if (error) {
                         callbackFunction(error);
                         return;
                     }
-                    
+
                     var index,
                         mode = status.mode.toString(8).substr(-3);
-                    
+
                     if (_process.getuid() === status.uid) {
                         index = 0;
                     } else if (_process.getgid() === status.gid) {
@@ -987,17 +987,17 @@
                     } else {
                         index = 2;
                     }
-                    
+
                     callbackFunction(null, +(mode.charAt(index)) >= 4);
                 });
             });
         },
         isSocket: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             var _status,
                 _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _shared(path, function (unlock) {
                     _unlock = unlock;
@@ -1022,7 +1022,7 @@
                 });
             }).on('complete', function (eventFacade) {
                 _unlock();
-                
+
                 if (eventFacade.failed) {
                     callbackFunction(eventFacade.error, false);
                 } else {
@@ -1032,10 +1032,10 @@
         },
         isSymbolicLink: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             var _linkStatus,
                 _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _shared(path, function (unlock) {
                     _unlock = unlock;
@@ -1060,7 +1060,7 @@
                 });
             }).on('complete', function (eventFacade) {
                 _unlock();
-                
+
                 if (eventFacade.failed) {
                     callbackFunction(eventFacade.error, false);
                 } else {
@@ -1070,20 +1070,20 @@
         },
         isWritable: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             _shared(path, function (unlock) {
                 _Fs._getStatus(path, function (error, status) {
                     unlock();
-                    
+
                     if (error) {
                         callbackFunction(error);
                         return;
                     }
-                    
+
                     var index,
                         mode = status.mode.toString(8).substr(-3),
                         value;
-                    
+
                     if (_process.getuid() === status.uid) {
                         index = 0;
                     } else if (_process.getgid() === status.gid) {
@@ -1091,9 +1091,9 @@
                     } else {
                         index = 2;
                     }
-                    
+
                     value = +(mode.charAt(index));
-                    
+
                     callbackFunction(null, value === 2 || value === 3 || value === 6 || value === 7);
                 });
             });
@@ -1101,7 +1101,7 @@
         joinPath: _path.join,
         listDirectory: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             _shared(path, function (unlock) {
                 _fs.readdir(path, function (error, fileNames) {
                     unlock();
@@ -1113,13 +1113,13 @@
             callbackFunction = callbackFunction || _noop;
             fromPath = _Fs.resolvePath(fromPath);
             toPath = _Fs.resolvePath(toPath);
-            
+
             _Fs.copy(fromPath, toPath, function (error) {
                 if (error) {
                     callbackFunction(error);
                     return;
                 }
-                
+
                 _Fs['delete'](fromPath, callbackFunction);
             });
         },
@@ -1129,7 +1129,7 @@
             callbackFunction = callbackFunction || _noop;
             fromPath = _Fs.resolvePath(fromPath);
             toPath = _Fs.resolvePath(toPath);
-            
+
             _Async.runAll(function (success) {
                 _exclusive(fromPath, success);
             }, function (success) {
@@ -1139,7 +1139,7 @@
                     var unlocks = eventFacade.value;
                     unlocks[0]();
                     unlocks[1]();
-                    
+
                     callbackFunction(error);
                 });
             });
@@ -1148,11 +1148,11 @@
         setAccessTime: function (path, accessTime, callbackFunction) {
             callbackFunction = callbackFunction || _noop;
             path = _Fs.resolvePath(path);
-            
+
             var _exclusive,
                 _modificationTime,
                 _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _upgradable(path, function (unlock, exclusive) {
                     _exclusive = exclusive;
@@ -1186,9 +1186,9 @@
         setContent: function (path, content, encoding, callbackFunction) {
             callbackFunction = callbackFunction || _noop;
             path = _Fs.resolvePath(path);
-            
+
             var _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _exclusive(path, function (unlock) {
                     _unlock = unlock;
@@ -1196,7 +1196,7 @@
                 });
             }, function (success) {
                 var parentPath = _Fs.directoryName(path);
-                
+
                 _Fs.exists(parentPath, function (exists) {
                     if (exists) {
                         success();
@@ -1229,11 +1229,11 @@
         setGroupId: function (path, groupId, callbackFunction) {
             callbackFunction = callbackFunction || _noop;
             path = _Fs.resolvePath(path);
-            
+
             var _exclusive,
                 _ownerId,
                 _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _upgradable(path, function (unlock, exclusive) {
                     _exclusive = exclusive;
@@ -1267,9 +1267,9 @@
         setMode: function (path, mode, callbackFunction) {
             callbackFunction = callbackFunction || _noop;
             path = _Fs.resolvePath(path);
-            
+
             var _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _exclusive(path, function (unlock) {
                     _unlock = unlock;
@@ -1291,11 +1291,11 @@
         setModificationTime: function (path, modificationTime, callbackFunction) {
             callbackFunction = callbackFunction || _noop;
             path = _Fs.resolvePath(path);
-            
+
             var _accessTime,
                 _exclusive,
                 _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _upgradable(path, function (unlock, exclusive) {
                     _exclusive = exclusive;
@@ -1329,11 +1329,11 @@
         setOwnerId: function (path, ownerId, callbackFunction) {
             callbackFunction = callbackFunction || _noop;
             path = _Fs.resolvePath(path);
-            
+
             var _exclusive,
                 _groupId,
                 _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _upgradable(path, function (unlock, exclusive) {
                     _exclusive = exclusive;
@@ -1366,10 +1366,10 @@
         },
         _getLinkStatus: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             var _linkStatus,
                 _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _shared(path, function (unlock) {
                     _unlock = unlock;
@@ -1377,12 +1377,12 @@
                 });
             }, function (success) {
                 _linkStatus = _linkStatusCache[path];
-                
+
                 if (_linkStatus) {
                     success();
                     return;
                 }
-                
+
                 _fs.lstat(path, function (error, linkStatus) {
                     if (error) {
                         success.fail(error);
@@ -1394,7 +1394,7 @@
                 });
             }).on('complete', function (eventFacade) {
                 _unlock();
-                
+
                 if (eventFacade.failed) {
                     callbackFunction(eventFacade.error);
                 } else {
@@ -1404,10 +1404,10 @@
         },
         _getStatus: function (path, callbackFunction) {
             path = _Fs.resolvePath(path);
-            
+
             var _status,
                 _unlock;
-            
+
             _Async.runQueue(function (success) {
                 _shared(path, function (unlock) {
                     _unlock = unlock;
@@ -1415,12 +1415,12 @@
                 });
             }, function (success) {
                 _status = _statusCache[path];
-                
+
                 if (_status) {
                     success();
                     return;
                 }
-                
+
                 _fs.stat(path, function (error, status) {
                     if (error) {
                         success.fail(error);
@@ -1432,7 +1432,7 @@
                 });
             }).on('complete', function (eventFacade) {
                 _unlock();
-                
+
                 if (eventFacade.failed) {
                     callbackFunction(eventFacade.error);
                 } else {

@@ -1,16 +1,17 @@
 /**
  * This is a convenience wrapper around child processes in Node.js.
+ * This was written for Node 0.4.x.
  * @module gallery-child-process
  */
 
 (function (Y) {
     'use strict';
-    
+
     var _spawn = require('child_process').spawn,
         _write,
-    
+
         _class;
-        
+
     /**
      * @class ChildProcess
      * @constructor
@@ -20,7 +21,7 @@
     _class = function (config) {
         _class.superclass.constructor.call(this, config);
     };
-    
+
     _class.ATTRS = {
         /**
          * Array of command line arguments.  Refer to Node.js
@@ -98,9 +99,9 @@
             writeOnce: 'initOnly'
         }
     };
-    
+
     _class.NAME = 'ChildProcess';
-    
+
     Y.extend(_class, Y.Base, {
         initializer: function () {
             /**
@@ -114,7 +115,7 @@
                     this._set('ready', true);
                 }
             });
-            
+
             /**
              * Fires when there is an error in any stream of the child process.
              * @event error
@@ -123,7 +124,7 @@
              * @param stdout Error reported from stdout.
              */
             this.publish('error');
-            
+
             /**
              * Fires when the child process exits.
              * @event exit
@@ -140,21 +141,21 @@
                 },
                 fireOnce: true
             });
-            
+
             /**
              * Fired when stderr receives data.
              * @event stderr
              * @param {Buffer|String} data
              */
             this.publish('stderr');
-            
+
             /**
              * Fired when stdout receives data.
              * @event stdout
              * @param {Buffer|String} data
              */
             this.publish('stdout');
-            
+
             var childProcess = _spawn(this.get('command'), this.get('args'), this.get('options')),
                 me = this,
                 stderr = childProcess.stderr,
@@ -162,80 +163,80 @@
                 stdin = childProcess.stdin,
                 stdout = childProcess.stdout,
                 stdoutEncoding = this.get('stdoutEncoding');
-                
+
             if (stderrEncoding) {
                 stderr.setEncoding(stderrEncoding);
             }
-            
+
             stderr.on('data', function (data) {
                 me.fire('stderr', {
                     data: data
                 });
             });
-            
+
             stderr.on('error', function (exception) {
                 me.fire('error', {
                     stderr: exception
                 });
             });
-            
+
             stdin.on('drain', function () {
                 me.fire('drain');
             });
-            
+
             stdin.on('error', function (exception) {
                 me.fire('error', {
                     stdin: exception
                 });
             });
-            
+
             if (stdoutEncoding) {
                 stdout.setEncoding(stdoutEncoding);
             }
-            
+
             stdout.on('data', function (data) {
                 me.fire('stdout', {
                     data: data
                 });
             });
-            
+
             stdout.on('error', function (exception) {
                 me.fire('error', {
                     stdout: exception
                 });
             });
-            
+
             childProcess.on('exit', function (code, signal) {
                 me.fire('exit', {
                     code: code,
                     signal: signal
                 });
             });
-            
+
             /**
              * @property _childProcess
              * @protected
              */
             this._childProcess = childProcess;
-            
+
             /**
              * @property _stderr
              * @protected
              */
             this._stderr = stderr;
-            
+
             /**
              * @property _stdin
              * @protected
              */
             this._stdin = stdin;
-            
+
             /**
              * @property _stdout
              * @protected
              */
             this._stdout = stdout;
-            
+
             this._set('pid', childProcess.pid);
             this._set('ready', true);
         },
@@ -250,11 +251,11 @@
          */
         kill: function (signal) {
             var childProcess = this._childProcess;
-            
+
             if (childProcess) {
                 childProcess.kill(signal || 'SIGTERM');
             }
-            
+
             return this;
         },
         /**
@@ -279,11 +280,11 @@
                     }
                 }, this);
             }
-            
+
             return this;
         }
     });
-    
+
     /**
      * @method _write
      * @param {Buffer|String} data
@@ -292,11 +293,11 @@
      */
     _write = function (data, encoding) {
         var stdin = this._stdin;
-        
+
         if (!(stdin && stdin.writable && stdin.write(data, encoding))) {
             this._set('ready', false);
         }
     };
-    
+
     Y.ChildProcess = _class;
 }(Y));

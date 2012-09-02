@@ -3,9 +3,9 @@
  */
 (function (Y, moduleName) {
     'use strict';
-    
+
     var _Plugin = Y.Plugin;
-    
+
     /**
      * Asynchronous command clone plugin.
      * @class AsyncCommandClone
@@ -25,9 +25,9 @@
                 'ctx',
                 'fn'
             ]);
-            
+
             config.args = config.args.slice(1);
-            
+
             return new Y.AsyncCommand(config);
         }
     }, {

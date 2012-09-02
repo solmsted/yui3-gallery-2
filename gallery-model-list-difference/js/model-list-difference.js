@@ -57,12 +57,12 @@
 
         return updateModelList();
     };
-    
+
     _reduceFn = function (previousArray, currentArray) {
         if (!previousArray) {
             return currentArray;
         }
-        
+
         return _filter(previousArray, function (value) {
             return _indexOf(currentArray, value) === -1;
         });

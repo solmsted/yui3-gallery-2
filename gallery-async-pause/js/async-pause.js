@@ -3,15 +3,15 @@
  */
 (function (Y, moduleName) {
     'use strict';
-    
+
     var _string__args = '_args',
         _string__resumed = '_resumed',
         _string_host = 'host',
         _string_paused = 'paused',
-        
+
         _false = false,
         _true = true,
-        
+
         _DoPrevent = Y.Do.Prevent,
         _Plugin = Y.Plugin;
 
@@ -25,7 +25,7 @@
     _Plugin.AsyncPause = Y.Base.create(moduleName, _Plugin.Base, [], {
         initializer: function () {
             var me = this;
-                
+
             if (me.get(_string_host).get('mode') === 'queue') {
                 me.beforeHostMethod('_runQueue', function () {
                     if (me.get(_string_paused)) {
@@ -57,11 +57,11 @@
             var argsChangeListener,
                 completeListener,
                 me = this,
-                
+
                 args = me.get(_string__args),
                 host = me.get(_string_host),
                 runQueue = host._runQueue,
-                
+
                 resume = function (args) {
                     me._setAttrs({
                         paused: _false,
@@ -70,11 +70,11 @@
                     });
                     runQueue.apply(host, args);
                 };
-            
+
             if (!me.get(_string_paused) || me.get(_string__resumed)) {
                 return me;
             }
-            
+
             if (!host.get('started') || host.get('completed')) {
                 me._set(_string_paused, _false);
                 return me;
@@ -84,18 +84,18 @@
                 resume(args);
                 return me;
             }
-            
+
             me._set(_string__resumed, _true);
-            
+
             argsChangeListener = me.once('_argsChange', function (eventFacade) {
                 completeListener.detach();
                 resume(eventFacade.newVal);
             });
-            
+
             completeListener = host.on('complete', function () {
                 argsChangeListener.detach();
             });
-            
+
             return me;
         }
     }, {

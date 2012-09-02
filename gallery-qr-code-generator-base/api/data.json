@@ -63,7 +63,7 @@
             },
             "tag": "module",
             "file": "js/qr-code-generator-base.js",
-            "line": 1,
+            "line": 4778,
             "description": "gallery-qr-code-generator-base is a slightly low-level utility for generating\nQR Codes."
         }
     },

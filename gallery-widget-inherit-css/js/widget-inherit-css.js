@@ -3,26 +3,26 @@
  */
 (function (Y) {
     'use strict';
-    
+
     var _Do = Y.Do,
         _Widget = Y.Widget,
-        
+
         _AlterReturn = _Do.AlterReturn,
-        
+
         _getClassName = Y.ClassNameManager.getClassName,
-        
+
         _getSuperclassClassName = function () {
             var superclass = this.constructor.superclass,
                 superclassClassName,
                 superclassConstructor = superclass.constructor,
                 superclassCssPrefix = superclassConstructor.CSS_PREFIX || _getClassName(superclassConstructor.NAME.toLowerCase());
-            
+
             superclassClassName = superclassConstructor !== _Widget && _getSuperclassClassName.apply(superclass, arguments) || [];
-            
+
             superclassClassName.push(superclass.getClassName.apply({
                 _cssPrefix: superclassCssPrefix
             }, arguments));
-            
+
             return superclassClassName;
         };
 

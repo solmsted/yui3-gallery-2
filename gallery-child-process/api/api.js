@@ -10,7 +10,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "gallery-child-process",
             "name": "gallery-child-process",
-            "description": "This is a convenience wrapper around child processes in Node.js."
+            "description": "This is a convenience wrapper around child processes in Node.js.\nThis was written for Node 0.4.x."
         }
     ]
 } };

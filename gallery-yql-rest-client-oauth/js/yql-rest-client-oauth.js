@@ -54,7 +54,7 @@
  *     <dd>
  *         Forces YQL to use the character set specified. Using this overrides
  *         both the character set specified by the response and the fallback
- *         character sets. 
+ *         character sets.
  *     </dd>
  *     <dt>
  *         headers
@@ -115,7 +115,7 @@
  *     </dt>
  *     <dd>
  *         Specifies the request timeout in milliseconds. This is useful when
- *         you want to cancel requests that take longer than expected. 
+ *         you want to cancel requests that take longer than expected.
  *     </dd>
  *     <dt>
  *         url
@@ -134,11 +134,11 @@
 
 (function (Y) {
     'use strict';
-    
+
     var _do = Y.Do,
         _DoPrevent = _do.Prevent,
         _yqlRestClient = Y.YQLRESTClient,
-    
+
         _buildAuthorizationHeader,
         _each = Y.each,
         _encode,
@@ -150,71 +150,71 @@
         _random = Math.random,
         _randomString,
         _request = _yqlRestClient.request;
-    
+
     _do.before(function (params, callbackFunction, yqlParams, yqlOpts) {
         params = params || {};
-        
+
         var oAuth = params.oAuth,
             oAuthConsumer,
             oAuthParams = {},
             oAuthSignatureMethod,
             oAuthToken,
-            
+
             buildSecret,
             setAuthorizationHeader;
-        
+
         if (!oAuth) {
             return;
         }
-        
+
         buildSecret = function () {
             return _encode(oAuthConsumer.secret) + '&' + _encode(oAuthToken.secret);
         };
-        
+
         setAuthorizationHeader = function (oAuthSignature) {
             oAuthParams.oauth_signature = oAuthSignature;
             params.headers = params.headers || {};
             params.headers.Authorization = _buildAuthorizationHeader(oAuthParams);
         };
-        
+
         oAuthConsumer = oAuth.consumer || {};
         oAuthParams.oauth_consumer_key = oAuthConsumer.key || '';
         oAuthSignatureMethod = oAuth.signatureMethod;
         oAuthParams.oauth_signature_method = oAuthSignatureMethod;
         oAuthToken = oAuth.token || {};
         oAuthParams.oauth_token = oAuthToken.key || '';
-        
+
         if (oAuthToken.verifier) {
             oAuthParams.oauth_verifier = oAuthToken.verifier;
         }
-        
+
         oAuthParams.oauth_version = '1.0';
-        
+
         switch (oAuthSignatureMethod) {
-            case 'HMAC-SHA1':
-                oAuthParams.oauth_nonce = _randomString();
-                oAuthParams.oauth_timestamp = _floor(_now() / 1000);
-                _hmacSha1_b64([
-                    _encode(params.method.toUpperCase()),
-                    // url scheme and host must be lowercase.
-                    // default port numbers must not be included.
-                    _encode(params.url),
-                    _encode(_normalizeParameters(params.content, oAuthParams, params.query))
-                ].join('&'), buildSecret(), function (oAuthSignature) {
-                    setAuthorizationHeader(oAuthSignature);
-                    _request(params, callbackFunction, yqlParams, yqlOpts);
-                }, null, {
-                    proto: 'https'
-                });
-                return new _DoPrevent('asynchronous');
-            case 'PLAINTEXT':
-                setAuthorizationHeader(buildSecret());
-                return;
-            default:
-                throw 'Unknown OAuth Signature Method';
+        case 'HMAC-SHA1':
+            oAuthParams.oauth_nonce = _randomString();
+            oAuthParams.oauth_timestamp = _floor(_now() / 1000);
+            _hmacSha1_b64([
+                _encode(params.method.toUpperCase()),
+                // url scheme and host must be lowercase.
+                // default port numbers must not be included.
+                _encode(params.url),
+                _encode(_normalizeParameters(params.content, oAuthParams, params.query))
+            ].join('&'), buildSecret(), function (oAuthSignature) {
+                setAuthorizationHeader(oAuthSignature);
+                _request(params, callbackFunction, yqlParams, yqlOpts);
+            }, null, {
+                proto: 'https'
+            });
+            return new _DoPrevent('asynchronous');
+        case 'PLAINTEXT':
+            setAuthorizationHeader(buildSecret());
+            return;
+        default:
+            throw 'Unknown OAuth Signature Method';
         }
     }, _yqlRestClient, 'request');
-    
+
     /**
      * Creates the OAuth Authorization Header
      * @method _buildAuthorizationHeader
@@ -227,9 +227,9 @@
         _each(oAuthParams, function (value, key) {
             authorizationHeader.push(_encode(key) + '="' + _encode(value));
         });
-        return 'OAuth '+ authorizationHeader.join('",') + '"';
+        return 'OAuth ' + authorizationHeader.join('",') + '"';
     };
-    
+
     /**
      * Performs the more strict version of URL Encode required by OAuth.
      * @method _encode
@@ -241,12 +241,12 @@
         if (!string) {
             return '';
         }
-        
+
         return encodeURIComponent(string).replace(/(\!)|(\')|(\()|(\))|(\*)/g, function (character) {
             return '%' + character.charCodeAt(0).toString(16).toUpperCase();
         });
     };
-    
+
     /**
      * Performs paramater sorting and normalization required by OAuth.
      * @method _normalizeParameters
@@ -258,7 +258,7 @@
      */
     _normalizeParameters = function (content, oAuthParams, query) {
         var params = [];
-        
+
         _each([
             content,
             oAuthParams,
@@ -271,7 +271,7 @@
                 ]);
             });
         });
-        
+
         params.sort(function (a, b) {
             if (a[0] < b[0]) {
                 return -1;
@@ -287,14 +287,14 @@
             }
             return 0;
         });
-        
+
         params = _map(params, function (param) {
             return param.join('=');
         });
-        
+
         return params.join('&');
     };
-    
+
     /**
      * Generates a random string containing digits and upper-case letters.
      * @method _randomString

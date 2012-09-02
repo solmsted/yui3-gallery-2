@@ -6,7 +6,7 @@
 
     var _Base = Y.Base,
         _Frame = Y.Frame;
-        
+
     /**
      * @class GoogleMapsFrame
      * @constructor
@@ -15,14 +15,15 @@
      */
     Y.GoogleMapsFrame = _Base.create(moduleName, _Base, [], {
         initializer: function () {
-            var me = this;
-            
+            var frame,
+                me = this;
+
             /**
              * Fired when Google Maps Loader fails.
              * @event failure
              */
             me.publish('failure');
-            
+
             /**
              * Fired when Google Maps Loader succeeds.
              * @event load
@@ -31,14 +32,14 @@
             me.publish('load', {
                 fireOnce: true
             });
-            
+
             /**
              * Fired when Google Maps Loader times out.
              * @event timeout
              */
             me.publish('timeout');
 
-            var frame = new _Frame({
+            frame = new _Frame({
                 content: '<div id="map"></div>',
                 extracss: 'body, html, #map {height: 100%; width: 100%;}',
                 use: []
@@ -49,42 +50,42 @@
 
                 iY.config.win.YUI = YUI;
                 iY.Get.jsOptions.doc = iY.config.doc;
-                
+
                 iY.use('gallery-google-maps-loader', 'node', function (iY) {
                     var googleMapsLoader,
                         source = me.get('source'),
                         timeout = me.get('timeout');
-                    
+
                     if (source !== null) {
                         googleMapsLoader = {
                             source: source
                         };
-                        
+
                         if (timeout !== null) {
                             googleMapsLoader.timeout = timeout;
                         }
                     } else if (timeout !== null) {
                         googleMapsLoader = {
                             timeout: timeout
-                        }
+                        };
                     }
-                    
+
                     googleMapsLoader = new iY.GoogleMapsLoader(googleMapsLoader);
 
                     googleMapsLoader.on('failure', function () {
                         me.fire('failure');
                     });
-                    
+
                     googleMapsLoader.on('success', function () {
                         me.google = iY.config.win.google;
                         me._set('loaded', true);
                         me.fire('load');
                     });
-                    
+
                     googleMapsLoader.on('timeout', function () {
                         me.fire('timeout');
                     });
-                    
+
                     googleMapsLoader.load(me.get('parameters'));
 
                     me._set('domNode', iY.one('#map').getDOMNode());

@@ -4,11 +4,11 @@
  */
 (function (Y) {
     'use strict';
-    
+
     var _md5 = Y.YQLCrypto.md5,
         _stringify = Y.QueryString.stringify,
         _trim = Y.Lang.trim;
-    
+
     /**
      * Create a gravatar image url.
      * @method gravatarUrl
@@ -75,35 +75,35 @@
             rating = options.rating,
             size = options.size,
             src = ((options.secure && 'https://secure') || 'http://www') + '.gravatar.com/avatar/',
-            
+
             complete;
-            
+
         complete = function (md5) {
             callbackFunction.call(contextObject, src + md5 + queryString);
         };
-        
+
         if (defaultImage || force || rating || size) {
             queryString = {};
-            
+
             if (defaultImage) {
                 queryString.d = defaultImage;
             }
-            
+
             if (force) {
                 queryString.f = 'y';
             }
-            
+
             if (rating) {
                 queryString.r = rating;
             }
-            
+
             if (size) {
                 queryString.s = size;
             }
-            
+
             queryString = '?' + _stringify(queryString);
         }
-        
+
         if (force && (defaultImage === '404' || defaultImage === 'mm')) {
             complete();
         } else {

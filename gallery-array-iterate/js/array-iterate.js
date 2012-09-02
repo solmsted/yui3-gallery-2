@@ -4,9 +4,9 @@
  */
 (function (Y) {
     'use strict';
-    
+
     var _isFunction = Y.Lang.isFunction,
-        
+
         /**
          * @method iterate
          * @for Array
@@ -41,9 +41,9 @@
                     return true;
                 }
             }
-            
+
             return false;
         };
-        
+
     Y.Array.iterate = iterate;
 }(Y));

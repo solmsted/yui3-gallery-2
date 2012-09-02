@@ -5,7 +5,7 @@
     'use strict';
 
     var _Base = Y.Base,
-    
+
         _isArray = Y.Lang.isArray,
         _stringify = Y.QueryString.stringify;
 
@@ -18,13 +18,13 @@
     Y.GoogleMapsLoader = _Base.create(moduleName, _Base, [], {
         initializer: function () {
             var me = this;
-            
+
             /**
              * Fired when JSONP fails.
              * @event failure
              */
             me.publish('failure');
-            
+
             /**
              * Fired when JSONP succeeds.
              * @event success
@@ -33,7 +33,7 @@
             me.publish('success', {
                 fireOnce: true
             });
-            
+
             /**
              * Fired when JSONP times out.
              * @event timeout
@@ -111,25 +111,25 @@
          * object, they will also be included the the Google Maps API request.
          */
         load: function (parameters) {
-            var me = this;
-            
+            parameters = parameters || {};
+
+            var me = this,
+
+                libraries = parameters.libraries,
+                timeout = parameters.timeout || me.get('timeout'),
+                url = parameters.source || me.get('source');
+
             if (me.get('loaded')) {
                 return me;
             }
 
-            parameters = parameters || {};
-            
-            var libraries = parameters.libraries,
-                timeout = parameters.timeout || me.get('timeout'),
-                url = parameters.source || me.get('source');
-            
             if (_isArray(libraries)) {
                 parameters.libraries = libraries.join(',');
             }
-            
+
             parameters.sensor = parameters.sensor ? 'true' : 'false';
             parameters.v = parameters.v || parameters.version;
-            
+
             delete parameters.callback;
             delete parameters.source;
             delete parameters.timeout;
@@ -154,7 +154,7 @@
                 },
                 timeout: timeout
             });
-            
+
             return me;
         }
     }, {

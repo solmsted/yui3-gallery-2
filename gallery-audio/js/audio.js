@@ -5,9 +5,9 @@
     'use strict';
 
     var _playable,
-    
+
         _Lang = Y.Lang,
-    
+
         _arraySome = Y.Array.some,
         _createNode = Y.Node.create,
         _isArray = _Lang.isArray,
@@ -17,7 +17,7 @@
     (function (modernizr) {
         var audioElement,
             modernizrAudio = modernizr && modernizr.audio;
-        
+
         if (modernizrAudio) {
             _playable = {
                 m4a: modernizrAudio.m4a,
@@ -33,7 +33,7 @@
         if (!audioElement.canPlayType) {
             return;
         }
-        
+
         _playable = {
             m4a: audioElement.canPlayType('audio/x-m4a;') || audioElement.canPlayType('audio/aac;'),
             mp3: audioElement.canPlayType('audio/mpeg;'),
@@ -46,7 +46,7 @@
      * @class Audio
      * @static
      */
-    
+
     /**
      * This is a utility method to create an HTML 5 Audio element.  Each browser
      * has a different level of support for playing different audio formats.  If
@@ -126,19 +126,19 @@
             ],
             playable,
             source = config.baseUrl || '',
-            
+
             chooseFormat = function (testFormat) {
                 var playable = _playable[testFormat];
-                
+
                 if (!playable) {
                     return;
                 }
-                
+
                 if (playable === 'probably') {
                     format = testFormat;
                     return true;
                 }
-                
+
                 if (!format) {
                     format = testFormat;
                 }
@@ -160,6 +160,6 @@
             }
         }
 
-        return format && _createNode('<audio ' + (config.autoplay ? 'autoplay="true" ' : '') + (config.controls ? 'controls="true"' : '') + (config.loop ? 'loop="true"' : '') + ' preload="' + (config.preload ? config.preload : 'auto') + '" src="' + source + '" />') || null;
+        return format && _createNode('<audio ' + (config.autoplay ? 'autoplay="true" ' : '') + (config.controls ? 'controls="true"' : '') + (config.loop ? 'loop="true"' : '') + ' preload="' + (config.preload || 'auto') + '" src="' + source + '" />') || null;
     };
 }(Y));

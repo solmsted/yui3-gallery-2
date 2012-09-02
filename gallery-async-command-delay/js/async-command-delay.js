@@ -3,16 +3,16 @@
  */
 (function (Y, moduleName) {
     'use strict';
-    
+
     var _string_delay = 'delay',
         _string_delayed = 'delayed',
         _string_run = 'run',
-        
+
         _Do = Y.Do,
         _DoAlterReturn = _Do.AlterReturn,
         _DoPrevent = _Do.Prevent,
         _Plugin = Y.Plugin,
-        
+
         _delay = Y.delay;
 
     /**
@@ -25,14 +25,14 @@
     _Plugin.AsyncCommandDelay = Y.Base.create(moduleName, _Plugin.Base, [], {
         initializer: function () {
             var me = this,
-            
+
                 host = me.get('host'),
                 run = host.run;
-            
+
             me.afterHostMethod(_string_run, function () {
                 return new _DoAlterReturn(_string_delayed, host);
             });
-            
+
             me.beforeHostMethod(_string_run, function () {
                 _delay(run, me.get(_string_delay)).call(host);
                 return new _DoPrevent(_string_delayed);

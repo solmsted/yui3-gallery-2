@@ -101,21 +101,21 @@
  *&#x2F;
 (function (Y, moduleName) {
     &#x27;use strict&#x27;;
-    
+
     var _string_args = &#x27;args&#x27;,
         _string_complete = &#x27;complete&#x27;,
         _string_failure = &#x27;failure&#x27;,
         _string_initOnly = &#x27;initOnly&#x27;,
         _string_start = &#x27;start&#x27;,
         _string_success = &#x27;success&#x27;,
-        
+
         _Base = Y.Base,
-        
+
         _createCompleteFunction,
         _false = false,
         _isArray = Y.Lang.isArray,
         _true = true;
-    
+
     &#x2F;**
     * Asynchronous command class.
     * @class AsyncCommand
@@ -312,20 +312,20 @@
             }
         }
     });
-    
+
     _createCompleteFunction = function (asyncCommand) {
         var successFunction = function (value) {
             asyncCommand.fire(_string_success, {
                 value: value
             });
         };
-        
+
         successFunction.fail = function (error) {
             asyncCommand.fire(_string_failure, {
                 error: error
             });
         };
-        
+
         return successFunction;
     };
 }(Y, arguments[1]));

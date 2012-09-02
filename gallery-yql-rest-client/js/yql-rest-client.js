@@ -5,9 +5,9 @@
 
 (function (Y) {
     'use strict';
-    
+
     var _lang = Y.Lang,
-        
+
         _each = Y.each,
         _execute = Y.YQL.execute,
         _getResult = _execute.getResult,
@@ -15,7 +15,7 @@
         _isObject = _lang.isObject,
         _quotedString,
         _stringify = Y.QueryString.stringify;
-    
+
     /**
      * @class YQLRESTClient
      * @static
@@ -67,7 +67,7 @@
          *     <dd>
          *         Forces YQL to use the character set specified. Using this
          *         overrides both the character set specified by the response
-         *         and the fallback character sets. 
+         *         and the fallback character sets.
          *     </dd>
          *     <dt>
          *         headers
@@ -87,7 +87,7 @@
          *         matrix
          *     </dt>
          *     <dd>
-         *         Adds matrix parameters to the request. 
+         *         Adds matrix parameters to the request.
          *     </dd>
          *     <dt>
          *         method
@@ -114,7 +114,7 @@
          *     <dd>
          *         Specifies the request timeout in milliseconds. This is useful
          *         when you want to cancel requests that take longer than
-         *         expected. 
+         *         expected.
          *     </dd>
          *     <dt>
          *         url
@@ -130,7 +130,7 @@
          */
         request: function (params, callbackFunction, yqlParams, yqlOpts) {
             params = params || {};
-            
+
             var accept = params.accept,
                 code = [],
                 content = params.content,
@@ -145,88 +145,88 @@
                 query = params.query,
                 timeout = params.timeout,
                 url = params.url;
-            
+
             if (!method || !url) {
                 throw 'Request requires a url and a method.';
             }
-            
+
             code.push('response.object = y.rest("' + _quotedString(params.url) + '")');
-            
+
             if (accept) {
                 code.push('accept("' + _quotedString(accept) + '")');
             }
-            
+
             if (_isObject(content)) {
                 content = _stringify(content);
                 contentType = 'application/x-www-form-urlencoded';
             }
-            
+
             if (contentType) {
                 code.push('contentType("' + _quotedString(contentType) + '")');
             }
-            
+
             if (fallbackCharsets) {
                 code.push('fallbackCharset("' + _quotedString(_isArray(fallbackCharsets) ? fallbackCharsets.join(',') : fallbackCharsets) + '")');
             }
-            
+
             if (forceCharset) {
                 code.push('forceCharset("' + _quotedString(forceCharset) + '")');
             }
-            
+
             if (headers) {
                 _each(headers, function (value, key) {
                     code.push('header("' + _quotedString(key) + '", "' + _quotedString(value) + '")');
                 });
             }
-            
+
             if (jsonCompat) {
                 code.push('jsonCompat("' + _quotedString(jsonCompat) + '")');
             }
-            
+
             if (matrix) {
                 _each(matrix, function (value, key) {
                     code.push('matrix("' + _quotedString(key) + '", "' + _quotedString(value) + '")');
                 });
             }
-            
+
             if (paths) {
                 _each(paths, function (value) {
                     code.push('path("' + _quotedString(value) + '")');
                 });
             }
-            
+
             if (query) {
                 _each(query, function (value, key) {
                     code.push('query("' + _quotedString(key) + '", "' + _quotedString(value) + '")');
                 });
             }
-            
+
             if (timeout) {
                 code.push('timeout("' + _quotedString(timeout) + '")');
             }
-            
+
             switch (method) {
-                case 'delete':
-                    method = 'del';
-                    // fall through
-                case 'get':
-                case 'head':
-                    code.push(method + '()');
-                    break;
-                case 'post':
-                case 'put':
-                    code.push(method + '("' + _quotedString(content) + '")');
-                    break;
-                default:
-                    throw 'Unknown method.';
+            case 'delete':
+                method = 'del';
+                // fall through
+            case 'get':
+            case 'head':
+                code.push(method + '()');
+                break;
+            case 'post':
+            case 'put':
+                code.push(method + '("' + _quotedString(content) + '")');
+                break;
+            default:
+                throw 'Unknown method.';
             }
-            
+
             _execute(code.join('.') + ';', function (result) {
                 callbackFunction(_getResult(result));
             }, yqlParams, yqlOpts);
         }
     };
-    
+
     /**
      * Escapes " characters.
      * @method _quotedString

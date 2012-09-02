@@ -3,11 +3,11 @@
  */
 (function (Y, moduleName) {
     'use strict';
-    
+
     var _string_withhold = 'withhold',
-        
+
         _Plugin = Y.Plugin,
-        
+
         _delay = Y.delay;
 
     /**
@@ -20,15 +20,15 @@
     _Plugin.AsyncCommandWithhold = Y.Base.create(moduleName, _Plugin.Base, [], {
         initializer: function () {
             var me = this;
-            
+
             me.onHostEvent([
                 'failure',
                 'success'
             ], function (eventFacade) {
                 eventFacade.preventDefault();
-                
+
                 var targetEvent = eventFacade.target.getEvent(eventFacade.type);
-                
+
                 _delay(targetEvent.defaultFn, me.get(_string_withhold)).apply(targetEvent, arguments);
             });
         }

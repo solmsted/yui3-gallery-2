@@ -5,7 +5,7 @@
 
 (function (Y) {
     'use strict';
-    
+
     /**
      * Execute JavaScript remotely.
      * @for YQL
@@ -19,7 +19,7 @@
     Y.YQL.execute = function (code, callbackFunction, params, opts) {
         Y.YQL("SELECT * FROM execute WHERE code = '" + code.replace(/'/g, '\\\'') + "'", callbackFunction, params, opts);
     };
-    
+
     /**
      * Helper function to get the deeply nested result.
      * @method execute.getResult

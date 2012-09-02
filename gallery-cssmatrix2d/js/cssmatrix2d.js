@@ -3,14 +3,14 @@
  */
 (function (Y) {
     'use strict';
-    
+
     var _degreesToRadians = Math.PI / 180,
-        
+
         _cos = Math.cos,
         _isUndefined = Y.Lang.isUndefined,
         _sin = Math.sin,
         _tan = Math.tan,
-        
+
         /**
          * This represents the matrix used by 2d CSS transforms.  It helps
          * perform all of the necessary matrix calculations.  This is sort of an
@@ -39,7 +39,7 @@
          * @constructor
          */
         _class = function () {};
-        
+
     _class.prototype = {
         /**
          * The 1,1 position in the matrix.
@@ -297,6 +297,6 @@
             return this.multiply(other);
         }
     };
-    
+
     Y.CSSMatrix2d = _class;
 }(Y));

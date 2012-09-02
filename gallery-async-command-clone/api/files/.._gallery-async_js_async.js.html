@@ -101,19 +101,19 @@
  *&#x2F;
 (function (Y, moduleName) {
     &#x27;use strict&#x27;;
-    
+
     var _string_complete = &#x27;complete&#x27;,
         _string_initOnly = &#x27;initOnly&#x27;,
-        
+
         _run = {
             all: &#x27;_runAll&#x27;,
             queue: &#x27;_runQueue&#x27;
         },
-        
+
         _Array = Y.Array,
         _AsyncCommand = Y.AsyncCommand,
         _Lang = Y.Lang,
-        
+
         _createAndRun,
         _each = _Array.each,
         _instanceOf = Y.instanceOf,
@@ -123,7 +123,7 @@
         _map = _Array.map,
         _merge = Y.merge,
         _unnest = _Array.unnest,
-    
+
         &#x2F;**
         * Asynchronous command runner class.
         * @class Async
@@ -134,7 +134,7 @@
             initializer: function () {
                 var me = this,
                     run = _run[me.get(&#x27;mode&#x27;)];
-                
+
                 if (run) {
                     me._set(&#x27;fn&#x27;, function (success) {
                         me[run].call(me, success, me.get(&#x27;run&#x27;));
@@ -281,24 +281,24 @@
                 run: {
                     setter: function (run) {
                         var config = this.get(&#x27;config&#x27;);
-                        
+
                         return _map(_isArray(run) ? run : [
                             run
                         ], function (item) {
                             if (_instanceOf(item, _AsyncCommand)) {
                                 return item;
                             }
-                            
+
                             if (_isString(item)) {
                                 item = _class.commands[item] || {};
                             }
-                            
+
                             if (_isFunction(item)) {
                                 return new _AsyncCommand(_merge(config, {
                                     fn: item
                                 }));
                             }
-                            
+
                             return new _AsyncCommand(_merge(config, item));
                         });
                     },
@@ -343,7 +343,7 @@
             *&#x2F;
             runAllWithConfig: function () {
                 var args = _Array(arguments);
-                
+
                 return _createAndRun(args.shift(), &#x27;all&#x27;, _unnest(args));
             },
             &#x2F;**
@@ -373,11 +373,11 @@
             *&#x2F;
             runQueueWithConfig: function () {
                 var args = _Array(arguments);
-                
+
                 return _createAndRun(args.shift(), &#x27;queue&#x27;, _unnest(args));
             }
         });
-    
+
     _createAndRun = function (config, mode, run) {
         return new _class({
             config: config,
@@ -385,7 +385,7 @@
             run: run
         }).run();
     };
-    
+
     Y.Async = _class;
 }(Y, arguments[1]));
     </pre>

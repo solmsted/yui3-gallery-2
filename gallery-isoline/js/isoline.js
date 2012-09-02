@@ -3,21 +3,21 @@
  */
 (function (Y) {
     'use strict';
-    
+
     var _string_dataCellHeight = 'dataCellHeight',
         _string_dataCellWidth = 'dataCellWidth',
-        
+
         _Shape = Y.Shape,
-    
+
         _ceil = Math.ceil,
         _max = Math.max,
         _min = Math.min,
         _parseInt = parseInt,
-        
+
         _class = function () {
             _class.superclass.constructor.apply(this, arguments);
         };
-    
+
     /**
      * @class Isoline
      * @constructor
@@ -39,104 +39,104 @@
          */
         _draw: function () {
             var me = this,
-            
+
                 dataCellHeight = me.get(_string_dataCellHeight) || 1,
                 dataCellWidth = me.get(_string_dataCellWidth) || 1,
-                
+
                 halfDataCellHeight = dataCellHeight / 2,
                 halfDataCellWidth = dataCellWidth / 2,
-                
+
                 height = me.get('height'),
                 width = me.get('width'),
-                
+
                 dataFn = me.get('dataFn'),
-                
+
                 dataMaxX = _min(me.get('dataMaxX') || width, width),
                 dataMaxY = _min(me.get('dataMaxY') || height, height),
-                
+
                 dataMinX = _max(me.get('dataMinX') || 0, 0),
                 dataMinY = _max(me.get('dataMinY') || 0, 0),
-                
+
                 dataCellCountX = _ceil((dataMaxX - dataMinX) / dataCellWidth),
                 dataCellCountY = _ceil((dataMaxY - dataMinY) / dataCellHeight),
-                
+
                 dataCellValue,
-                
+
                 dataCellX,
                 dataCellY = 0,
-                
+
                 x,
                 y;
-            
+
             me.clear();
-            
+
             for (; dataCellY < dataCellCountY; dataCellY += 1) {
                 for (dataCellX = 0; dataCellX < dataCellCountX; dataCellX += 1) {
                     dataCellValue = '';
-                    
+
                     x = dataMinX + dataCellX * dataCellWidth;
                     y = dataMinY + dataCellY * dataCellHeight;
-                    
+
                     dataCellValue += dataFn(x - halfDataCellWidth, y - halfDataCellHeight) ? 1 : 0;
                     dataCellValue += dataFn(x + halfDataCellWidth, y - halfDataCellHeight) ? 1 : 0;
                     dataCellValue += dataFn(x + halfDataCellWidth, y + halfDataCellHeight) ? 1 : 0;
                     dataCellValue += dataFn(x - halfDataCellWidth, y + halfDataCellHeight) ? 1 : 0;
-                    
+
                     dataCellValue = _parseInt(dataCellValue, 2);
-                    
+
                     if ((dataCellValue === 5 || dataCellValue === 10) && !dataFn(x, y)) {
                         dataCellValue *= 4;
                     }
-                    
+
                     switch (dataCellValue) {
-                        case 1:
-                        case 14:
-                            me.moveTo(x - halfDataCellWidth, y);
-                            me.lineTo(x, y + halfDataCellHeight);
-                            break;
-                        case 2:
-                        case 13:
-                            me.moveTo(x, y + halfDataCellHeight);
-                            me.lineTo(x + halfDataCellWidth, y);
-                            break;
-                        case 3:
-                        case 12:
-                            me.moveTo(x - halfDataCellWidth, y);
-                            me.lineTo(x + halfDataCellWidth, y);
-                            break;
-                        case 4:
-                        case 11:
-                            me.moveTo(x, y - halfDataCellHeight);
-                            me.lineTo(x + halfDataCellWidth, y);
-                            break;
-                        case 5:
-                        case 40:
-                            me.moveTo(x - halfDataCellWidth, y);
-                            me.lineTo(x, y - halfDataCellHeight);
-                            me.moveTo(x, y + halfDataCellHeight);
-                            me.lineTo(x + halfDataCellWidth, y);
-                            break;
-                        case 6:
-                        case 9:
-                            me.moveTo(x, y - halfDataCellHeight);
-                            me.lineTo(x, y + halfDataCellHeight);
-                            break;
-                        case 7:
-                        case 8:
-                            me.moveTo(x - halfDataCellWidth, y);
-                            me.lineTo(x, y - halfDataCellHeight);
-                            break;
-                        case 10:
-                        case 20:
-                            me.moveTo(x, y - halfDataCellHeight);
-                            me.lineTo(x + halfDataCellWidth, y);
-                            me.moveTo(x - halfDataCellWidth, y);
-                            me.lineTo(x, y + halfDataCellHeight);
-                            break;
+                    case 1:
+                    case 14:
+                        me.moveTo(x - halfDataCellWidth, y);
+                        me.lineTo(x, y + halfDataCellHeight);
+                        break;
+                    case 2:
+                    case 13:
+                        me.moveTo(x, y + halfDataCellHeight);
+                        me.lineTo(x + halfDataCellWidth, y);
+                        break;
+                    case 3:
+                    case 12:
+                        me.moveTo(x - halfDataCellWidth, y);
+                        me.lineTo(x + halfDataCellWidth, y);
+                        break;
+                    case 4:
+                    case 11:
+                        me.moveTo(x, y - halfDataCellHeight);
+                        me.lineTo(x + halfDataCellWidth, y);
+                        break;
+                    case 5:
+                    case 40:
+                        me.moveTo(x - halfDataCellWidth, y);
+                        me.lineTo(x, y - halfDataCellHeight);
+                        me.moveTo(x, y + halfDataCellHeight);
+                        me.lineTo(x + halfDataCellWidth, y);
+                        break;
+                    case 6:
+                    case 9:
+                        me.moveTo(x, y - halfDataCellHeight);
+                        me.lineTo(x, y + halfDataCellHeight);
+                        break;
+                    case 7:
+                    case 8:
+                        me.moveTo(x - halfDataCellWidth, y);
+                        me.lineTo(x, y - halfDataCellHeight);
+                        break;
+                    case 10:
+                    case 20:
+                        me.moveTo(x, y - halfDataCellHeight);
+                        me.lineTo(x + halfDataCellWidth, y);
+                        me.moveTo(x - halfDataCellWidth, y);
+                        me.lineTo(x, y + halfDataCellHeight);
+                        break;
                     }
                 }
             }
-            
+
             me.end();
         }
     }, {

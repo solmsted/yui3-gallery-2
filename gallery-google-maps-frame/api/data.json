@@ -26,7 +26,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "js/google-maps-frame.js",
-            "line": 1
+            "line": 10
         }
     },
     "classes": {
@@ -56,7 +56,7 @@
     "classitems": [
         {
             "file": "js/google-maps-frame.js",
-            "line": 20,
+            "line": 21,
             "description": "Fired when Google Maps Loader fails.",
             "itemtype": "event",
             "name": "failure",
@@ -65,7 +65,7 @@
         },
         {
             "file": "js/google-maps-frame.js",
-            "line": 26,
+            "line": 27,
             "description": "Fired when Google Maps Loader succeeds.",
             "itemtype": "event",
             "name": "load",
@@ -75,7 +75,7 @@
         },
         {
             "file": "js/google-maps-frame.js",
-            "line": 35,
+            "line": 36,
             "description": "Fired when Google Maps Loader times out.",
             "itemtype": "event",
             "name": "timeout",
@@ -84,7 +84,7 @@
         },
         {
             "file": "js/google-maps-frame.js",
-            "line": 78,
+            "line": 100,
             "description": "A selector string or node object which will contain the iframe.",
             "itemtype": "attribute",
             "name": "container",
@@ -95,7 +95,7 @@
         },
         {
             "file": "js/google-maps-frame.js",
-            "line": 88,
+            "line": 110,
             "description": "Reference to an empty div created inside the iframe. (This is not\nan instance of Node.)",
             "itemtype": "attribute",
             "name": "domNode",
@@ -105,7 +105,7 @@
         },
         {
             "file": "js/google-maps-frame.js",
-            "line": 98,
+            "line": 120,
             "description": "The Y.Frame instance that created the iframe.",
             "itemtype": "attribute",
             "name": "frame",
@@ -115,7 +115,7 @@
         },
         {
             "file": "js/google-maps-frame.js",
-            "line": 107,
+            "line": 129,
             "itemtype": "attribute",
             "name": "loaded",
             "default": "false",
@@ -126,8 +126,30 @@
         },
         {
             "file": "js/google-maps-frame.js",
-            "line": 117,
-            "description": "An optional parameters object passed to GoogleMapsLoader. (see\ngallery-google-maps-loader for information)",
+            "line": 139,
+            "description": "The location of the Google Maps JavaScrpt API.  If left as null,\nuses the default value of GoogleMapsLoader.",
+            "itemtype": "attribute",
+            "name": "source",
+            "default": "null",
+            "type": "String",
+            "class": "GoogleMapsFrame",
+            "module": "gallery-google-maps-frame"
+        },
+        {
+            "file": "js/google-maps-frame.js",
+            "line": 149,
+            "description": "The timeout in milliseconds used by JSONP.  If left null, uses\nthe default value of GoogleMapsLoader.",
+            "itemtype": "attribute",
+            "name": "timeout",
+            "default": "null",
+            "type": "Number",
+            "class": "GoogleMapsFrame",
+            "module": "gallery-google-maps-frame"
+        },
+        {
+            "file": "js/google-maps-frame.js",
+            "line": 159,
+            "description": "An optional parameters object passed to GoogleMapsLoader. (see\ngallery-google-maps-loader's load method for information)",
             "itemtype": "attribute",
             "name": "parameters",
             "initonly": "",

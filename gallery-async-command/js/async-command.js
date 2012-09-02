@@ -3,21 +3,21 @@
  */
 (function (Y, moduleName) {
     'use strict';
-    
+
     var _string_args = 'args',
         _string_complete = 'complete',
         _string_failure = 'failure',
         _string_initOnly = 'initOnly',
         _string_start = 'start',
         _string_success = 'success',
-        
+
         _Base = Y.Base,
-        
+
         _createCompleteFunction,
         _false = false,
         _isArray = Y.Lang.isArray,
         _true = true;
-    
+
     /**
     * Asynchronous command class.
     * @class AsyncCommand
@@ -214,20 +214,20 @@
             }
         }
     });
-    
+
     _createCompleteFunction = function (asyncCommand) {
         var successFunction = function (value) {
             asyncCommand.fire(_string_success, {
                 value: value
             });
         };
-        
+
         successFunction.fail = function (error) {
             asyncCommand.fire(_string_failure, {
                 error: error
             });
         };
-        
+
         return successFunction;
     };
 }(Y, arguments[1]));

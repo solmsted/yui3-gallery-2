@@ -3,12 +3,12 @@
  */
 (function (Y) {
     'use strict';
-    
+
     var _CSSMatrix2d = Y.CSSMatrix2d,
         _Node = Y.Node,
-        
+
         _merge = Y.merge;
-    
+
     Y.mix(_Node.prototype, {
         /**
          * Helper method to get the node's current 2d transfom matrix.
@@ -34,14 +34,14 @@
          */
         inverseTransform: function (transitionConfig, callbackFunction) {
             var me = this;
-                
+
             try {
                 return me.transform(me.getMatrix().inverse(), transitionConfig, callbackFunction);
             } catch (exception) {
                 if (callbackFunction) {
                     callbackFunction();
                 }
-                
+
                 return me;
             }
         },
@@ -206,9 +206,9 @@
          */
         transform: function (matrix, transitionConfig, callbackFunction) {
             var me = this;
-            
+
             matrix = matrix.toString();
-            
+
             if (transitionConfig && me.transition) {
                 return me.transition(_merge(transitionConfig, {
                     transform: matrix
@@ -216,7 +216,7 @@
             }
 
             me.setStyle('transform', matrix);
-            
+
             if (callbackFunction) {
                 callbackFunction();
             }

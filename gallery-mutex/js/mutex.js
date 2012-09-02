@@ -3,7 +3,7 @@
  */
 (function (Y) {
     'use strict';
-    
+
     /**
     * Most people believe that Since JavaScript does not provide a
     * multi-threaded shared memory environment, JavaScript is completely
@@ -12,7 +12,7 @@
     * between multiple processes or threads writing to the same memory
     * location.  At a higher level, asynchronous operations still allow for
     * similar problems to occur.
-    * 
+    *
     * Imagine a function that does the following:
     * <ol>
     *     <li>
@@ -35,7 +35,7 @@
     *         Pass the variable to a callback function.
     *     </li>
     * </ol>
-    * 
+    *
     * It seems common for web applications to lazy load data like this as
     * needed.  Now imagine that there are several separate modules within a
     * web application which all require this data.  It's possible for the
@@ -47,16 +47,16 @@
     * this function, the function sees that the value is undefined and sends
     * a request to a server.  In this case, three requests are made to a server
     * for the same data.
-    * 
+    *
     * It would be far better if the second and third calls to the function
     * just waited for the first request to complete.  Y.Mutex makes it
     * easier to accomplish this functionality.
-    * 
+    *
     * Y.Mutex provides a concept of locking a resource.  Once an exclusive
     * resource lock is obtained, other parts of an application which
     * attempt to access the same resource, will have to wait until that
     * resource is unlocked.
-    * 
+    *
     * The function above could be rewritten as follows:
     * <ol>
     *     <li>
@@ -85,11 +85,11 @@
     *         Pass the variable to a callback function.
     *     </li>
     * </ol>
-    * 
+    *
     * This way, second or third or more calls to the function, before the
     * first request is complete, will always wait for the request to
     * complete instead of sending multiple unnecessary requests.
-    * 
+    *
     * Just like locking in multi threaded applications, there are
     * disadvantages and dangers to locking.  There is a small amount of
     * overhead added to every resource access, even when the chances for
@@ -98,14 +98,14 @@
     * that the entire application doesn't break when something goes wrong.
     * It is possible to cause a deadlock when locking multiple resources at
     * once.
-    * 
+    *
     * One advantage Y.Mutex has in JavaScript over other multi threaded
     * applications, the locks are asynchronous.  The application is not
     * blocked while waiting to acquire a lock.  Even if a deadlock occurs,
     * other parts of the application are not affected.  Y.Mutex also
     * provides multiple ways to cancel a particular lock, so there are
     * extra possibilities to recover from locking errors.
-    * 
+    *
     * Y.Mutex offers exclusive locks, shared locks, and upgradable locks.
     * When a resource is locked by an exclusive lock, Y.Mutex guarantees
     * that no other locks will be granted for the resource until the
@@ -117,7 +117,7 @@
     * been unlocked.  An upgradable lock can be upgraded to act as an
     * exclusive lock.  Shared locks are generally used when just reading
     * values.  Exclusive locks are generally used when writing values.
-    * 
+    *
     * Y.Mutex provides a way to deal with asynchronous concurrency issues,
     * but it does not prevent them.  If code from part of an application
     * uses Y.Mutex to lock a resource, there is nothing stopping code from
@@ -128,11 +128,11 @@
     * @static
     */
     var _Mutex = Y.namespace('Mutex'),
-        
+
         _isEmpty = Y.Object.isEmpty,
         _later = Y.later,
         _soon = Y.soon;
-        
+
     Y.mix(_Mutex, {
         /**
          * Obtains an exclusive lock on a resource.
@@ -166,15 +166,15 @@
          */
         exclusive: function (resourceName, callbackFunction, timeout) {
             var _locks = _Mutex._locks,
-                
+
                 guid = Y.guid(),
                 lock = _locks[resourceName],
                 queue,
-                
+
                 unlock = function () {
                     _Mutex._unlockExclusive(guid, resourceName);
                 },
-                
+
                 lockDetails = [
                     guid,
                     resourceName,
@@ -182,20 +182,20 @@
                     timeout,
                     unlock
                 ];
-                
+
             if (!lock) {
                 lock = {};
                 _locks[resourceName] = lock;
             }
-            
+
             if (lock.e || lock.s || lock.u) {
                 queue = lock.eq;
-                
+
                 if (!queue) {
                     queue = [];
                     lock.eq = queue;
                 }
-                
+
                 queue.push(lockDetails);
             } else {
                 _Mutex._lockExclusive.apply(_Mutex, lockDetails);
@@ -238,15 +238,15 @@
          */
         shared: function (resourceName, callbackFunction, timeout) {
             var _locks = _Mutex._locks,
-                
+
                 guid = Y.guid(),
                 lock = _locks[resourceName],
                 queue,
-                
+
                 unlock = function () {
                     _Mutex._unlockShared(guid, resourceName);
                 },
-                
+
                 lockDetails = [
                     guid,
                     resourceName,
@@ -254,20 +254,20 @@
                     timeout,
                     unlock
                 ];
-                
+
             if (!lock) {
                 lock = {};
                 _locks[resourceName] = lock;
             }
-            
+
             if (lock.e || lock.eq || lock.ue) {
                 queue = lock.sq;
-                
+
                 if (!queue) {
                     queue = [];
                     lock.sq = queue;
                 }
-                
+
                 queue.push(lockDetails);
             } else {
                 _Mutex._lockShared.apply(_Mutex, lockDetails);
@@ -332,15 +332,15 @@
          */
         upgradable: function (resourceName, callbackFunction, timeout) {
             var _locks = _Mutex._locks,
-                
+
                 guid = Y.guid(),
                 lock = _locks[resourceName],
                 queue,
-                
+
                 unlock = function () {
                     _Mutex._unlockUpgradable(guid, resourceName);
                 },
-                
+
                 lockDetails = [
                     guid,
                     resourceName,
@@ -348,20 +348,20 @@
                     timeout,
                     unlock
                 ];
-                
+
             if (!lock) {
                 lock = {};
                 _locks[resourceName] = lock;
             }
-            
+
             if (lock.e || lock.eq || lock.u) {
                 queue = lock.uq;
-                
+
                 if (!queue) {
                     queue = [];
                     lock.uq = queue;
                 }
-                
+
                 queue.push(lockDetails);
             } else {
                 _Mutex._lockUpgradable.apply(_Mutex, lockDetails);
@@ -385,13 +385,13 @@
         _cancelTimer: function (guid, resourceName) {
             var lock = _Mutex._locks[resourceName],
                 timers = lock && lock.t,
-                
+
                 timer = timers && timers[guid];
-            
+
             if (timer) {
                 timer.cancel();
                 delete timers[guid];
-                
+
                 if (_isEmpty(timers)) {
                     delete lock.t;
                 }
@@ -422,25 +422,25 @@
          */
         _lockExclusive: function (guid, resourceName, callbackFunction, timeout, unlock) {
             var _locks = _Mutex._locks,
-                
+
                 lock = _locks[resourceName];
-            
+
             if (!lock) {
                 lock = {};
                 _locks[resourceName] = lock;
             }
-            
+
             lock.e = guid;
-                
+
             _soon(function () {
                 if (timeout) {
                     var timers = lock.t;
-                    
+
                     if (!timers) {
                         timers = {};
                         lock.t = timers;
                     }
-                    
+
                     timers[guid] = _later(timeout, null, unlock);
                 }
 
@@ -457,18 +457,18 @@
          */
         _lockQueue: function (resourceName) {
             var _locks = _Mutex._locks,
-                
+
                 lock = _locks[resourceName],
                 lockDetails,
                 queue;
-            
+
             if (!lock || lock.e) {
                 return;
             }
-            
+
             if (!lock.s && !lock.u) {
                 queue = lock.eq;
-                
+
                 if (queue) {
                     lockDetails = queue.shift();
 
@@ -482,18 +482,18 @@
                     }
                 }
             }
-            
+
             if (lock.u) {
                 if (lock.ue && !lock.s) {
                     lock.ue();
                     return;
                 }
             }
-            
+
             if (lock.eq) {
                 return;
             }
-            
+
             queue = lock.uq;
 
             if (queue) {
@@ -507,17 +507,17 @@
                     _Mutex._lockUpgradable.apply(_Mutex, lockDetails);
                 }
             }
-            
+
             queue = lock.sq;
-            
+
             if (queue) {
                 while (queue.length) {
                     _Mutex._lockShared.apply(_Mutex, queue.shift());
                 }
-                
+
                 delete lock.sq;
             }
-            
+
             if (_isEmpty(lock)) {
                 delete _locks[resourceName];
             }
@@ -554,33 +554,33 @@
          */
         _lockShared: function (guid, resourceName, callbackFunction, timeout, unlock) {
             var _locks = _Mutex._locks,
-                
+
                 lock = _locks[resourceName],
                 locks;
-            
+
             if (!lock) {
                 lock = {};
                 _locks[resourceName] = lock;
             }
-            
+
             locks = lock.s;
-            
+
             if (!locks) {
                 locks = {};
                 lock.s = locks;
             }
-            
+
             locks[guid] = true;
-                
+
             _soon(function () {
                 if (timeout) {
                     var timers = lock.t;
-                    
+
                     if (!timers) {
                         timers = {};
                         lock.t = timers;
                     }
-                    
+
                     timers[guid] = _later(timeout, null, unlock);
                 }
 
@@ -626,35 +626,35 @@
          */
         _lockUpgradable: function (guid, resourceName, callbackFunction, timeout, unlock) {
             var _locks = _Mutex._locks,
-                
+
                 lock = _locks[resourceName];
-            
+
             if (!lock) {
                 lock = {};
                 _locks[resourceName] = lock;
             }
-            
+
             lock.u = guid;
-                
+
             _soon(function () {
                 var exclusive,
                     shared,
                     timers;
-                    
+
                 exclusive = function (callbackFunction) {
                     var lock = _locks[resourceName] || {},
-                    
+
                         exclusive = function () {
                             var lock = _locks[resourceName] || {};
-                            
+
                             if (lock.u !== guid) {
                                 return;
                             }
-                            
+
                             lock.e = guid;
                             delete lock.u;
                             delete lock.ue;
-                            
+
                             _soon(function () {
                                 callbackFunction(shared);
                             });
@@ -663,39 +663,39 @@
                     if (lock.u !== guid) {
                         return;
                     }
-                    
+
                     if (lock.s) {
                         lock.ue = exclusive();
                     } else {
                         exclusive();
                     }
                 };
-                
+
                 shared = function (callbackFunction) {
                     var lock = _locks[resourceName] || {};
-                            
+
                     if (lock.e !== guid) {
                         return;
                     }
-                    
+
                     lock.u = guid;
                     delete lock.e;
-                    
+
                     _Mutex._lockQueue(resourceName);
-                    
+
                     _soon(function () {
                         callbackFunction(exclusive);
                     });
                 };
-                
+
                 if (timeout) {
                     timers = lock.t;
-                    
+
                     if (!timers) {
                         timers = {};
                         lock.t = timers;
                     }
-                    
+
                     timers[guid] = _later(timeout, null, unlock);
                 }
 
@@ -715,13 +715,13 @@
          */
         _unlockExclusive: function (guid, resourceName) {
             _Mutex._cancelTimer(guid, resourceName);
-            
+
             var lock = _Mutex._locks[resourceName] || {};
-                
+
             if (lock.e !== guid) {
                 return;
             }
-            
+
             delete lock.e;
 
             _Mutex._lockQueue(resourceName);
@@ -739,16 +739,16 @@
          */
         _unlockShared: function (guid, resourceName) {
             _Mutex._cancelTimer(guid, resourceName);
-            
+
             var lock = _Mutex._locks[resourceName] || {},
                 locks = lock.s;
-                
+
             if (!locks || !locks[guid]) {
                 return;
             }
-            
+
             delete locks[guid];
-            
+
             if (_isEmpty(locks)) {
                 delete lock.s;
             }
@@ -768,9 +768,9 @@
          */
         _unlockUpgradable: function (guid, resourceName) {
             _Mutex._cancelTimer(guid, resourceName);
-            
+
             var lock = _Mutex._locks[resourceName] || {};
-            
+
             if (lock.e === guid) {
                 delete lock.e;
             } else if (lock.u === guid) {

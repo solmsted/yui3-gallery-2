@@ -101,11 +101,11 @@
  *&#x2F;
 (function (Y, moduleName) {
     &#x27;use strict&#x27;;
-    
+
     var _string_progress = &#x27;progress&#x27;,
-        
+
         _Plugin = Y.Plugin,
-        
+
         _invoke = Y.Array.invoke;
 
     &#x2F;**
@@ -123,10 +123,10 @@
                 host = this.get(&#x27;host&#x27;),
                 run = host.get(&#x27;run&#x27;),
                 total = run.length;
-                
+
             this._subs = _invoke(run, &#x27;on&#x27;, &#x27;complete&#x27;, function () {
                 completed += 1;
-                
+
                 &#x2F;**
                  * @event progress
                  * @for Async

@@ -3,11 +3,11 @@
  */
 (function (Y, moduleName) {
     'use strict';
-    
+
     var _string_timeout = 'timeout',
-        
+
         _Plugin = Y.Plugin,
-        
+
         _invoke = Y.Array.invoke,
         _later = Y.later;
 
@@ -21,9 +21,9 @@
     _Plugin.AsyncCommandTimeout = Y.Base.create(moduleName, _Plugin.Base, [], {
         destructor: function () {
             var me = this;
-            
+
             _invoke(me._subs, 'detach');
-            
+
             if (me._timer) {
                 me._timer.cancel();
                 delete me._timer;
@@ -33,11 +33,11 @@
             var me = this,
                 host = me.get('host'),
                 timeout = me.get(_string_timeout);
-            
+
             if (!timeout) {
                 return;
             }
-            
+
             me._subs = [
                 host.on('start', function () {
                     me._timer = _later(timeout, host, host.fire, [
