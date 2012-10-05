@@ -74,6 +74,12 @@
          *         An array or comma separated string of library names.
          *     </dd>
          *     <dt>
+         *         key
+         *     </dt>
+         *     <dd>
+         *         This is your Google Maps v3 API key.
+         *     </dd>
+         *     <dt>
          *         region
          *     </dt>
          *     <dd>
