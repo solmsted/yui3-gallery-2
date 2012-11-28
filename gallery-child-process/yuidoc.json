@@ -1,0 +1,10 @@
+{
+    "name": "Child Process",
+    "description": "This is a convenience wrapper around child processes in Node.js.",
+    "options": {
+        "linkNatives": "true",
+        "attributesEmit": "true",
+        "paths": [ "./js" ],
+        "outdir": "./api"
+    }
+}
