@@ -42,21 +42,25 @@
         _Array = Y.Array,
 
         _each = _Array.each,
+        _isArray = Y.Lang.isArray,
         _now = Y.Lang.now,
 
         /**
          * @class Alea
          * @constructor
-         * @param [seedValues=Y.Lang.now()]* Any number of seed values.  If left
-         * undefined, Y.Lang.now() is used.
+         * @param {Number|String|[Number|String]} [seedValues=Y.Lang.now()]* Any
+         * number of seed values can be passed as individual arguments or an
+         * array of seed values can be passed as a single argument.  If left
+         * undefined, Y.Lang.now() is used as a seed.
          */
-        _class = function () {
-            var args = _Array(arguments),
-                c = 1,
+        _class = function (args) {
+            var c = 1,
                 mash = _class._mash(),
                 s0 = mash(_string__space),
                 s1 = mash(_string__space),
                 s2 = mash(_string__space);
+
+            args = _isArray(args) ? args : _Array(arguments);
 
             if (!args.length) {
                 args.push(_now());
@@ -81,7 +85,7 @@
                     s2 += 1;
                 }
             });
-
+ 
             /**
              * Generates a random number that is greater than or equal to zero
              * and less than one.  The number will be a 32-bit fraction.
