@@ -25,7 +25,7 @@
         * @extends Base
         * @param {Object} config Configuration Object.
         */
-        _class = _Base.create(moduleName, _Base, [], {
+        _Class = _Base.create(moduleName, _Base, [], {
             /**
             * Converts a string from a custom base and returns a number.
             * @method from
@@ -53,7 +53,7 @@
                 });
 
                 if (fractionalPart) {
-                    value = parseFloat(_string__empty + value + _string__fullStop + _class._reverse(_string__empty + me.from(fractionalPart)));
+                    value = parseFloat(_string__empty + value + _string__fullStop + _Class._reverse(_string__empty + me.from(fractionalPart)));
                 }
 
                 if (negative) {
@@ -94,7 +94,7 @@
                 } while (integerPart);
 
                 if (fractionalPart) {
-                    any += me.get(_string_radixPoint) + me.to(_class._reverse(fractionalPart));
+                    any += me.get(_string_radixPoint) + me.to(_Class._reverse(fractionalPart));
                 }
 
                 if (negative) {
@@ -176,5 +176,5 @@
             }
         });
 
-    Y.AnyBaseConverter = _class;
+    Y.AnyBaseConverter = _Class;
 }(Y, NAME));

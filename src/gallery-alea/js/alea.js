@@ -53,9 +53,9 @@
          * array of seed values can be passed as a single argument.  If left
          * undefined, Y.Lang.now() is used as a seed.
          */
-        _class = function (args) {
+        _Class = function (args) {
             var c = 1,
-                mash = _class._mash(),
+                mash = _Class._mash(),
                 s0 = mash(_string__space),
                 s1 = mash(_string__space),
                 s2 = mash(_string__space);
@@ -85,7 +85,7 @@
                     s2 += 1;
                 }
             });
- 
+
             /**
              * Generates a random number that is greater than or equal to zero
              * and less than one.  The number will be a 32-bit fraction.
@@ -104,7 +104,7 @@
             };
         };
 
-    _class.prototype = {
+    _Class.prototype = {
         /**
         * Generates a random number that is greater than or equal to zero
         * and less than one.  The number will be a 53-bit fraction.
@@ -134,7 +134,7 @@
      * argument and returns a number.
      * @static
      */
-    _class._mash = function () {
+    _Class._mash = function () {
         var n = 4022871197;
 
         return function (data) {
@@ -159,5 +159,5 @@
         };
     };
 
-    Y.Alea = _class;
+    Y.Alea = _Class;
 }(Y));

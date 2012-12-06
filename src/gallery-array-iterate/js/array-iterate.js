@@ -26,12 +26,12 @@
      * otherwise it will return false.
      * @static
      */
-    var iterate = function (array, startIndex, incrementBy, iterationFunction, contextObject) {
+    var _iterate = function (array, startIndex, incrementBy, iterationFunction, contextObject) {
         var i = startIndex,
             length = array.length;
         
         if (Y.Lang.isFunction(incrementBy)) {
-            return iterate(array, startIndex < 0 ? length - 1 : 0, startIndex, incrementBy, iterationFunction);
+            return _iterate(array, startIndex < 0 ? length - 1 : 0, startIndex, incrementBy, iterationFunction);
         }
 
         for (; i >= 0 && i < length; i += incrementBy) {
@@ -43,5 +43,5 @@
         return false;
     };
 
-    Y.Array.iterate = iterate;
+    Y.Array.iterate = _iterate;
 }(Y));
