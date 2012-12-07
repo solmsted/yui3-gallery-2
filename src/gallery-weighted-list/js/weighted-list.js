@@ -820,7 +820,7 @@
              * @type Number
              */
             me._sum = sum;
-            
+
             /**
              * A cached array containing a weight sum for each item in the
              * weighted list up to the given index.

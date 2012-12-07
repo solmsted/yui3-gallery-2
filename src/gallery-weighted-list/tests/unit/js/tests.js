@@ -291,10 +291,10 @@ YUI.add('module-tests', function (Y) {
             Y.Assert.areSame('z', weightedList.value(0), 'weightedList.value(0) should be \'z\'.');
 
             Y.Assert.areSame(40, weightedList.weight(0), 'weightedList.weight(0) should be 40.');
-            
+
             Y.Assert.areSame(0, weightedList.remove('x'), 'weightedList.remove(\'x\') should be 0.');
             weightedList.removeIndex(0);
-            
+
             Y.Assert.isTrue(weightedList.isEmpty(), 'weightedList.isEmpty() should be true.');
         },
         'test:003-dedupe': function () {
@@ -369,7 +369,7 @@ YUI.add('module-tests', function (Y) {
                 6,
                 64
             ], values, 'values should be the same as expectedValues.');
-            
+
             weightedList.each(function () {
                 Y.Assert.areSame(randomValue, this, 'this should be the same as random value.');
             }, randomValue);
@@ -445,7 +445,7 @@ YUI.add('module-tests', function (Y) {
                 3,
                 8
             ], values, 'values should be the same as expectedValues.');
-            
+
             weightedList.every(function () {
                 Y.Assert.areSame(randomValue, this, 'this should be the same as random value.');
             }, randomValue);
@@ -477,7 +477,7 @@ YUI.add('module-tests', function (Y) {
             Y.Assert.areSame(2, filteredWeightedList.weight(0), 'filteredWeightedList.weight(0) should be 2.');
             Y.Assert.areSame(8, filteredWeightedList.weight(1), 'filteredWeightedList.weight(1) should be 8.');
             Y.Assert.areSame(32, filteredWeightedList.weight(2), 'filteredWeightedList.weight(2) should be 32.');
-            
+
             weightedList.filter(function () {
                 Y.Assert.areSame(randomValue, this, 'this should be the same as random value.');
             }, randomValue);
@@ -500,7 +500,7 @@ YUI.add('module-tests', function (Y) {
                 Y.Assert.isNumber(weight, 'weight should be a number.');
                 return weight === 8;
             }), 'weightedList.filter(...) should be \'d\'.');
-            
+
             weightedList.find(function () {
                 Y.Assert.areSame(randomValue, this, 'this should be the same as random value.');
             }, randomValue);
@@ -693,7 +693,7 @@ YUI.add('module-tests', function (Y) {
             Y.Assert.areSame(16, mappedWeightedList.weight(4), 'mappedWeightedList.weight(4) should be 16.');
             Y.Assert.areSame(32, mappedWeightedList.weight(5), 'mappedWeightedList.weight(5) should be 32.');
             Y.Assert.areSame(64, mappedWeightedList.weight(6), 'mappedWeightedList.weight(6) should be 64.');
-            
+
             weightedList.map(function () {
                 Y.Assert.areSame(randomValue, this, 'this should be the same as random value.');
             }, randomValue);
@@ -725,7 +725,7 @@ YUI.add('module-tests', function (Y) {
             Y.Assert.areSame(2, partition.matches.weight(0), 'partition.matches.weight(0) should be 2.');
             Y.Assert.areSame(8, partition.matches.weight(1), 'partition.matches.weight(1) should be 8.');
             Y.Assert.areSame(32, partition.matches.weight(2), 'partition.matches.weight(2) should be 32.');
-            
+
             Y.Assert.areSame(4, partition.rejects.size(), 'partition.rejects.size() should be 4.');
             Y.Assert.areSame('a', partition.rejects.value(0), 'partition.rejects.value(0) should be \'a\'.');
             Y.Assert.areSame('c', partition.rejects.value(1), 'partition.rejects.value(1) should be \'c\'.');
@@ -735,7 +735,7 @@ YUI.add('module-tests', function (Y) {
             Y.Assert.areSame(4, partition.rejects.weight(1), 'partition.rejects.weight(1) should be 4.');
             Y.Assert.areSame(16, partition.rejects.weight(2), 'partition.rejects.weight(2) should be 16.');
             Y.Assert.areSame(64, partition.rejects.weight(3), 'partition.rejects.weight(3) should be 64.');
-            
+
             weightedList.partition(function () {
                 Y.Assert.areSame(randomValue, this, 'this should be the same as random value.');
             }, randomValue);
@@ -759,7 +759,7 @@ YUI.add('module-tests', function (Y) {
                 Y.Assert.isNumber(weight, 'weight should be a number.');
                 return weightSum + weight;
             }), 'weightedList.reduce(...) should be 127.');
-            
+
             weightedList.reduce(0, function () {
                 Y.Assert.areSame(randomValue, this, 'this should be the same as random value.');
             }, randomValue);
@@ -793,7 +793,7 @@ YUI.add('module-tests', function (Y) {
             Y.Assert.areSame(4, rejectedWeightedList.weight(1), 'rejectedWeightedList.weight(1) should be 4.');
             Y.Assert.areSame(16, rejectedWeightedList.weight(2), 'rejectedWeightedList.weight(2) should be 16.');
             Y.Assert.areSame(64, rejectedWeightedList.weight(3), 'rejectedWeightedList.weight(3) should be 64.');
-            
+
             weightedList.reject(function () {
                 Y.Assert.areSame(randomValue, this, 'this should be the same as random value.');
             }, randomValue);
@@ -868,7 +868,7 @@ YUI.add('module-tests', function (Y) {
                 3,
                 8
             ], values, 'values should be the same as expectedValues.');
-            
+
             weightedList.some(function () {
                 Y.Assert.areSame(randomValue, this, 'this should be the same as random value.');
             }, randomValue);
@@ -990,27 +990,27 @@ YUI.add('module-tests', function (Y) {
             weightedList.add('e', 5);
             weightedList.add('f', 6);
             weightedList.add('g', 7);
-            
+
             for (; i < 6765; i += 1) {
                 resultsIndex[weightedList.item().index] += 1;
                 resultsValue[weightedList.value()] += 1;
                 resultsWeight[weightedList.weight()] += 1;
             }
-            
+
             Y.assert(resultsIndex[6] > resultsIndex[5], '6 should come up more often than 5');
             Y.assert(resultsIndex[5] > resultsIndex[4], '5 should come up more often than 4');
             Y.assert(resultsIndex[4] > resultsIndex[3], '4 should come up more often than 3');
             Y.assert(resultsIndex[3] > resultsIndex[2], '3 should come up more often than 2');
             Y.assert(resultsIndex[2] > resultsIndex[1], '2 should come up more often than 1');
             Y.assert(resultsIndex[1] > resultsIndex[0], '1 should come up more often than 0');
-            
+
             Y.assert(resultsValue.g > resultsValue.f, 'g should come up more often than f');
             Y.assert(resultsValue.f > resultsValue.e, 'f should come up more often than e');
             Y.assert(resultsValue.e > resultsValue.d, 'e should come up more often than d');
             Y.assert(resultsValue.d > resultsValue.c, 'd should come up more often than c');
             Y.assert(resultsValue.c > resultsValue.b, 'c should come up more often than b');
             Y.assert(resultsValue.b > resultsValue.a, 'b should come up more often than a');
-            
+
             Y.assert(resultsWeight[7] > resultsWeight[6], '7 should come up more often than 6');
             Y.assert(resultsWeight[6] > resultsWeight[5], '6 should come up more often than 5');
             Y.assert(resultsWeight[5] > resultsWeight[4], '5 should come up more often than 4');
@@ -1020,11 +1020,11 @@ YUI.add('module-tests', function (Y) {
         },
         'test:020-aleaSeed': function () {
             var test = this;
-            
+
             Y.use('gallery-alea', function () {
                 test.resume(function () {
                     Y.Assert.isFunction(Y.Alea, 'Y.Alea should be a function.');
-                    
+
                     var i = 0,
 
                         randomValue0,
@@ -1042,7 +1042,7 @@ YUI.add('module-tests', function (Y) {
                             seed2
                         ]),
                         weightedList2 = new Y.WeightedList(seed0, seed1, seed2);
-                    
+
                     weightedList0.add('a', 1);
                     weightedList0.add('b', 2);
                     weightedList0.add('c', 3);
@@ -1050,7 +1050,7 @@ YUI.add('module-tests', function (Y) {
                     weightedList0.add('e', 5);
                     weightedList0.add('f', 6);
                     weightedList0.add('g', 7);
-                    
+
                     weightedList1.add('a', 1);
                     weightedList1.add('b', 2);
                     weightedList1.add('c', 3);
@@ -1058,7 +1058,7 @@ YUI.add('module-tests', function (Y) {
                     weightedList1.add('e', 5);
                     weightedList1.add('f', 6);
                     weightedList1.add('g', 7);
-                    
+
                     weightedList2.add('a', 1);
                     weightedList2.add('b', 2);
                     weightedList2.add('c', 3);
@@ -1066,7 +1066,7 @@ YUI.add('module-tests', function (Y) {
                     weightedList2.add('e', 5);
                     weightedList2.add('f', 6);
                     weightedList2.add('g', 7);
-                    
+
                     for (; i < 144; i += 1) {
                         randomValue0 = weightedList0.value();
                         randomValue1 = weightedList1.value();
@@ -1077,7 +1077,7 @@ YUI.add('module-tests', function (Y) {
                     }
                 });
             });
-            
+
             test.wait(6765);
         }
     }));
