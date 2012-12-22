@@ -3598,7 +3598,8 @@ YUI.add('module-tests', function (Y) {
                 }),
                 pixelIndices = [];
 
-            image.eachPixelIndex(function (pixelIndex) {
+            image.eachPixelIndex(function (pixelIndex, thisImage) {
+                Y.Assert.areSame(image, thisImage, 'thisImage should be the same as image.');
                 pixelIndices.push(pixelIndex);
             });
 
@@ -3623,7 +3624,8 @@ YUI.add('module-tests', function (Y) {
             });
             pixelIndices = [];
 
-            image.eachPixelIndex(function (pixelIndex) {
+            image.eachPixelIndex(function (pixelIndex, thisImage) {
+                Y.Assert.areSame(image, thisImage, 'thisImage should be the same as image.');
                 pixelIndices.push(pixelIndex);
             });
 
@@ -3664,7 +3666,8 @@ YUI.add('module-tests', function (Y) {
             });
             pixelIndices = [];
 
-            image.eachPixelIndex(function (pixelIndex) {
+            image.eachPixelIndex(function (pixelIndex, thisImage) {
+                Y.Assert.areSame(image, thisImage, 'thisImage should be the same as image.');
                 pixelIndices.push(pixelIndex);
             });
 
@@ -3707,7 +3710,8 @@ YUI.add('module-tests', function (Y) {
                 pixelIndices = [],
                 pixelLocations = [];
 
-            image.eachPixelLocation(function (pixelLocation, pixelIndex) {
+            image.eachPixelLocation(function (pixelLocation, pixelIndex, thisImage) {
+                Y.Assert.areSame(image, thisImage, 'thisImage should be the same as image.');
                 pixelIndices.push(pixelIndex);
                 pixelLocations = pixelLocations.concat(pixelLocation);
             });
@@ -3746,7 +3750,8 @@ YUI.add('module-tests', function (Y) {
             pixelIndices = [];
             pixelLocations = [];
 
-            image.eachPixelLocation(function (pixelLocation, pixelIndex) {
+            image.eachPixelLocation(function (pixelLocation, pixelIndex, thisImage) {
+                Y.Assert.areSame(image, thisImage, 'thisImage should be the same as image.');
                 pixelIndices.push(pixelIndex);
                 pixelLocations = pixelLocations.concat(pixelLocation);
             });
@@ -3841,7 +3846,8 @@ YUI.add('module-tests', function (Y) {
             pixelIndices = [];
             pixelLocations = [];
 
-            image.eachPixelLocation(function (pixelLocation, pixelIndex) {
+            image.eachPixelLocation(function (pixelLocation, pixelIndex, thisImage) {
+                Y.Assert.areSame(image, thisImage, 'thisImage should be the same as image.');
                 pixelIndices.push(pixelIndex);
                 pixelLocations = pixelLocations.concat(pixelLocation);
             });
