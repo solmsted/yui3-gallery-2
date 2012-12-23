@@ -12,6 +12,7 @@
         _string_u16 = 'u16',
         _string_u32 = 'u32',
         _string_u8 = 'u8',
+        _true = true,
 
         _ArrayBuffer = ArrayBuffer,
         _DataView = DataView,
@@ -527,7 +528,7 @@
                     * @type [String]
                     */
                     channels: {
-                        enumerable: true,
+                        enumerable: _true,
                         value: channels
                     },
                     /**
@@ -541,7 +542,7 @@
                     * @type [Number]
                     */
                     dimensions: {
-                        enumerable: true,
+                        enumerable: _true,
                         value: dimensions
                     },
                     /**
@@ -551,7 +552,7 @@
                     * @type Number
                     */
                     pixelCount: {
-                        enumberable: true,
+                        enumberable: _true,
                         value: pixelCount
                     },
                     /**
@@ -564,7 +565,7 @@
                     * @type [Number]
                     */
                     _channelOffsets: {
-                        enumerable: true,
+                        enumerable: _true,
                         value: _freeze(channelOffsets)
                     },
                     /**
@@ -574,7 +575,7 @@
                     * @type ArrayBuffer
                     */
                     _data: {
-                        enumerable: true,
+                        enumerable: _true,
                         get: function () {
                             return data;
                         },
@@ -605,7 +606,7 @@
                     * @type String
                     */
                     _dataType: {
-                        enumerable: true,
+                        enumerable: _true,
                         value: dataType
                     },
                     /**
@@ -616,7 +617,7 @@
                     * @type Number
                     */
                     _pixelSize: {
-                        enumerable: true,
+                        enumerable: _true,
                         value: pixelSize
                     }
                 });
@@ -807,5 +808,5 @@
             var type = dataType.charAt(0);
             return (type === 'f' ? 'Float' : (type === 's' ? 'Int' : 'Uint')) + dataType.substr(1);
         })
-    }, true);
+    }, _true);
 }(Y));
