@@ -231,7 +231,7 @@
 
                 return new _Class({
                     channels: me.channels,
-                    data: me._data.slice(),
+                    data: me._data.slice(0),
                     dimensions: me.dimensions,
                     littleEndian: me._littleEndian
                 });
