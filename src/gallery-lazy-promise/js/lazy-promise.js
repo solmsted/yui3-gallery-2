@@ -3,8 +3,10 @@
 @author Steven Olmsted
 */
 (function (Y) {
+    'use strict';
+
     var _Promise = Y.Promise,
-    
+
         /**
         A LazyPromise acts just like a Promise with the exception that it won't be
         executed until its then method is called.
