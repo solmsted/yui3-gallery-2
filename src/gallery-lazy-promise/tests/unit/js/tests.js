@@ -78,7 +78,7 @@ YUI.add('module-tests', function (Y) {
                 lazyPromiseB = new Y.LazyPromise(function () {
                     lazyPromiseA = this;
 
-                    Y.Assert.isInstanceOf(Y.LazyPromise, this, '"this" should be a lazy{Pomise');
+                    Y.Assert.isInstanceOf(Y.LazyPromise, this, '"this" should be a lazyPromise');
                 });
 
             lazyPromiseB.then();
@@ -136,7 +136,31 @@ YUI.add('module-tests', function (Y) {
             });
 
             test.wait(100);
-        }
+        }/*,
+        '|this| inside a callback must be undefined in strict mode': function () {
+            var test = this,
+                fulfilled = new Y.Promise(function (fulfill) {
+                    fulfill('value');
+                }),
+                fulfilledThis,
+                rejected = new Y.Promise(function (fulfill, reject) {
+                    reject('reason');
+                }),
+                rejectedThis;
+
+            fulfilled.then(function () {
+                fulfilledThis = this;
+                rejected.then(null, function () {
+                    rejectedThis = this;
+                    test.resume(function () {
+                        Y.Assert.isUndefined(fulfilledThis, 'in strict mode |this| in the success callback must be undefined');
+                        Y.Assert.isUndefined(rejectedThis, 'in strict mode |this| in the failure callback must be undefined');
+                    });
+                });
+            });
+
+            test.wait(300);
+        }*/
     }));
 
     suite.add(new Y.Test.Case({
@@ -157,18 +181,21 @@ YUI.add('module-tests', function (Y) {
             lazyPromise.then(function () {
                 test.resume(function () {
                     Y.Assert.areEqual(1, foo, 'fn should have modified local variable before lazyPromise was fulfilled');
-                    
+
                     lazyPromise.then(function () {
                         test.resume(function () {
                             Y.Assert.areEqual(1, foo, 'fn should not modify local variable a second time');
                         });
                     });
-                    
+
                     test.wait();
                 });
             });
 
             test.wait();
+        },
+        'state should be pending even before fn is executed': function () {
+            Y.Assert.areSame('pending', new Y.LazyPromise(function () {}).getStatus());
         }
     }));
 

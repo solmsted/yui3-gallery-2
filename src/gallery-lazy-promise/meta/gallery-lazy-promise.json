@@ -1,7 +1,6 @@
 {
     "gallery-lazy-promise": {
         "requires": [
-            "oop",
             "promise"
         ]
     }
