@@ -22,6 +22,6 @@
         "solmsted"
     ],
     "use": [
-        "composite-image-pixel"
+        "gallery-composite-image-pixel"
     ]
 }
