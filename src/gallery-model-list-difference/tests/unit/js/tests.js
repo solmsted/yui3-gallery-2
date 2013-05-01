@@ -7,7 +7,7 @@ YUI.add('module-tests', function (Y) {
         name: 'Automated Tests',
         'test:001-apiExists': function () {
             Y.Assert.isFunction(Y.ModelList, 'Y.ModelList should be a function.');
-            Y.Assert.isFunction(Y.ModelList.difference, 'Y.Alea.difference should be a function.');
+            Y.Assert.isFunction(Y.ModelList.difference, 'Y.ModelList.difference should be a function.');
         },
         'test:002-difference': function () {
             var model0 = new Y.Model(),
