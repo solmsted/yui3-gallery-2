@@ -1,0 +1,7 @@
+{
+    "gallery-soon": {
+        "requires": [
+            "node-base"
+        ]
+    }
+}

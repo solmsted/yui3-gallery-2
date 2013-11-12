@@ -1,19 +1,20 @@
 /*!
- * based on setImmediate.js. https://github.com/NobleJS/setImmediate
- * Copyright (c) 2011 Barnesandnoble.com, llc and Donavon West
- * https://github.com/NobleJS/setImmediate/blob/master/MIT-LICENSE.txt
- */
+based on setImmediate.js. https://github.com/NobleJS/setImmediate
+Copyright (c) 2011 Barnesandnoble.com, llc and Donavon West
+https://github.com/NobleJS/setImmediate/blob/master/MIT-LICENSE.txt
+*/
 
 /**
- * Similar to Y.later, but sooner.
- *
- * based on setImmediate.js. https://github.com/NobleJS/setImmediate
- *
- * Copyright (c) 2011 Barnesandnoble.com, llc and Donavon West
- *
- * https://github.com/NobleJS/setImmediate/blob/master/MIT-LICENSE.txt
- * @module gallery-soon
- */
+Similar to Y.later, but sooner.
+
+based on setImmediate.js. https://github.com/NobleJS/setImmediate
+
+Copyright (c) 2011 Barnesandnoble.com, llc and Donavon West
+
+https://github.com/NobleJS/setImmediate/blob/master/MIT-LICENSE.txt
+@module gallery-soon
+@author Steven Olmsted
+*/
 (function (Y) {
     'use strict';
 
@@ -26,12 +27,12 @@
         _store;
 
     /*
-     * Calls a callback function by id and removes it from the list.
-     * @method _call
-     * @param {String} id
-     * @private
-     * @returns {Boolean} true if a function was called.
-     */
+    Calls a callback function by id and removes it from the list.
+    @method _call
+    @param {String} id
+    @private
+    @returns {Boolean} true if a function was called.
+    */
     _call = function (id) {
         var callbackFunction = _callbackFunctions[id];
 
@@ -45,32 +46,32 @@
     };
 
     /**
-     * Y.soon accepts a callback function. The callback function will be called
-     * once, as soon as possible, in a future turn of the JavaScript event loop.
-     * If the function requires a specific execution context or arguments, wrap
-     * it with Y.bind.  Y.soon returns an object with a cancel method. If the
-     * cancel method is called before the callback function, the callback
-     * function won't be called.
-     *
-     * based on setImmediate.js. https://github.com/NobleJS/setImmediate
-     *
-     * Copyright (c) 2011 Barnesandnoble.com, llc and Donavon West
-     *
-     * https://github.com/NobleJS/setImmediate/blob/master/MIT-LICENSE.txt
-     * @method soon
-     * @for YUI
-     * @param {Function} callback function
-     * @returns {Object}
-     * <dl>
-     *     <dt>
-     *         cancel
-     *     </dt>
-     *     <dd>
-     *         If the cancel method is called before the callback function,
-     *         the callback function won't be called.
-     *     </dd>
-     * </dl>
-     */
+    Y.soon accepts a callback function. The callback function will be called
+    once, as soon as possible, in a future turn of the JavaScript event loop.
+    If the function requires a specific execution context or arguments, wrap it
+    with Y.bind.  Y.soon returns an object with a cancel method. If the cancel
+    method is called before the callback function, the callback function won't
+    be called.
+
+    based on setImmediate.js. https://github.com/NobleJS/setImmediate
+
+    Copyright (c) 2011 Barnesandnoble.com, llc and Donavon West
+
+    https://github.com/NobleJS/setImmediate/blob/master/MIT-LICENSE.txt
+    @method soon
+    @for YUI
+    @param {Function} callback function
+    @returns {Object}
+    <dl>
+        <dt>
+            cancel
+        </dt>
+        <dd>
+            If the cancel method is called before the callback function, the
+            callback function won't be called.
+        </dd>
+    </dl>
+    */
 
     // Check for process.nextTick in Node.js.
     if (Y.UA.nodejs && typeof process !== 'undefined' && 'nextTick' in process) {
@@ -225,23 +226,22 @@
     }
 
     /*
-     * Stores a callback function by id and returns an object with a cancel
-     * method.
-     * @method _store
-     * @param {String} id
-     * @param {Function} callbackFunction
-     * @private
-     * @returns {Object}
-     * <dl>
-     *     <dt>
-     *         cancel
-     *     </dt>
-     *     <dd>
-     *         If the cancel method is called before the callback function, the
-     *         callback function won't be called.
-     *     </dd>
-     * </dl>
-     */
+    Stores a callback function by id and returns an object with a cancel method.
+    @method _store
+    @param {String} id
+    @param {Function} callbackFunction
+    @private
+    @returns {Object}
+    <dl>
+        <dt>
+            cancel
+        </dt>
+        <dd>
+            If the cancel method is called before the callback function, the
+            callback function won't be called.
+        </dd>
+    </dl>
+    */
     _store = function (id, callbackFunction) {
         _callbackFunctions[id] = callbackFunction;
 
