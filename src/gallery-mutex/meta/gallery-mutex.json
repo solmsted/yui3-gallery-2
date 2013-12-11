@@ -1,0 +1,10 @@
+{
+    "gallery-mutex": {
+        "requires": [
+            "timers"
+        ],
+        "optional": [
+            "gallery-soon"
+        ]
+    }
+}

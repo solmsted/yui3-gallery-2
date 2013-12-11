@@ -1,0 +1,10 @@
+{
+    "builds": {
+        "gallery-mutex": {
+            "jsfiles": [
+                "mutex.js"
+            ]
+        }
+    },
+    "name": "gallery-mutex"
+}

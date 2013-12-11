@@ -1,0 +1,26 @@
+{
+    "author": [
+        "solmsted"
+    ],
+    "description": "Provides a mechanism to prevent concurrent access to a resource.",
+    "displayName": "Gallery: mutex",
+    "name": "gallery-mutex",
+    "tags": [
+        "async",
+        "asynchronous",
+        "concurrent",
+        "concurrency",
+        "exclusion",
+        "exclusive",
+        "gallery",
+        "lock",
+        "mutex",
+        "mutual",
+        "resource",
+        "shared",
+        "solmsted"
+    ],
+    "use": [
+        "gallery-mutex"
+    ]
+}
